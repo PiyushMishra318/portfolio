@@ -1,0 +1,1 @@
+const staticCacheName="chris-kalafatis-v1",filesToCache=["sw/index.html"];self.addEventListener("install",(e=>{this.skipWaiting(),e.waitUntil(caches.open(staticCacheName).then((e=>e.addAll(filesToCache))))})),this.addEventListener("fetch",(e=>{e.respondWith(caches.match(e.request).then((t=>t||fetch(e.request))).catch((()=>caches.match("sw/index.html"))))}));
