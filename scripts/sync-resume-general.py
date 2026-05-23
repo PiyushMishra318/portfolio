@@ -73,21 +73,37 @@ CPBLT_REMOVE = ["Java"]
 CPBLT_ADD = ["GCP Vertex AI"]
 
 
+def apply_replacements(obj: object, missing: list[str]) -> None:
+    if isinstance(obj, dict):
+        for key, val in obj.items():
+            if isinstance(val, str):
+                for old, new in REPLACEMENTS:
+                    if old in val:
+                        obj[key] = val.replace(old, new)
+                        val = obj[key]
+            else:
+                apply_replacements(val, missing)
+    elif isinstance(obj, list):
+        for i, val in enumerate(obj):
+            if isinstance(val, str):
+                for old, new in REPLACEMENTS:
+                    if old in val:
+                        obj[i] = val.replace(old, new)
+            else:
+                apply_replacements(val, missing)
+
+
 def main() -> None:
-    raw = D_PATH.read_text(encoding="utf-8")
-    missing = []
-    for old, new in REPLACEMENTS:
-        if old not in raw:
-            missing.append(old[:100])
-        else:
-            raw = raw.replace(old, new)
+    d = json.loads(D_PATH.read_text(encoding="utf-8"))
+    raw_before = json.dumps(d, ensure_ascii=False)
+    missing = [old[:100] for old, _ in REPLACEMENTS if old not in raw_before]
+
+    apply_replacements(d, missing)
 
     if missing:
         print("Warning: strings not found (may already be synced):")
         for m in missing:
             print(" -", m)
-
-    d = json.loads(raw)
     cpblt = d["pages"]["/"].get("cpblt", [])
     for skill in CPBLT_REMOVE:
         if skill in cpblt:
