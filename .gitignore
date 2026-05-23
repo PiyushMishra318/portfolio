@@ -1,0 +1,14 @@
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Playwright smoke / local verification captures
+scripts/verify-*.png
+scripts/portrait-*.png
+scripts/direct-image.png
+verify-*.png
+
+# Local scratch (not deployed assets)
+coot-ai-site-landscape.png
