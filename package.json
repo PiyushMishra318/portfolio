@@ -5,7 +5,8 @@
     "node": "24.x"
   },
   "scripts": {
-    "test:utm": "node scripts/test-utm.mjs"
+    "test:utm": "node scripts/test-utm.mjs",
+    "test:imr": "node scripts/test-imr.mjs"
   },
   "devDependencies": {
     "playwright": "^1.52.0"

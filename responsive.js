@@ -10,9 +10,14 @@
   var resizeTimer;
 
   function applyViewportClass() {
-    /* Shorter edge keeps phone layout in landscape on narrow devices */
-    var w = Math.min(window.innerWidth, window.innerHeight);
     root.classList.remove("desktop", "tablet", "phone");
+    /* Mouse/trackpad: always desktop layout (avoids wide-short PC windows → phone) */
+    if (window.matchMedia("(pointer: fine)").matches) {
+      root.classList.add("desktop");
+      return;
+    }
+    /* Touch: shorter edge keeps phone layout in landscape on narrow devices */
+    var w = Math.min(window.innerWidth, window.innerHeight);
     if (w <= PHONE_MAX) {
       root.classList.add("phone");
     } else if (w <= TABLET_MAX) {

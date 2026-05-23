@@ -101,14 +101,21 @@ html.phone .home_capabilities_headline {
   }
 }
 
-/* Landscape on phones: allow use instead of blocking overlay (short viewports only) */
-@media screen and (orientation: landscape) and (max-height: 480px) {
-  html.phone .imr {
-    display: flex;
-  }
+/* Rotate overlay (.imr): bundled CSS shows it on html.phone/tablet + landscape — override */
+html.desktop .imr,
+html.tablet .imr {
+  display: none !important;
 }
-@media screen and (orientation: landscape) and (min-height: 481px) {
-  html.phone .imr {
-    display: none !important;
+
+html.phone .imr {
+  display: none !important;
+}
+
+/* True phone landscape only: short viewport + coarse pointer (bundled @media landscape) */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  @media (pointer: coarse) {
+    html.phone .imr {
+      display: flex !important;
+    }
   }
 }
