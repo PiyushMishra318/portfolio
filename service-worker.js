@@ -1,1 +1,18 @@
-const staticCacheName="piyush-portfolio-v1",filesToCache=["sw/index.html"];self.addEventListener("install",(e=>{this.skipWaiting(),e.waitUntil(caches.open(staticCacheName).then((e=>e.addAll(filesToCache))))})),this.addEventListener("fetch",(e=>{e.respondWith(caches.match(e.request).then((t=>t||fetch(e.request))).catch((()=>caches.match("sw/index.html"))))}));
+const staticCacheName = "piyush-portfolio-v2";
+const filesToCache = ["index.html", "main.css", "main.js", "d", "blank.png"];
+
+self.addEventListener("install", (event) => {
+  self.skipWaiting();
+  event.waitUntil(
+    caches.open(staticCacheName).then((cache) => cache.addAll(filesToCache))
+  );
+});
+
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then((cached) => {
+      if (cached) return cached;
+      return fetch(event.request);
+    })
+  );
+});
