@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://piyushm.dev/</loc>
+  </url>
+  <url>
+    <loc>https://piyushm.dev/about</loc>
+  </url>
+  <url>
+    <loc>https://piyushm.dev/projects</loc>
+  </url>
+  <url>
+    <loc>https://piyushm.dev/contact</loc>
+  </url>
+  <url>
+    <loc>https://piyushm.dev/project/sinch-converse</loc>
+  </url>
+  <url>
+    <loc>https://piyushm.dev/project/coot-ai</loc>
+  </url>
+  <url>
+    <loc>https://piyushm.dev/project/enterprise-rag</loc>
+  </url>
+  <url>
+    <loc>https://piyushm.dev/project/billions-analytics</loc>
+  </url>
+  <url>
+    <loc>https://piyushm.dev/project/codeacious-ai</loc>
+  </url>
+  <url>
+    <loc>https://piyushm.dev/project/codeacious-cms</loc>
+  </url>
+</urlset>

@@ -12,3 +12,6 @@ verify-*.png
 
 # Local scratch (not deployed assets)
 coot-ai-site-landscape.png
+
+# Lighthouse reports (local verification only)
+*.report.html

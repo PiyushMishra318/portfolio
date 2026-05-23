@@ -1,3 +1,3 @@
 # Portfolio
 
-Engineering portfolio SPA — live at [piyushmishra.vercel.app](https://piyushmishra.vercel.app). Profile README: [github.com/piyushmishra318](https://github.com/piyushmishra318).
+Engineering portfolio SPA — live at [piyushm.dev](https://piyushm.dev/). Profile README: [github.com/piyushmishra318](https://github.com/piyushmishra318).
