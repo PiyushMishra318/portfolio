@@ -3,5 +3,11 @@
   "private": true,
   "engines": {
     "node": "24.x"
+  },
+  "scripts": {
+    "test:utm": "node scripts/test-utm.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.52.0"
   }
 }

@@ -1,5 +1,13 @@
-const staticCacheName = "piyush-portfolio-v2";
-const filesToCache = ["index.html", "main.css", "main.js", "d", "blank.png"];
+const staticCacheName = "piyush-portfolio-v4";
+const filesToCache = [
+  "index.html",
+  "main.css",
+  "main.js",
+  "responsive.js",
+  "utm.js",
+  "d",
+  "blank.png",
+];
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
