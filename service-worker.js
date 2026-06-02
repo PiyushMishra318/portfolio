@@ -1,4 +1,4 @@
-const staticCacheName = "piyush-portfolio-v4";
+const staticCacheName = "piyush-portfolio-v5";
 const filesToCache = [
   "index.html",
   "main.css",
@@ -17,10 +17,16 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
+  const { pathname } = new URL(event.request.url);
+
+  // Proxied product apps (Vercel rewrites) must bypass the SW — intercepting
+  // cross-origin rewrites here causes uncaught "Failed to fetch" rejections.
+  if (pathname.startsWith("/products/")) return;
+
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
-      return fetch(event.request);
+      return fetch(event.request).catch(() => Response.error());
     })
   );
 });
