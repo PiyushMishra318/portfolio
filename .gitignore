@@ -15,4 +15,5 @@ coot-ai-site-landscape.png
 
 # Lighthouse reports (local verification only)
 *.report.html
+
 .vercel
