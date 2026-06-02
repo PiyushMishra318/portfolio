@@ -19,9 +19,9 @@
     { "source": "/products/wingman", "destination": "https://wingman-rho-seven.vercel.app/" },
     { "source": "/products/wingman/", "destination": "https://wingman-rho-seven.vercel.app/" },
     { "source": "/products/wingman/:path*", "destination": "https://wingman-rho-seven.vercel.app/:path*" },
-    { "source": "/products/playground", "destination": "https://piyush-playground.vercel.app/" },
-    { "source": "/products/playground/", "destination": "https://piyush-playground.vercel.app/" },
-    { "source": "/products/playground/:path*", "destination": "https://piyush-playground.vercel.app/:path*" }
+    { "source": "/products/playground", "destination": "https://piyush-playground.vercel.app/products/playground" },
+    { "source": "/products/playground/", "destination": "https://piyush-playground.vercel.app/products/playground/" },
+    { "source": "/products/playground/:path*", "destination": "https://piyush-playground.vercel.app/products/playground/:path*" }
   ],
   "redirects": [
     { "source": "/products/tsukiyomi", "destination": "/products/tsukiyomi/", "permanent": true },
