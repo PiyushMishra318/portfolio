@@ -6,9 +6,13 @@
     { "source": "/project/:slug", "destination": "/index.html" },
     { "source": "/products/tsukiyomi", "destination": "https://tsukiyomi-platform.vercel.app/" },
     { "source": "/products/tsukiyomi/", "destination": "https://tsukiyomi-platform.vercel.app/" },
-    { "source": "/products/tsukiyomi/:path*", "destination": "https://tsukiyomi-platform.vercel.app/:path*" }
+    { "source": "/products/tsukiyomi/:path*", "destination": "https://tsukiyomi-platform.vercel.app/:path*" },
+    { "source": "/products/lumina", "destination": "https://lumina-one-beta.vercel.app/" },
+    { "source": "/products/lumina/", "destination": "https://lumina-one-beta.vercel.app/" },
+    { "source": "/products/lumina/:path*", "destination": "https://lumina-one-beta.vercel.app/:path*" }
   ],
   "redirects": [
-    { "source": "/products/tsukiyomi", "destination": "/products/tsukiyomi/", "permanent": true }
+    { "source": "/products/tsukiyomi", "destination": "/products/tsukiyomi/", "permanent": true },
+    { "source": "/products/lumina", "destination": "/products/lumina/", "permanent": true }
   ]
 }
