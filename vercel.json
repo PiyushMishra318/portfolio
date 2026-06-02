@@ -9,10 +9,14 @@
     { "source": "/products/tsukiyomi/:path*", "destination": "https://tsukiyomi-platform.vercel.app/:path*" },
     { "source": "/products/lumina", "destination": "https://lumina-one-beta.vercel.app/" },
     { "source": "/products/lumina/", "destination": "https://lumina-one-beta.vercel.app/" },
-    { "source": "/products/lumina/:path*", "destination": "https://lumina-one-beta.vercel.app/:path*" }
+    { "source": "/products/lumina/:path*", "destination": "https://lumina-one-beta.vercel.app/:path*" },
+    { "source": "/products/transcribe", "destination": "https://transcribe-wine.vercel.app/" },
+    { "source": "/products/transcribe/", "destination": "https://transcribe-wine.vercel.app/" },
+    { "source": "/products/transcribe/:path*", "destination": "https://transcribe-wine.vercel.app/:path*" }
   ],
   "redirects": [
     { "source": "/products/tsukiyomi", "destination": "/products/tsukiyomi/", "permanent": true },
-    { "source": "/products/lumina", "destination": "/products/lumina/", "permanent": true }
+    { "source": "/products/lumina", "destination": "/products/lumina/", "permanent": true },
+    { "source": "/products/transcribe", "destination": "/products/transcribe/", "permanent": true }
   ]
 }
