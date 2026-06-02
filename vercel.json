@@ -19,15 +19,16 @@
     { "source": "/products/wingman", "destination": "https://wingman-rho-seven.vercel.app/" },
     { "source": "/products/wingman/", "destination": "https://wingman-rho-seven.vercel.app/" },
     { "source": "/products/wingman/:path*", "destination": "https://wingman-rho-seven.vercel.app/:path*" },
-    { "source": "/products/playground", "destination": "https://piyush-playground.vercel.app/products/playground" },
-    { "source": "/products/playground/", "destination": "https://piyush-playground.vercel.app/products/playground/" },
-    { "source": "/products/playground/:path*", "destination": "https://piyush-playground.vercel.app/products/playground/:path*" }
+    { "source": "/products/playground", "destination": "https://piyush-playground.vercel.app/" },
+    { "source": "/products/playground/", "destination": "https://piyush-playground.vercel.app/" },
+    { "source": "/products/playground/:path*", "destination": "https://piyush-playground.vercel.app/:path*" }
   ],
   "redirects": [
     { "source": "/products/tsukiyomi", "destination": "/products/tsukiyomi/", "permanent": true },
     { "source": "/products/lumina", "destination": "/products/lumina/", "permanent": true },
     { "source": "/products/transcribe", "destination": "/products/transcribe/", "permanent": true },
     { "source": "/products/talkative", "destination": "/products/talkative/", "permanent": true },
-    { "source": "/products/wingman", "destination": "/products/wingman/", "permanent": true }
+    { "source": "/products/wingman", "destination": "/products/wingman/", "permanent": true },
+    { "source": "/products/playground", "destination": "/products/playground/", "permanent": true }
   ]
 }
