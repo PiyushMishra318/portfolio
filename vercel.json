@@ -28,7 +28,6 @@
     { "source": "/products/lumina", "destination": "/products/lumina/", "permanent": true },
     { "source": "/products/transcribe", "destination": "/products/transcribe/", "permanent": true },
     { "source": "/products/talkative", "destination": "/products/talkative/", "permanent": true },
-    { "source": "/products/wingman", "destination": "/products/wingman/", "permanent": true },
-    { "source": "/products/playground", "destination": "/products/playground/", "permanent": true }
+    { "source": "/products/wingman", "destination": "/products/wingman/", "permanent": true }
   ]
 }
