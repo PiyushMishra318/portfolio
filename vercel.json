@@ -12,11 +12,15 @@
     { "source": "/products/lumina/:path*", "destination": "https://lumina-one-beta.vercel.app/:path*" },
     { "source": "/products/transcribe", "destination": "https://transcribe-wine.vercel.app/" },
     { "source": "/products/transcribe/", "destination": "https://transcribe-wine.vercel.app/" },
-    { "source": "/products/transcribe/:path*", "destination": "https://transcribe-wine.vercel.app/:path*" }
+    { "source": "/products/transcribe/:path*", "destination": "https://transcribe-wine.vercel.app/:path*" },
+    { "source": "/products/talkative", "destination": "https://talkative-brown.vercel.app/" },
+    { "source": "/products/talkative/", "destination": "https://talkative-brown.vercel.app/" },
+    { "source": "/products/talkative/:path*", "destination": "https://talkative-brown.vercel.app/:path*" }
   ],
   "redirects": [
     { "source": "/products/tsukiyomi", "destination": "/products/tsukiyomi/", "permanent": true },
     { "source": "/products/lumina", "destination": "/products/lumina/", "permanent": true },
-    { "source": "/products/transcribe", "destination": "/products/transcribe/", "permanent": true }
+    { "source": "/products/transcribe", "destination": "/products/transcribe/", "permanent": true },
+    { "source": "/products/talkative", "destination": "/products/talkative/", "permanent": true }
   ]
 }
