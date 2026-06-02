@@ -3,6 +3,12 @@
     { "source": "/about", "destination": "/about.html" },
     { "source": "/projects", "destination": "/projects.html" },
     { "source": "/contact", "destination": "/contact.html" },
-    { "source": "/project/:slug", "destination": "/index.html" }
+    { "source": "/project/:slug", "destination": "/index.html" },
+    { "source": "/products/tsukiyomi", "destination": "https://tsukiyomi-platform.vercel.app/" },
+    { "source": "/products/tsukiyomi/", "destination": "https://tsukiyomi-platform.vercel.app/" },
+    { "source": "/products/tsukiyomi/:path*", "destination": "https://tsukiyomi-platform.vercel.app/:path*" }
+  ],
+  "redirects": [
+    { "source": "/products/tsukiyomi", "destination": "/products/tsukiyomi/", "permanent": true }
   ]
 }
