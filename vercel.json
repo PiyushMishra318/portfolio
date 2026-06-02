@@ -1,7 +1,9 @@
 {
   "rewrites": [
     { "source": "/about", "destination": "/about.html" },
-    { "source": "/projects", "destination": "/projects.html" },
+    { "source": "/projects", "destination": "https://piyush-playground.vercel.app/projects" },
+    { "source": "/projects/", "destination": "https://piyush-playground.vercel.app/projects" },
+    { "source": "/projects/:path*", "destination": "https://piyush-playground.vercel.app/projects/:path*" },
     { "source": "/contact", "destination": "/contact.html" },
     { "source": "/project/:slug", "destination": "/index.html" },
     { "source": "/products/tsukiyomi", "destination": "https://tsukiyomi-platform.vercel.app/" },
