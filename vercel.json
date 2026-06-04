@@ -25,7 +25,10 @@
     { "source": "/_next/:path*", "destination": "https://piyush-playground.vercel.app/_next/:path*" },
     { "source": "/products/threshold", "destination": "https://threshold-background-cutout.vercel.app/" },
     { "source": "/products/threshold/", "destination": "https://threshold-background-cutout.vercel.app/" },
-    { "source": "/products/threshold/:path*", "destination": "https://threshold-background-cutout.vercel.app/:path*" }
+    { "source": "/products/threshold/:path*", "destination": "https://threshold-background-cutout.vercel.app/:path*" },
+    { "source": "/products/tracktemp", "destination": "https://esp8266-dht11-google-sheets-logger.vercel.app/" },
+    { "source": "/products/tracktemp/", "destination": "https://esp8266-dht11-google-sheets-logger.vercel.app/" },
+    { "source": "/products/tracktemp/:path*", "destination": "https://esp8266-dht11-google-sheets-logger.vercel.app/:path*" }
   ],
   "redirects": [
     { "source": "/products/tsukiyomi", "destination": "/products/tsukiyomi/", "permanent": true },
@@ -34,7 +37,7 @@
     { "source": "/products/talkative", "destination": "/products/talkative/", "permanent": true },
     { "source": "/products/wingman", "destination": "/products/wingman/", "permanent": true },
     { "source": "/products/playground", "destination": "/products/playground/", "permanent": true },
-    { "source": "/products/threshold", "destination": "/products/threshold/", "permanent": true }
+    { "source": "/products/threshold", "destination": "/products/threshold/", "permanent": true },
+    { "source": "/products/tracktemp", "destination": "/products/tracktemp/", "permanent": true }
   ]
 }
-
