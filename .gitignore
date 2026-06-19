@@ -18,5 +18,9 @@ coot-ai-site-landscape.png
 
 .vercel
 
-# Cloned product repos (each has its own git remote)
+# Cloned product repos (each has its own git remote); cloned on Vercel during build
 products/
+
+# Root API wrappers are tracked; do not ignore
+!api/
+!api/**
