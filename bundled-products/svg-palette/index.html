@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SVG-Palette — Extract &amp; Transform SVG Color Schemes</title>
+  <meta name="description" content="A Node.js CLI tool that parses SVG files, extracts fill/stroke/gradient colors into a structured JSON palette, and rewrites solid colors as reusable linearGradient definitions." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ======================================================
+       NAVBAR
+  ======================================================= -->
+  <header class="navbar" role="banner">
+    <nav class="nav-inner" aria-label="Primary navigation">
+      <a href="/" class="nav-back" aria-label="Back to portfolio">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        PIYUSHM.DEV
+      </a>
+      <div class="nav-brand">SVG-Palette</div>
+      <a href="https://github.com/PiyushMishra318/SVG-Palette-Processor" class="nav-cta" target="_blank" rel="noopener noreferrer" aria-label="View SVG-Palette-Processor on GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+        </svg>
+        View on GitHub
+      </a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ====================================================
+         HERO
+    ===================================================== -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-bg-swatches" aria-hidden="true">
+        <div class="hero-swatch hero-swatch-1"></div>
+        <div class="hero-swatch hero-swatch-2"></div>
+        <div class="hero-swatch hero-swatch-3"></div>
+      </div>
+
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-badge" aria-label="Node.js CLI Tool">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+            Node.js CLI &bull; MIT License
+          </div>
+
+          <h1 class="hero-title" id="hero-heading">
+            Extract Every<br/>
+            <span class="hero-title-accent">Color. Instantly.</span>
+          </h1>
+
+          <p class="hero-tagline">
+            Parse SVG files, pull fills, strokes, and gradient stops into a structured JSON palette, then rewrite solid colors as reusable <code>linearGradient</code> definitions — all from one command.
+          </p>
+
+          <div class="hero-actions">
+            <a href="https://github.com/PiyushMishra318/SVG-Palette-Processor" class="btn-primary" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+              </svg>
+              Get Started
+            </a>
+            <a href="#how-it-works" class="btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8v4M12 16h.01"/>
+              </svg>
+              How It Works
+            </a>
+          </div>
+        </div>
+
+        <!-- Palette Visual Demo -->
+        <div class="hero-visual" aria-hidden="true">
+          <div class="palette-card">
+            <div class="palette-card-header">
+              <div class="palette-card-dots">
+                <div class="palette-card-dot"></div>
+                <div class="palette-card-dot"></div>
+                <div class="palette-card-dot"></div>
+              </div>
+              <span class="palette-card-label">palette.json</span>
+            </div>
+            <div class="palette-swatches">
+              <div class="palette-swatch-item" title="#F97316"></div>
+              <div class="palette-swatch-item" title="#EC4899"></div>
+              <div class="palette-swatch-item" title="#8B5CF6"></div>
+              <div class="palette-swatch-item" title="#06B6D4"></div>
+              <div class="palette-swatch-item" title="#10B981"></div>
+              <div class="palette-swatch-item" title="#EAB308"></div>
+              <div class="palette-swatch-item" title="#4F46E5"></div>
+              <div class="palette-swatch-item" title="#EF4444"></div>
+            </div>
+            <div class="palette-output">
+              <span class="palette-output-key">"fills"</span>: [<br/>
+              &nbsp;&nbsp;{ <span class="palette-output-key">"r"</span>: <span class="palette-output-val">249</span>, <span class="palette-output-key">"g"</span>: <span class="palette-output-val">115</span>, <span class="palette-output-key">"b"</span>: <span class="palette-output-val">22</span> },<br/>
+              &nbsp;&nbsp;{ <span class="palette-output-key">"r"</span>: <span class="palette-output-val">139</span>, <span class="palette-output-key">"g"</span>: <span class="palette-output-val">92</span>, &nbsp;<span class="palette-output-key">"b"</span>: <span class="palette-output-val">246</span> }<br/>
+              &nbsp;&nbsp;<span class="palette-output-str">... 6 more</span><br/>
+              ]
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         STATS STRIP
+    ===================================================== -->
+    <section class="stats-strip" aria-label="Key statistics">
+      <div class="stats-inner">
+        <div class="stat-item">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Color types extracted</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">2</div>
+          <div class="stat-label">Output files generated</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">1</div>
+          <div class="stat-label">Command to run it all</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">MIT</div>
+          <div class="stat-label">Open source license</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         FEATURES
+    ===================================================== -->
+    <section class="features-section" id="features" aria-labelledby="features-heading">
+      <div class="section-header">
+        <span class="section-tag">Features</span>
+        <h2 class="section-title" id="features-heading">Everything a Design Toolchain Needs</h2>
+        <p class="section-desc">SVG-Palette-Processor handles the full color extraction and transformation pipeline — so your design tokens are always in sync with your SVG source files.</p>
+      </div>
+
+      <div class="features-grid">
+
+        <article class="feature-card">
+          <div class="feature-icon-wrap feature-icon-wrap--orange">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="13.5" cy="6.5" r="2.5"/>
+              <circle cx="19" cy="10" r="2.5"/>
+              <circle cx="5" cy="14" r="2.5"/>
+              <circle cx="11" cy="18" r="2.5"/>
+              <path d="M15.5 8L19 10M8 12l3 4M5 14l5.5-2.5"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Fill &amp; Stroke Extraction</h3>
+          <p class="feature-desc">Parses every <code>fill</code> and <code>stroke</code> attribute across your SVG tree, normalizing hex, RGB, named colors, and opacity into RGBA objects.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon-wrap feature-icon-wrap--pink">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <defs>
+                <linearGradient id="grad-icon" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#EC4899"/>
+                  <stop offset="100%" stop-color="#8B5CF6"/>
+                </linearGradient>
+              </defs>
+              <rect x="3" y="3" width="18" height="18" rx="3" stroke="url(#grad-icon)" fill="none"/>
+              <path d="M3 9h18M9 21V9" stroke="url(#grad-icon)"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Gradient Stop Parsing</h3>
+          <p class="feature-desc">Captures all <code>linearGradient</code> and <code>radialGradient</code> stop colors from <code>&lt;defs&gt;</code>, preserving their IDs and references without mutation.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon-wrap feature-icon-wrap--purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M8 3H5a2 2 0 00-2 2v3M21 8V5a2 2 0 00-2-2h-3M3 16v3a2 2 0 002 2h3M16 21h3a2 2 0 002-2v-3"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Color Deduplication</h3>
+          <p class="feature-desc">Identifies identical colors appearing across multiple elements and groups them — giving you a clean, deduplicated palette with no duplicates in your token output.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon-wrap feature-icon-wrap--cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Gradient Rewrite</h3>
+          <p class="feature-desc">Automatically replaces flat solid-color fills with generated <code>url(#gradient-*)</code> references and injects the corresponding <code>&lt;defs&gt;</code> block into the updated SVG.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon-wrap feature-icon-wrap--green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="9" y1="13" x2="15" y2="13"/>
+              <line x1="9" y1="17" x2="11" y2="17"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Structured JSON Palette</h3>
+          <p class="feature-desc">Outputs a machine-readable <code>svg_json.json</code> with keys for <code>fills</code>, <code>strokes</code>, <code>gradients</code>, and <code>obsoleteGradients</code> — ready for any design token pipeline.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon-wrap feature-icon-wrap--indigo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">CLI &amp; Library API</h3>
+          <p class="feature-desc">Use it as a one-liner CLI command or import <code>processSvg</code> / <code>processSvgFile</code> directly in your Node.js build scripts, test suites, and design automation workflows.</p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ====================================================
+         HOW IT WORKS
+    ===================================================== -->
+    <section class="how-section" id="how-it-works" aria-labelledby="how-heading">
+      <div class="how-inner">
+        <div class="section-header">
+          <span class="section-tag">Process</span>
+          <h2 class="section-title" id="how-heading">From SVG to Palette in Four Steps</h2>
+          <p class="section-desc">A straightforward pipeline from raw SVG input to structured palette output and gradient-enhanced SVG.</p>
+        </div>
+
+        <ol class="how-steps" role="list">
+          <li class="how-step">
+            <div class="how-step-number" aria-hidden="true">1</div>
+            <h3 class="how-step-title">Provide an SVG</h3>
+            <p class="how-step-desc">Point the CLI at any SVG file on disk — local fixture, design export, or icon set.</p>
+          </li>
+          <li class="how-step">
+            <div class="how-step-number" aria-hidden="true">2</div>
+            <h3 class="how-step-title">Parse &amp; Normalize</h3>
+            <p class="how-step-desc">The parser traverses the SVG DOM, extracts all color values, and normalizes them to RGBA objects.</p>
+          </li>
+          <li class="how-step">
+            <div class="how-step-number" aria-hidden="true">3</div>
+            <h3 class="how-step-title">Deduplicate &amp; Map</h3>
+            <p class="how-step-desc">Identical colors are consolidated; each unique color is mapped to a gradient definition ID.</p>
+          </li>
+          <li class="how-step">
+            <div class="how-step-number" aria-hidden="true">4</div>
+            <h3 class="how-step-title">Write Outputs</h3>
+            <p class="how-step-desc">Two files land on disk: an enriched SVG with gradient refs and a JSON palette for your token workflow.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         CLI USAGE
+    ===================================================== -->
+    <section class="cli-section" id="usage" aria-labelledby="cli-heading">
+      <div class="cli-inner">
+        <div class="cli-content">
+          <div class="section-header" style="text-align:left; margin-bottom:0;">
+            <span class="section-tag">Usage</span>
+            <h2 class="section-title" id="cli-heading">One Command. Two Outputs.</h2>
+            <p class="section-desc">Install globally or use as a local dev dependency — the API stays the same either way.</p>
+          </div>
+
+          <ul class="cli-features-list" aria-label="CLI capabilities">
+            <li class="cli-feature-item">
+              <div class="cli-feature-check" aria-hidden="true">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              Specify custom output paths with <code>-o</code> and <code>-j</code> flags
+            </li>
+            <li class="cli-feature-item">
+              <div class="cli-feature-check" aria-hidden="true">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              Works as a Node.js require — integrate into any build script
+            </li>
+            <li class="cli-feature-item">
+              <div class="cli-feature-check" aria-hidden="true">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              Node.js 18+ required — zero external parser dependencies
+            </li>
+            <li class="cli-feature-item">
+              <div class="cli-feature-check" aria-hidden="true">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              Full test suite with fixtures included in the repo
+            </li>
+          </ul>
+        </div>
+
+        <!-- Terminal mockup -->
+        <div class="cli-terminal" role="region" aria-label="CLI usage example">
+          <div class="cli-terminal-bar" aria-hidden="true">
+            <div class="cli-terminal-dot"></div>
+            <div class="cli-terminal-dot"></div>
+            <div class="cli-terminal-dot"></div>
+            <span class="cli-terminal-title">bash</span>
+          </div>
+          <div class="cli-terminal-body" aria-label="Terminal output">
+            <div>
+              <span class="cli-line-prompt">$ </span>
+              <span class="cli-line-cmd">npm install -g svg-palette-processor</span>
+            </div>
+            <div><span class="cli-line-comment"># run against your SVG</span></div>
+            <div>
+              <span class="cli-line-prompt">$ </span>
+              <span class="cli-line-cmd">svg-processor icons/brand.svg \</span>
+            </div>
+            <div>&nbsp;&nbsp;<span class="cli-line-cmd">-o updated.svg -j palette.json</span></div>
+            <br/>
+            <div><span class="cli-line-comment"># or use the library API</span></div>
+            <div>
+              <span class="cli-line-tag">const</span>
+              <span class="cli-line-cmd"> { processSvgFile } = </span>
+              <span class="cli-line-str">require</span>
+              <span class="cli-line-cmd">('./src/svg-processor');</span>
+            </div>
+            <div>
+              <span class="cli-line-tag">const</span>
+              <span class="cli-line-cmd"> { svg, palette } = processSvgFile(</span>
+              <span class="cli-line-str">'brand.svg'</span>
+              <span class="cli-line-cmd">);</span>
+            </div>
+            <div>
+              <span class="cli-line-key">palette</span>
+              <span class="cli-line-cmd">.fills  </span>
+              <span class="cli-line-comment">// RGBA array</span>
+            </div>
+            <div>
+              <span class="cli-line-key">palette</span>
+              <span class="cli-line-cmd">.gradients  </span>
+              <span class="cli-line-comment">// gradient map</span>
+            </div>
+            <div>&nbsp;<span class="cli-cursor" aria-hidden="true"></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         OUTPUT FILES
+    ===================================================== -->
+    <section class="output-section" id="output" aria-labelledby="output-heading">
+      <div class="output-inner">
+        <div class="section-header">
+          <span class="section-tag">Output</span>
+          <h2 class="section-title" id="output-heading">Two Files, Everything You Need</h2>
+          <p class="section-desc">Each run writes an enriched SVG with gradient definitions injected, plus a JSON palette ready for design token pipelines.</p>
+        </div>
+
+        <div class="output-grid">
+
+          <!-- SVG Output -->
+          <div class="output-card">
+            <div class="output-card-header">
+              <div class="output-card-icon output-card-icon--svg">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="16 18 22 12 16 6"/>
+                  <polyline points="8 6 2 12 8 18"/>
+                </svg>
+              </div>
+              <span class="output-card-name">updated_svg.svg</span>
+              <span class="output-card-ext output-card-ext--svg">.SVG</span>
+            </div>
+            <div class="output-card-body">
+              <pre class="output-code"><span class="code-tag">&lt;svg</span> <span class="code-attr">xmlns</span>=<span class="code-val">"http://www.w3.org/2000/svg"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;defs</span> <span class="code-attr">id</span>=<span class="code-val">"generated_def"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;linearGradient</span>
+      <span class="code-attr">id</span>=<span class="code-val">"gradient-f97316"</span>
+      <span class="code-attr">x1</span>=<span class="code-val">"0%"</span> <span class="code-attr">y1</span>=<span class="code-val">"0%"</span>
+      <span class="code-attr">x2</span>=<span class="code-val">"100%"</span> <span class="code-attr">y2</span>=<span class="code-val">"0%"</span><span class="code-tag">&gt;</span>
+      <span class="code-tag">&lt;stop</span> <span class="code-attr">offset</span>=<span class="code-val">"0%"</span>
+        <span class="code-attr">stop-color</span>=<span class="code-val">"#f97316"</span><span class="code-tag">/&gt;</span>
+    <span class="code-tag">&lt;/linearGradient&gt;</span>
+  <span class="code-tag">&lt;/defs&gt;</span>
+  <span class="code-tag">&lt;rect</span> <span class="code-attr">fill</span>=<span class="code-val">"url(#gradient-f97316)"</span><span class="code-tag">/&gt;</span>
+<span class="code-tag">&lt;/svg&gt;</span></pre>
+            </div>
+          </div>
+
+          <!-- JSON Output -->
+          <div class="output-card">
+            <div class="output-card-header">
+              <div class="output-card-icon output-card-icon--json">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <span class="output-card-name">svg_json.json</span>
+              <span class="output-card-ext output-card-ext--json">.JSON</span>
+            </div>
+            <div class="output-card-body">
+              <pre class="output-code">{
+  <span class="code-key">"fills"</span>: [
+    {
+      <span class="code-key">"r"</span>: <span class="code-num">249</span>, <span class="code-key">"g"</span>: <span class="code-num">115</span>,
+      <span class="code-key">"b"</span>: <span class="code-num">22</span>,  <span class="code-key">"a"</span>: <span class="code-num">1</span>
+    }
+  ],
+  <span class="code-key">"strokes"</span>: [],
+  <span class="code-key">"gradients"</span>: {
+    <span class="code-key">"gradient-f97316"</span>: {
+      <span class="code-key">"type"</span>: <span class="code-str">"linear"</span>,
+      <span class="code-key">"stops"</span>: [...]
+    }
+  },
+  <span class="code-key">"obsoleteGradients"</span>: []
+}</pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         CTA
+    ===================================================== -->
+    <section class="cta-section" aria-labelledby="cta-heading">
+      <div class="cta-bg-accent" aria-hidden="true">
+        <div class="cta-orb cta-orb-1"></div>
+        <div class="cta-orb cta-orb-2"></div>
+      </div>
+
+      <div class="cta-inner">
+        <h2 class="cta-title" id="cta-heading">Start Extracting Colors from Your SVGs Today</h2>
+        <p class="cta-desc">One npm install. One command. A complete, structured color palette — ready for your design token workflow.</p>
+
+        <div class="cta-actions">
+          <a href="https://github.com/PiyushMishra318/SVG-Palette-Processor" class="btn-primary" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+            View on GitHub
+          </a>
+          <a href="#features" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+            Explore Features
+          </a>
+        </div>
+
+        <div class="cta-color-strip" aria-hidden="true">
+          <div class="cta-swatch"></div>
+          <div class="cta-swatch"></div>
+          <div class="cta-swatch"></div>
+          <div class="cta-swatch"></div>
+          <div class="cta-swatch"></div>
+          <div class="cta-swatch"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================
+       FOOTER
+  ======================================================= -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">SVG-Palette</div>
+          <div class="footer-tagline">Extract, transform, and token-ize SVG colors.</div>
+        </div>
+
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="https://github.com/PiyushMishra318/SVG-Palette-Processor" class="footer-link" target="_blank" rel="noopener noreferrer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+            GitHub
+          </a>
+          <a href="https://github.com/PiyushMishra318/SVG-Palette-Processor/blob/main/README.md" class="footer-link" target="_blank" rel="noopener noreferrer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            Docs
+          </a>
+          <a href="/" class="footer-link">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Portfolio
+          </a>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">2026 Piyush Mishra. Built with Node.js.</p>
+        <div class="footer-mit">
+          <span class="footer-mit-badge">MIT</span>
+          Open source — free to use and modify.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

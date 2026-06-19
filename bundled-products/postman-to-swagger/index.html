@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Convert Postman collections to OpenAPI 2.0 Swagger specs instantly. Paste JSON, get Swagger — NestJS + TypeScript, deployable to Vercel." />
+  <meta name="theme-color" content="#0F172A" />
+  <title>Postman to Swagger — OpenAPI Converter</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Background grid -->
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Site navigation">
+    <div class="nav__inner">
+      <a href="/" class="nav__brand" aria-label="Back to portfolio — piyushm.dev">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M8.5 2L3.5 7L8.5 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        piyushm.dev
+      </a>
+      <div class="nav__links" role="list">
+        <a href="#features" class="nav__link" role="listitem">Features</a>
+        <a href="#how-it-works" class="nav__link" role="listitem">How it works</a>
+        <a href="#api" class="nav__link" role="listitem">API</a>
+        <a href="#demo" class="nav__link" role="listitem">Try it</a>
+      </div>
+      <a
+        href="https://github.com/PiyushMishra318/postman-to-swagger"
+        class="nav__cta"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="View source on GitHub"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+        </svg>
+        GitHub
+      </a>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__content">
+        <div class="hero__badge" aria-label="Open source project">
+          <span class="hero__badge-dot" aria-hidden="true"></span>
+          Open Source · NestJS + TypeScript
+        </div>
+        <h1 class="hero__title" id="hero-title">
+          <span class="hero__title-orange">Postman</span> to<br>
+          <span class="hero__title-accent">Swagger</span>
+        </h1>
+        <p class="hero__desc">
+          Convert Postman collections to OpenAPI 2.0 specs instantly. Paste a JSON collection, get a fully rendered Swagger UI — no config, no fuss.
+        </p>
+        <div class="hero__actions">
+          <a href="#demo" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            Try the converter
+          </a>
+          <a href="https://github.com/PiyushMishra318/postman-to-swagger" class="btn-secondary" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+            View source
+          </a>
+        </div>
+        <div class="hero__stats" role="list" aria-label="Project stats">
+          <div class="hero__stat" role="listitem">
+            <span class="hero__stat-value">2.0</span>
+            <span class="hero__stat-label">OpenAPI</span>
+          </div>
+          <div class="hero__stat" role="listitem">
+            <span class="hero__stat-value">0ms</span>
+            <span class="hero__stat-label">Setup</span>
+          </div>
+          <div class="hero__stat" role="listitem">
+            <span class="hero__stat-value">MIT</span>
+            <span class="hero__stat-label">License</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual mockup -->
+      <div class="hero__visual" aria-hidden="true">
+        <div class="code-card">
+          <div class="code-card__header">
+            <span class="code-card__dot code-card__dot--red"></span>
+            <span class="code-card__dot code-card__dot--yellow"></span>
+            <span class="code-card__dot code-card__dot--green"></span>
+            <span class="code-card__title">postman_collection.json</span>
+          </div>
+          <div class="code-card__body">
+            <div class="code-block">
+              <span class="token-punct">{</span><br>
+              &nbsp;&nbsp;<span class="token-key">"info"</span><span class="token-punct">:</span> <span class="token-punct">{</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="token-key">"name"</span><span class="token-punct">:</span> <span class="token-string">"My API"</span><span class="token-punct">,</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="token-key">"schema"</span><span class="token-punct">:</span> <span class="token-string">"...v2.1.0..."</span><br>
+              &nbsp;&nbsp;<span class="token-punct">},</span><br>
+              &nbsp;&nbsp;<span class="token-key">"item"</span><span class="token-punct">:</span> <span class="token-punct">[</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="token-punct">{</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-key">"name"</span><span class="token-punct">:</span> <span class="token-string">"Get users"</span><span class="token-punct">,</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-key">"request"</span><span class="token-punct">:</span> <span class="token-punct">{</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-key">"method"</span><span class="token-punct">:</span> <span class="token-string">"GET"</span><span class="token-punct">,</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-key">"url"</span><span class="token-punct">:</span> <span class="token-string">"/api/users"</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="token-punct">}</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="token-punct">}</span><br>
+              &nbsp;&nbsp;<span class="token-punct">]</span><br>
+              <span class="token-punct">}</span>
+            </div>
+          </div>
+          <div class="code-arrow">
+            <span class="code-arrow__label">Converting</span>
+            <span class="code-arrow__icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
+            <span class="code-arrow__label">OpenAPI 2.0</span>
+          </div>
+        </div>
+
+        <div class="output-card">
+          <div class="output-card__header">
+            <span class="output-card__title">swagger.json</span>
+            <span class="output-card__badge">OpenAPI 2.0</span>
+          </div>
+          <div class="output-card__body">
+            <div class="swagger-preview">
+              <div class="swagger-route">
+                <span class="swagger-route__method swagger-route__method--get">GET</span>
+                <span class="swagger-route__path">/api/users</span>
+                <span class="swagger-route__desc">List users</span>
+              </div>
+              <div class="swagger-route">
+                <span class="swagger-route__method swagger-route__method--post">POST</span>
+                <span class="swagger-route__path">/api/users</span>
+                <span class="swagger-route__desc">Create user</span>
+              </div>
+              <div class="swagger-route">
+                <span class="swagger-route__method swagger-route__method--put">PUT</span>
+                <span class="swagger-route__path">/api/users/:id</span>
+                <span class="swagger-route__desc">Update user</span>
+              </div>
+              <div class="swagger-route">
+                <span class="swagger-route__method swagger-route__method--del">DEL</span>
+                <span class="swagger-route__path">/api/users/:id</span>
+                <span class="swagger-route__desc">Delete user</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- FEATURES -->
+    <section class="section" id="features" aria-labelledby="features-title">
+      <div class="section-header">
+        <span class="section-label">Features</span>
+        <h2 class="section-title" id="features-title">Everything you need to ship docs</h2>
+        <p class="section-desc">Built for developers who need their API documentation to stay current without manual effort.</p>
+      </div>
+
+      <div class="features-grid" role="list">
+
+        <div class="feature-card" role="listitem">
+          <div class="feature-card__icon feature-card__icon--green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/>
+              <polyline points="13 2 13 9 20 9"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Paste or Upload</h3>
+          <p class="feature-card__desc">Drop in a Postman collection JSON directly in the browser — no CLI, no install. Upload a file or paste the raw JSON text.</p>
+          <span class="feature-card__tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+            Instant browser conversion
+          </span>
+        </div>
+
+        <div class="feature-card" role="listitem">
+          <div class="feature-card__icon feature-card__icon--blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Live Swagger UI</h3>
+          <p class="feature-card__desc">The converted spec is rendered immediately in Swagger UI — explore endpoints, try requests, and inspect schemas in real time.</p>
+          <span class="feature-card__tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+            swagger-ui-dist@5
+          </span>
+        </div>
+
+        <div class="feature-card" role="listitem">
+          <div class="feature-card__icon feature-card__icon--orange">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">REST API Endpoint</h3>
+          <p class="feature-card__desc">POST a Postman collection to <code>/convert</code> and receive an OpenAPI 2.0 JSON response — integrate into any CI/CD pipeline.</p>
+          <span class="feature-card__tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+            POST /convert
+          </span>
+        </div>
+
+        <div class="feature-card" role="listitem">
+          <div class="feature-card__icon feature-card__icon--purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Serverless on Vercel</h3>
+          <p class="feature-card__desc">Deploy in one command with <code>vercel --prod</code>. The <code>/convert</code> route runs as a serverless function; the UI is static.</p>
+          <span class="feature-card__tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+            Zero config deploy
+          </span>
+        </div>
+
+        <div class="feature-card" role="listitem">
+          <div class="feature-card__icon feature-card__icon--green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Full Test Coverage</h3>
+          <p class="feature-card__desc">Jest unit tests cover the conversion logic. Run <code>npm test</code> to verify your changes before deploying to production.</p>
+          <span class="feature-card__tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+            Jest unit tests
+          </span>
+        </div>
+
+        <div class="feature-card" role="listitem">
+          <div class="feature-card__icon feature-card__icon--blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Programmatic Use</h3>
+          <p class="feature-card__desc">Import <code>ConvertService</code> directly into any NestJS or TypeScript project to convert collections without running the HTTP server.</p>
+          <span class="feature-card__tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+            ConvertService
+          </span>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works" id="how-it-works" aria-labelledby="how-title">
+      <div class="how-it-works__inner">
+        <div class="section-header">
+          <span class="section-label">How it works</span>
+          <h2 class="section-title" id="how-title">From collection to docs in seconds</h2>
+          <p class="section-desc">The converter parses your Postman collection structure and maps each request to an OpenAPI 2.0 path object.</p>
+        </div>
+
+        <div class="steps" role="list">
+          <div class="step" role="listitem">
+            <span class="step__num">Step 01</span>
+            <div class="step__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <h3 class="step__title">Paste or upload your collection</h3>
+            <p class="step__desc">Export your Postman collection as JSON (v2.0 or v2.1) and paste it into the textarea, or use the file upload button.</p>
+            <span class="step__code">collection.json</span>
+          </div>
+
+          <div class="step" role="listitem">
+            <span class="step__num">Step 02</span>
+            <div class="step__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <h3 class="step__title">Hit Convert</h3>
+            <p class="step__desc">The UI sends a POST request to <code>/convert</code>. The NestJS serverless function parses the collection and builds the OpenAPI schema.</p>
+            <span class="step__code">POST /convert</span>
+          </div>
+
+          <div class="step" role="listitem">
+            <span class="step__num">Step 03</span>
+            <div class="step__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+            </div>
+            <h3 class="step__title">Explore in Swagger UI</h3>
+            <p class="step__desc">The response is immediately fed to Swagger UI. Every endpoint, method, parameter, and description is rendered interactively.</p>
+            <span class="step__code">swagger.json</span>
+          </div>
+
+          <div class="step" role="listitem">
+            <span class="step__num">Step 04</span>
+            <div class="step__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+            <h3 class="step__title">Download or integrate</h3>
+            <p class="step__desc">Copy the generated JSON or wire the <code>/convert</code> endpoint into your pipeline to keep docs in sync with your Postman workspace.</p>
+            <span class="step__code">openapi-2.0.json</span>
+          </div>
+        </div>
+
+        <!-- Tech stack -->
+        <div class="tech-row" role="list" aria-label="Technology stack">
+          <div class="tech-chip" role="listitem">
+            <span class="tech-chip__dot tech-chip__dot--red" aria-hidden="true"></span>
+            NestJS 10
+          </div>
+          <div class="tech-chip" role="listitem">
+            <span class="tech-chip__dot tech-chip__dot--blue" aria-hidden="true"></span>
+            TypeScript
+          </div>
+          <div class="tech-chip" role="listitem">
+            <span class="tech-chip__dot tech-chip__dot--green" aria-hidden="true"></span>
+            Node.js 18+
+          </div>
+          <div class="tech-chip" role="listitem">
+            <span class="tech-chip__dot tech-chip__dot--yellow" aria-hidden="true"></span>
+            OpenAPI 2.0
+          </div>
+          <div class="tech-chip" role="listitem">
+            <span class="tech-chip__dot tech-chip__dot--purple" aria-hidden="true"></span>
+            Swagger UI
+          </div>
+          <div class="tech-chip" role="listitem">
+            <span class="tech-chip__dot tech-chip__dot--orange" aria-hidden="true"></span>
+            Vercel Serverless
+          </div>
+          <div class="tech-chip" role="listitem">
+            <span class="tech-chip__dot tech-chip__dot--blue" aria-hidden="true"></span>
+            Jest
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- API -->
+    <section class="section" id="api" aria-labelledby="api-title">
+      <div class="section-header">
+        <span class="section-label">REST API</span>
+        <h2 class="section-title" id="api-title">One endpoint. Dead simple.</h2>
+        <p class="section-desc">POST a Postman collection JSON body to <code>/convert</code> and receive a Swagger 2.0 JSON object in response.</p>
+      </div>
+
+      <div class="api-demo">
+        <div class="api-panel">
+          <p class="api-panel__label">Request</p>
+          <pre class="api-panel__code"><span class="hl-method">POST</span> <span class="hl-url">/products/postman-to-swagger/convert/</span>
+<span class="hl-header">Content-Type</span>: application/json
+
+<span class="hl-comment">// Body: your Postman collection JSON</span>
+<span class="hl-key">{</span>
+  <span class="hl-key">"info"</span>: <span class="hl-val">{ "name": "My API", ... }</span>,
+  <span class="hl-key">"item"</span>: <span class="hl-val">[...]</span>
+<span class="hl-key">}</span></pre>
+        </div>
+        <div class="api-panel">
+          <p class="api-panel__label">Response — 200 OK</p>
+          <pre class="api-panel__code"><span class="hl-key">{</span>
+  <span class="hl-key">"swagger"</span>: <span class="hl-val">"2.0"</span>,
+  <span class="hl-key">"info"</span>: <span class="hl-val">{ "title": "My API", "version": "1.0" }</span>,
+  <span class="hl-key">"paths"</span>: <span class="hl-val">{</span>
+    <span class="hl-key">"/api/users"</span>: <span class="hl-val">{</span>
+      <span class="hl-key">"get"</span>: <span class="hl-val">{ "summary": "Get users", ... }</span>,
+      <span class="hl-key">"post"</span>: <span class="hl-val">{ "summary": "Create user", ... }</span>
+    <span class="hl-val">}</span>
+  <span class="hl-val">}</span>
+<span class="hl-key">}</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO (Swagger UI mount point preserved) -->
+    <section class="section section--sm" id="demo" aria-labelledby="demo-title">
+      <div class="section-header">
+        <span class="section-label">Live Demo</span>
+        <h2 class="section-title" id="demo-title">Try it right here</h2>
+        <p class="section-desc">Paste your Postman collection JSON below and hit Convert to see the Swagger UI rendered instantly.</p>
+      </div>
+
+      <div id="app"></div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-section" aria-labelledby="cta-title">
+      <div class="cta-block">
+        <h2 class="cta-block__title" id="cta-title">Keep your API docs current — forever.</h2>
+        <p class="cta-block__desc">Fork the repo, deploy to Vercel in one command, and wire it into your team's workflow today.</p>
+        <div class="cta-block__actions">
+          <a
+            href="https://github.com/PiyushMishra318/postman-to-swagger"
+            class="btn-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+            Fork on GitHub
+          </a>
+          <a href="#demo" class="btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            Try the demo
+          </a>
+        </div>
+        <p class="cta-block__note">MIT License — free to use, modify, and deploy.</p>
+      </div>
+    </div>
+
+  </div><!-- .page-wrapper -->
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        postman-to-swagger &mdash; built by <span>piyushm.dev</span>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="/" class="footer__link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Portfolio
+        </a>
+        <a
+          href="https://github.com/PiyushMishra318/postman-to-swagger"
+          class="footer__link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+          </svg>
+          GitHub
+        </a>
+        <a
+          href="/products/postman-to-swagger/"
+          class="footer__link"
+         
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          Live App
+        </a>
+      </nav>
+      <p class="footer__copy">&copy; 2024 Piyush Mishra &mdash; MIT License</p>
+    </div>
+  </footer>
+
+  <!-- App script (existing converter logic) -->
+  <script src="app.js"></script>
+
+</body>
+</html>

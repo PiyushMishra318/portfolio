@@ -5,6 +5,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { PRODUCTS } from "./products-manifest.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const productsRoot = join(root, "products");
@@ -20,7 +21,6 @@ const PRODUCT_REPOS = {
   "ESP8266-DHT11-Google-Sheets-Logger": "ESP8266-DHT11-Google-Sheets-Logger",
   lambda: "lambda",
   lumina: "lumina",
-  "piyush-playground": "piyush-playground",
   "postman-to-swagger": "postman-to-swagger",
   "realtime-text-readtime": "htmx-reading-time",
   "SVG-Palette-Processor": "SVG-Palette-Processor",
@@ -30,6 +30,13 @@ const PRODUCT_REPOS = {
   wingman: "wingman",
   XBat: "XBat",
 };
+
+/** Product folders with static landings in bundled-products/ — skip clone when bundle exists. */
+const BUNDLED_FOLDERS = new Set(
+  Object.values(PRODUCTS)
+    .filter((p) => p.bundlePath && p.skipClone && existsSync(join(root, p.bundlePath)))
+    .map((p) => p.folder),
+);
 
 function run(cmd, cwd, label, { optional = false } = {}) {
   console.log(`[vercel-build] ${label}: ${cmd}`);
@@ -63,6 +70,10 @@ function ensureProducts() {
 
   for (const [folder, repo] of Object.entries(PRODUCT_REPOS)) {
     const dir = join(productsRoot, folder);
+    if (BUNDLED_FOLDERS.has(folder)) {
+      console.log(`[vercel-build] skip clone ${folder} (bundled static landing)`);
+      continue;
+    }
     if (hasProduct(dir)) {
       console.log(`[vercel-build] skip clone ${folder} (present)`);
       continue;
@@ -99,6 +110,5 @@ for (const folder of apiProducts) {
 
 npmIn(join(productsRoot, "website-page-speed-report"), "build");
 npmIn(join(productsRoot, "Tsukiyomi-Platform", "apps", "server"), "build");
-npmIn(join(productsRoot, "piyush-playground"), "build");
 
 console.log("[vercel-build] done");

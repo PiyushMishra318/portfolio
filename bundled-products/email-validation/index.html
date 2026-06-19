@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="AWS SES inbound spam filter Lambda — bounces messages failing SPF, DKIM, spam, or virus checks. Live browser demo included." />
+  <title>Email-Validation — SES Spam Filter Lambda</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Background orbs -->
+  <div class="bg-root" aria-hidden="true">
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="bg-orb bg-orb--3"></div>
+  </div>
+
+  <div class="page">
+
+    <!-- NAV -->
+    <nav class="nav" role="navigation" aria-label="Site navigation">
+      <div class="nav__inner">
+        <a class="nav__back" href="/" aria-label="Back to portfolio">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          piyushm.dev
+        </a>
+        <span class="nav__logo">Email<span>-</span>Validation</span>
+        <a class="nav__cta" href="/products/email-validation/">
+          Try Live Demo
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+    </nav>
+
+    <main class="main">
+
+      <!-- HERO -->
+      <section class="hero" aria-labelledby="hero-heading">
+        <div class="hero__badge animate-fade-up">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          AWS Lambda · SES Receipt Rule
+        </div>
+
+        <h1 class="hero__headline animate-fade-up animate-delay-1" id="hero-heading">
+          Stop bad email<br /><mark>before it lands</mark>
+        </h1>
+
+        <p class="hero__sub animate-fade-up animate-delay-2">
+          An AWS Lambda that inspects every inbound SES message and bounces anything that fails SPF, DKIM, spam, or virus checks — before it ever reaches your mailbox.
+        </p>
+
+        <div class="hero__actions animate-fade-up animate-delay-3">
+          <a class="btn-primary" href="/products/email-validation/">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Open Live Demo
+          </a>
+          <a class="btn-ghost" href="https://github.com/PiyushMishra318/Email-Validation" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            View on GitHub
+          </a>
+        </div>
+
+        <!-- Demo UI mockup -->
+        <div class="demo-card animate-fade-up animate-delay-4">
+          <div class="demo-card__bar">
+            <div class="demo-dot demo-dot--red"></div>
+            <div class="demo-dot demo-dot--amber"></div>
+            <div class="demo-dot demo-dot--green"></div>
+            <span class="demo-card__title">email-validation.vercel.app — SES Verdict Simulator</span>
+          </div>
+          <div class="demo-card__body">
+            <div class="demo-row">
+              <div class="demo-verdict">
+                <span class="demo-verdict__label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  SPF
+                </span>
+                <span class="demo-verdict__pass">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  PASS
+                </span>
+              </div>
+              <div class="demo-verdict">
+                <span class="demo-verdict__label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                  DKIM
+                </span>
+                <span class="demo-verdict__pass">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  PASS
+                </span>
+              </div>
+              <div class="demo-verdict">
+                <span class="demo-verdict__label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                  Spam
+                </span>
+                <span class="demo-verdict__fail">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  FAIL
+                </span>
+              </div>
+              <div class="demo-verdict">
+                <span class="demo-verdict__label">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  Virus
+                </span>
+                <span class="demo-verdict__pass">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  PASS
+                </span>
+              </div>
+            </div>
+            <div class="demo-result">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Verdict: BOUNCE — spam check failed. Message rejected.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES (BENTO GRID) -->
+      <section class="features" aria-labelledby="features-heading">
+        <div class="features__header">
+          <p class="section-label">What it does</p>
+          <h2 class="section-heading" id="features-heading">Four-layer email trust verification</h2>
+          <p class="section-sub">Every inbound message is evaluated against four independent verdict signals. Any single failure triggers an automatic bounce — before the message reaches a recipient.</p>
+        </div>
+
+        <div class="bento-grid" role="list">
+
+          <!-- SPF -->
+          <article class="bento-card bento-card--spf" role="listitem">
+            <div class="bento-icon bento-icon--blue" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="bento-card__title">SPF Verdict</h3>
+            <p class="bento-card__desc">Verifies the sending server is authorised to send on behalf of the domain. Stops spoofed sender addresses from slipping through.</p>
+            <span class="bento-tag">Sender Policy Framework</span>
+          </article>
+
+          <!-- DKIM -->
+          <article class="bento-card bento-card--dkim" role="listitem">
+            <div class="bento-icon bento-icon--blue" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3 class="bento-card__title">DKIM Verdict</h3>
+            <p class="bento-card__desc">Validates the cryptographic signature that proves the message body has not been tampered with in transit.</p>
+            <span class="bento-tag">Cryptographic Integrity</span>
+          </article>
+
+          <!-- Spam -->
+          <article class="bento-card bento-card--spam" role="listitem">
+            <div class="bento-icon bento-icon--red" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </div>
+            <h3 class="bento-card__title">Spam Verdict</h3>
+            <p class="bento-card__desc">Uses AWS SES's built-in spam classification. Messages scoring above the threshold are bounced before delivery.</p>
+            <span class="bento-tag">AWS SpamVerdict</span>
+          </article>
+
+          <!-- Virus -->
+          <article class="bento-card bento-card--virus" role="listitem">
+            <div class="bento-icon bento-icon--amber" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 5v5m0 4h.01"/></svg>
+            </div>
+            <h3 class="bento-card__title">Virus Verdict</h3>
+            <p class="bento-card__desc">Scans all attachments and inline content for known malware signatures. Zero-tolerance policy — any detection triggers bounce.</p>
+            <span class="bento-tag">Malware Scan</span>
+          </article>
+
+          <!-- Lambda (inverted hero card) -->
+          <article class="bento-card bento-card--lambda" role="listitem">
+            <div class="bento-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <h3 class="bento-card__title">Serverless. Zero infra overhead.</h3>
+            <p class="bento-card__desc">Runs as an AWS Lambda receipt-rule action. No servers to manage, no polling loop — SES invokes the handler directly on each inbound message.</p>
+            <span class="bento-tag">AWS Lambda</span>
+            <span class="bento-tag">Python 3.11+</span>
+          </article>
+
+          <!-- Flow steps -->
+          <article class="bento-card bento-card--flow" role="listitem">
+            <div class="bento-icon bento-icon--navy" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3 class="bento-card__title">Execution flow</h3>
+            <div class="flow-steps" aria-label="Execution steps">
+              <div class="flow-step">
+                <span class="flow-step__num" aria-hidden="true">1</span>
+                <span class="flow-step__text">SES receives inbound message and invokes Lambda handler</span>
+              </div>
+              <div class="flow-step">
+                <span class="flow-step__num" aria-hidden="true">2</span>
+                <span class="flow-step__text">Handler reads spfVerdict, dkimVerdict, spamVerdict, virusVerdict</span>
+              </div>
+              <div class="flow-step">
+                <span class="flow-step__num" aria-hidden="true">3</span>
+                <span class="flow-step__text">Any FAIL triggers <code>ses:SendBounce</code> and halts rule set</span>
+              </div>
+              <div class="flow-step">
+                <span class="flow-step__num" aria-hidden="true">4</span>
+                <span class="flow-step__text">All verdicts pass → message accepted, rule processing continues</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bounce outcomes -->
+          <article class="bento-card bento-card--bounce" role="listitem">
+            <div class="bento-icon bento-icon--green" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <h3 class="bento-card__title">Bounce vs Accept</h3>
+            <p class="bento-card__desc">Two clean outcomes for every message. No ambiguity, no partial accept.</p>
+            <div class="bounce-visual">
+              <div class="bounce-outcome bounce-outcome--accept">
+                <span class="bounce-outcome__badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  Accept
+                </span>
+                <span class="bounce-outcome__cond">All four verdicts return PASS. Rule set processing continues normally.</span>
+              </div>
+              <div class="bounce-outcome bounce-outcome--reject">
+                <span class="bounce-outcome__badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  Bounce
+                </span>
+                <span class="bounce-outcome__cond">One or more verdicts return FAIL. ses:SendBounce fires immediately.</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Stats -->
+          <article class="bento-card bento-card--stats" role="listitem">
+            <div class="stats-header">
+              <div class="bento-icon bento-icon--blue" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              </div>
+              <h3 class="bento-card__title">By the numbers</h3>
+            </div>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-item__value">4</div>
+                <div class="stat-item__label">Verdict checks per message</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-item__value">0</div>
+                <div class="stat-item__label">Servers to manage</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-item__value">&lt;50ms</div>
+                <div class="stat-item__label">Cold-start budget</div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="how-it-works" aria-labelledby="how-heading">
+        <div class="how-it-works__header">
+          <p class="section-label">How it works</p>
+          <h2 class="section-heading" id="how-heading">From SES event to bounce in four steps</h2>
+          <p class="section-sub">The Lambda handler is a pure function with no external dependencies beyond the AWS SDK — fast, testable, deterministic.</p>
+        </div>
+
+        <ol class="steps-timeline" aria-label="How Email-Validation works">
+          <li class="step">
+            <div class="step__icon-wrap">
+              <div class="step__circle" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div class="step__num" aria-hidden="true">1</div>
+            </div>
+            <h3 class="step__title">Email arrives at SES</h3>
+            <p class="step__desc">AWS SES receives the inbound message and runs it through initial receipt rules, resolving SPF, DKIM, spam, and virus verdicts automatically.</p>
+          </li>
+          <li class="step">
+            <div class="step__icon-wrap">
+              <div class="step__circle" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <div class="step__num" aria-hidden="true">2</div>
+            </div>
+            <h3 class="step__title">Lambda invoked</h3>
+            <p class="step__desc">The receipt rule triggers the Lambda handler with the full SES event JSON, including the four verdict objects and message metadata.</p>
+          </li>
+          <li class="step">
+            <div class="step__icon-wrap">
+              <div class="step__circle" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </div>
+              <div class="step__num" aria-hidden="true">3</div>
+            </div>
+            <h3 class="step__title">Verdicts inspected</h3>
+            <p class="step__desc">The handler checks each verdict field. A single FAIL on any check is sufficient to reject — the logic is deliberately strict and short-circuit.</p>
+          </li>
+          <li class="step">
+            <div class="step__icon-wrap">
+              <div class="step__circle" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="step__num" aria-hidden="true">4</div>
+            </div>
+            <h3 class="step__title">Bounce or accept</h3>
+            <p class="step__desc">Failure calls ses:SendBounce and stops the rule set immediately. All clear means processing continues and the message reaches its destination.</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- TECH STACK -->
+      <section class="tech-stack" aria-labelledby="tech-heading">
+        <div class="tech-stack__header">
+          <p class="section-label">Tech stack</p>
+          <h2 class="section-heading" id="tech-heading">Built on AWS primitives</h2>
+          <p class="section-sub">Minimal dependencies, maximum reliability. Every component is managed by AWS — zero additional infrastructure to operate.</p>
+        </div>
+
+        <div class="tech-grid">
+          <div class="tech-card">
+            <div class="tech-card__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div class="tech-card__content">
+              <p class="tech-card__name">AWS Lambda</p>
+              <p class="tech-card__role">Serverless compute. Invoked synchronously by SES as a receipt rule action. Python 3.11+ runtime.</p>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="tech-card__content">
+              <p class="tech-card__name">Amazon SES</p>
+              <p class="tech-card__role">Inbound email receiving with automatic SPF, DKIM, spam, and virus verdict resolution on every message.</p>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div class="tech-card__content">
+              <p class="tech-card__name">Python 3.11+</p>
+              <p class="tech-card__role">Pure handler logic and helpers in a single module. No third-party runtime dependencies beyond the built-in AWS SDK.</p>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="tech-card__content">
+              <p class="tech-card__name">Boto3 (SDK)</p>
+              <p class="tech-card__role">Uses ses:SendBounce to issue RFC 3464-compliant delivery status notifications. Available in the Lambda runtime — no layer required.</p>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+            <div class="tech-card__content">
+              <p class="tech-card__name">pytest</p>
+              <p class="tech-card__role">Full unit test coverage of the filter logic. Tests run locally against fixture SES event payloads — no AWS account needed.</p>
+            </div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="tech-card__content">
+              <p class="tech-card__name">Vercel (Demo UI)</p>
+              <p class="tech-card__role">Interactive browser-based simulator lets you toggle any combination of verdicts and see the Accept or Bounce decision in real time.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CODE SNIPPET -->
+      <section class="code-section" aria-labelledby="code-heading">
+        <div class="code-section__header">
+          <p class="section-label">Under the hood</p>
+          <h2 class="section-heading" id="code-heading">The core handler — fewer than 20 lines</h2>
+          <p class="section-sub">All the filter logic lives in one pure function. Easy to audit, easy to test, easy to extend.</p>
+        </div>
+
+        <div class="code-block-wrap">
+          <div class="code-block-header">
+            <div class="code-block-dots" aria-hidden="true">
+              <div class="code-block-dot code-block-dot--red"></div>
+              <div class="code-block-dot code-block-dot--amber"></div>
+              <div class="code-block-dot code-block-dot--green"></div>
+            </div>
+            <span class="code-block-filename">src/ses_spam_filter.py</span>
+            <span class="code-block-lang">Python</span>
+          </div>
+          <div class="code-block">
+<pre><span class="tok-kw">import</span> boto3
+
+VERDICT_FIELDS <span class="tok-pun">=</span> <span class="tok-pun">[</span><span class="tok-str">"spfVerdict"</span><span class="tok-pun">,</span> <span class="tok-str">"dkimVerdict"</span><span class="tok-pun">,</span> <span class="tok-str">"spamVerdict"</span><span class="tok-pun">,</span> <span class="tok-str">"virusVerdict"</span><span class="tok-pun">]</span>
+
+<span class="tok-kw">def</span> <span class="tok-fn">should_bounce</span><span class="tok-pun">(</span>receipt<span class="tok-pun">:</span> dict<span class="tok-pun">)</span> <span class="tok-pun">-></span> bool<span class="tok-pun">:</span>
+    <span class="tok-str">"""Return True if any verdict is FAIL."""</span>
+    <span class="tok-kw">return</span> <span class="tok-fn">any</span><span class="tok-pun">(</span>
+        receipt<span class="tok-pun">.</span><span class="tok-fn">get</span><span class="tok-pun">(</span>field<span class="tok-pun">,</span> <span class="tok-pun">{})</span><span class="tok-pun">.</span><span class="tok-fn">get</span><span class="tok-pun">(</span><span class="tok-str">"status"</span><span class="tok-pun">)</span> <span class="tok-pun">==</span> <span class="tok-str">"FAIL"</span>
+        <span class="tok-kw">for</span> field <span class="tok-kw">in</span> VERDICT_FIELDS
+    <span class="tok-pun">)</span>
+
+<span class="tok-kw">def</span> <span class="tok-fn">lambda_handler</span><span class="tok-pun">(</span>event<span class="tok-pun">,</span> context<span class="tok-pun">):</span>
+    record  <span class="tok-pun">=</span> event<span class="tok-pun">[</span><span class="tok-str">"Records"</span><span class="tok-pun">][</span><span class="tok-num">0</span><span class="tok-pun">][</span><span class="tok-str">"ses"</span><span class="tok-pun">]</span>
+    mail    <span class="tok-pun">=</span> record<span class="tok-pun">[</span><span class="tok-str">"mail"</span><span class="tok-pun">]</span>
+    receipt <span class="tok-pun">=</span> record<span class="tok-pun">[</span><span class="tok-str">"receipt"</span><span class="tok-pun">]</span>
+
+    <span class="tok-kw">if</span> <span class="tok-fn">should_bounce</span><span class="tok-pun">(</span>receipt<span class="tok-pun">):</span>
+        boto3<span class="tok-pun">.</span><span class="tok-fn">client</span><span class="tok-pun">(</span><span class="tok-str">"ses"</span><span class="tok-pun">).</span><span class="tok-fn">send_bounce</span><span class="tok-pun">(</span><span class="tok-pun">...</span><span class="tok-pun">)</span>
+        <span class="tok-kw">return</span> <span class="tok-pun">{</span><span class="tok-str">"disposition"</span><span class="tok-pun">:</span> <span class="tok-str">"STOP_RULE_SET"</span><span class="tok-pun">}</span>
+
+    <span class="tok-kw">return</span> <span class="tok-pun">{</span><span class="tok-str">"disposition"</span><span class="tok-pun">:</span> <span class="tok-str">"CONTINUE"</span><span class="tok-pun">}</span>
+</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA BANNER -->
+      <section class="cta-banner" aria-labelledby="cta-heading">
+        <div class="cta-banner__inner">
+          <p class="cta-banner__label">Get started</p>
+          <h2 class="cta-banner__heading" id="cta-heading">Try the live simulator or deploy your own</h2>
+          <p class="cta-banner__sub">Toggle SPF, DKIM, spam, and virus verdicts in the browser demo — or clone the repo and ship your Lambda in minutes.</p>
+          <div class="cta-banner__actions">
+            <a class="btn-white" href="/products/email-validation/">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Open Live Demo
+            </a>
+            <a class="btn-outline-white" href="https://github.com/PiyushMishra318/Email-Validation" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              View Source
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <span class="footer__name">Email<span>-Validation</span></span>
+          <span class="footer__copy">MIT License &copy; 2026 Piyush Mishra</span>
+        </div>
+        <nav class="footer__links" aria-label="Footer links">
+          <a class="footer__link" href="https://github.com/PiyushMishra318/Email-Validation" target="_blank" rel="noopener noreferrer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
+          <a class="footer__link" href="/products/email-validation/">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live Demo
+          </a>
+          <a class="footer__link" href="/" aria-label="Back to portfolio">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            piyushm.dev
+          </a>
+        </nav>
+      </div>
+    </footer>
+
+  </div><!-- /.page -->
+
+</body>
+</html>

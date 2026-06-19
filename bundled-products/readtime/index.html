@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Readtime — a minimal live reading-time estimator powered by HTMX and Express. See your word count and read time update on every keystroke, no React required." />
+  <title>Readtime · Live Reading-Time Estimator</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+</head>
+<body>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" id="scrollBar"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Primary navigation">
+    <div class="nav__inner">
+      <a class="nav__back" href="/" aria-label="Back to portfolio">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        PIYUSHM.DEV
+      </a>
+      <span class="nav__wordmark" aria-hidden="true">Readtime</span>
+      <div class="nav__links">
+        <a class="nav__link" href="#problem">Problem</a>
+        <a class="nav__link" href="#how-it-works">How it works</a>
+        <a class="nav__link" href="#demo">Try it</a>
+        <a class="nav__github" href="https://github.com/PiyushMishra318/htmx-reading-time" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero__main">
+      <div class="hero__issue" aria-hidden="true">
+        <span class="hero__issue-rule"></span>
+        HTMX &middot; Express &middot; No build step
+      </div>
+
+      <h1 class="hero__title" id="hero-title">
+        Know your<br/>
+        <em class="hero__title-em">reading time</em><br/>
+        as you type.
+      </h1>
+
+      <div class="hero__divider" role="separator" aria-hidden="true"></div>
+
+      <div class="hero__body-row">
+        <p class="hero__tagline">
+          A word counter that thinks at the speed of prose &mdash; updating live with every keystroke.
+        </p>
+        <div class="hero__right">
+          <p class="hero__desc">
+            Readtime is a minimal live reading-time estimator built with HTMX and a tiny Express server. Paste text, start typing, and watch the estimate update instantly &mdash; no React, no build step, no client-side complexity.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#demo">
+              Try it live
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a class="btn btn--outline" href="https://github.com/PiyushMishra318/htmx-reading-time" target="_blank" rel="noopener noreferrer">
+              View source
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__stats" aria-label="Key metrics">
+      <div class="hero__stat">
+        <span class="hero__stat-value">250ms</span>
+        <span class="hero__stat-label">Debounce</span>
+      </div>
+      <div class="hero__stat">
+        <span class="hero__stat-value">1</span>
+        <span class="hero__stat-label">Route on the server</span>
+      </div>
+      <div class="hero__stat">
+        <span class="hero__stat-value">Zero</span>
+        <span class="hero__stat-label">Build step required</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pull quote / Intro -->
+  <div class="pullquote-section">
+    <div class="pullquote-section__inner">
+      <blockquote class="pullquote">
+        &ldquo;Most tools bury the answer inside editors you didn&rsquo;t ask for, behind build steps you don&rsquo;t need.&rdquo;
+        <cite class="pullquote__attribution">The readtime premise</cite>
+      </blockquote>
+      <div class="pullquote-section__rule" aria-hidden="true"></div>
+      <div class="pullquote-section__aside">
+        <p>
+          Reading-time estimation is a solved problem. The question is why every solution drags a JS framework along for the ride.
+        </p>
+        <p>
+          Readtime is the answer: a textarea, an Express route, and HTMX to wire them together. That&rsquo;s it.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Problem section -->
+  <section class="problem-section" id="problem" aria-labelledby="problem-heading">
+    <div class="problem-section__inner">
+      <span class="section__overline">Chapter 01</span>
+      <h2 class="section__heading" id="problem-heading">The problem with reading-time tools</h2>
+      <p class="section__subheading">You want a number. They hand you a whole editor.</p>
+
+      <div class="problem-grid" role="list">
+        <article class="problem-card" role="listitem">
+          <div class="problem-card__number" aria-hidden="true">01</div>
+          <div class="problem-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <h3 class="problem-card__title">Heavyweight editors</h3>
+          <p class="problem-card__desc">Full-featured editors for a number you need in under a second. Markdown preview, collaboration, plugins &mdash; none of which help you estimate read time.</p>
+        </article>
+
+        <article class="problem-card" role="listitem">
+          <div class="problem-card__number" aria-hidden="true">02</div>
+          <div class="problem-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </div>
+          <h3 class="problem-card__title">Mandatory build steps</h3>
+          <p class="problem-card__desc">Webpack, Vite, Babel &mdash; configured and compiled before you can estimate 50 words. The toolchain complexity dwarfs the problem it solves.</p>
+        </article>
+
+        <article class="problem-card" role="listitem">
+          <div class="problem-card__number" aria-hidden="true">03</div>
+          <div class="problem-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <h3 class="problem-card__title">Manual refresh required</h3>
+          <p class="problem-card__desc">Click a button after every edit just to refresh the count. Not a live tool &mdash; a calculator masquerading as one.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how-section" id="how-it-works" aria-labelledby="how-heading">
+    <div class="how-section__inner">
+      <span class="section__overline">Chapter 02</span>
+      <h2 class="section__heading" id="how-heading">How readtime works</h2>
+      <p class="section__subheading">One textarea. One server route. HTMX wires them together.</p>
+
+      <div class="steps" role="list">
+        <article class="step" role="listitem">
+          <div class="step__number">Step 01</div>
+          <h3 class="step__title">You type</h3>
+          <p class="step__desc">
+            Text enters a plain <code>&lt;textarea&gt;</code>. HTMX listens on every <code>keyup</code> with a 250ms debounce &mdash; fast enough to feel instant, slow enough to skip excess requests.
+          </p>
+        </article>
+
+        <article class="step" role="listitem">
+          <div class="step__number">Step 02</div>
+          <h3 class="step__title">HTMX POSTs</h3>
+          <p class="step__desc">
+            HTMX sends a POST to <code>/readtime</code> with the textarea value. No JSON serialization, no fetch calls, no client-side logic written by you.
+          </p>
+        </article>
+
+        <article class="step" role="listitem">
+          <div class="step__number">Step 03</div>
+          <h3 class="step__title">Express computes</h3>
+          <p class="step__desc">
+            The Express server runs the <code>reading-time</code> npm package and returns a tiny HTML fragment &mdash; just the text you need to display.
+          </p>
+        </article>
+
+        <article class="step" role="listitem">
+          <div class="step__number">Step 04</div>
+          <h3 class="step__title">Result swapped in</h3>
+          <p class="step__desc">
+            HTMX swaps the fragment into <code>#readtime-result</code>. The page never reloads. No virtual DOM. Pure hypermedia architecture.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-section" id="features" aria-labelledby="features-heading">
+    <div class="features-section__inner">
+      <span class="section__overline">Chapter 03</span>
+      <h2 class="section__heading" id="features-heading">Everything you need. Nothing you don&rsquo;t.</h2>
+      <p class="section__subheading">Readtime strips the problem to its essentials, then stops.</p>
+
+      <div class="features-grid" role="list">
+        <article class="feature-card feature-card--lead" role="listitem">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Live updates on every keystroke</h3>
+          <p class="feature-card__desc">Reading time recalculates via a debounced HTMX request. You never have to click anything.</p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">No build step</h3>
+          <p class="feature-card__desc">Plain HTML, HTMX from CDN, a single Express route. Clone and run immediately.</p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">250ms smart debounce</h3>
+          <p class="feature-card__desc">Requests stay minimal while the UI feels instant throughout your writing session.</p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Server-driven logic</h3>
+          <p class="feature-card__desc">All calculation logic lives on the server &mdash; easy to audit, easy to swap out.</p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Vercel-ready</h3>
+          <p class="feature-card__desc">Ships with a <code>vercel.json</code> config so you deploy in under a minute.</p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">HTML fragment response</h3>
+          <p class="feature-card__desc">The server returns only the changed fragment. Minimal bandwidth, perfect hypermedia architecture.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="stack-section" id="tech-stack" aria-labelledby="stack-heading">
+    <div class="stack-section__inner">
+      <span class="section__overline">The Stack</span>
+      <h2 class="section__heading" id="stack-heading">Four technologies. One tiny tool.</h2>
+      <p class="section__subheading">Nothing exotic. Everything justified.</p>
+
+      <div class="stack-row" role="list">
+        <article class="stack-item" role="listitem">
+          <div class="stack-item__name">
+            HTMX
+            <span class="stack-item__tag">Frontend</span>
+          </div>
+          <p class="stack-item__desc">Hypermedia library that adds AJAX to HTML with attributes. Powers the live update without a single line of custom JavaScript.</p>
+        </article>
+
+        <article class="stack-item" role="listitem">
+          <div class="stack-item__name">
+            Express
+            <span class="stack-item__tag">Backend</span>
+          </div>
+          <p class="stack-item__desc">Minimal Node.js web framework. Handles the single <code>POST /readtime</code> route with five lines of code.</p>
+        </article>
+
+        <article class="stack-item" role="listitem">
+          <div class="stack-item__name">
+            reading&#8209;time
+            <span class="stack-item__tag">Library</span>
+          </div>
+          <p class="stack-item__desc">Battle-tested npm package. Estimates read time based on average reading speed of 200 words per minute.</p>
+        </article>
+
+        <article class="stack-item" role="listitem">
+          <div class="stack-item__name">
+            Vercel
+            <span class="stack-item__tag">Hosting</span>
+          </div>
+          <p class="stack-item__desc">Serverless hosting platform. A single <code>vercel.json</code> config file makes the Express app deploy instantly.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Demo -->
+  <section class="demo-section" id="demo" aria-labelledby="demo-heading">
+    <div class="demo-section__inner">
+      <span class="section__overline">Live Demo</span>
+      <h2 class="section__heading" id="demo-heading">See it for yourself</h2>
+      <p class="section__subheading">Type or paste text below. Reading time updates live via HTMX &mdash; watch the number change as you write.</p>
+
+      <div class="demo-editor">
+        <div class="demo-editor__bar" aria-hidden="true">
+          <span class="demo-dot demo-dot--red"></span>
+          <span class="demo-dot demo-dot--yellow"></span>
+          <span class="demo-dot demo-dot--green"></span>
+          <span class="demo-editor__filename">readtime.txt</span>
+        </div>
+
+        <div class="demo-editor__body">
+          <form>
+            <textarea
+              name="text"
+              rows="10"
+              class="demo-textarea"
+              placeholder="Paste or write your text here&#8230;"
+              autofocus
+              hx-post="/products/readtime/readtime"
+              hx-trigger="keyup changed delay:250ms"
+              hx-target="#readtime-result"
+              hx-swap="innerHTML"
+              aria-label="Text input for reading time estimation"
+            ></textarea>
+          </form>
+        </div>
+
+        <div class="demo-editor__footer">
+          <div id="readtime-result" class="demo-result" aria-live="polite" aria-atomic="true">
+            <span class="demo-result__value">0 sec</span>
+            <span class="demo-result__label">estimated read time</span>
+          </div>
+          <div class="demo-badge" aria-hidden="true">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+            </svg>
+            Live via HTMX
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta" aria-labelledby="cta-heading">
+    <div class="cta-section__inner">
+      <h2 class="cta-section__heading" id="cta-heading">
+        Build something<br/>
+        <em>beautifully simple.</em>
+      </h2>
+      <div class="cta-section__right">
+        <p class="cta-section__desc">
+          Readtime is open source and MIT licensed. Fork it, extend it, or use it as a reference for your own HTMX projects. The entire backend fits in 20 lines.
+        </p>
+        <div class="cta-section__actions">
+          <a class="btn btn--accent" href="https://github.com/PiyushMishra318/htmx-reading-time" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            View on GitHub
+          </a>
+          <a class="btn btn--ghost" href="/">
+            More projects
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+        <p class="cta-section__note">MIT licensed &middot; Open source &middot; No vendor lock-in</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <span class="footer__brand">Readtime</span>
+      <p class="footer__copy">MIT &copy; 2026 Piyush Mishra</p>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a class="footer__link" href="/">piyushm.dev</a>
+        <a class="footer__link" href="https://github.com/PiyushMishra318/htmx-reading-time" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll progress bar
+    const bar = document.getElementById('scrollBar');
+    if (bar) {
+      const update = () => {
+        const h = document.documentElement;
+        const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        bar.style.width = pct + '%';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+    }
+
+    // Scroll-triggered reveal
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealEls = document.querySelectorAll(
+      '.section, .pullquote-section, .problem-section__inner, .how-section__inner, .features-section__inner, .stack-section__inner, .demo-section__inner, .cta-section__inner'
+    );
+
+    if (!reducedMotion) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      revealEls.forEach(el => io.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('in-view'));
+    }
+  </script>
+</body>
+</html>

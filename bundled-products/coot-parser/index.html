@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="coot-parser — experimental parser for Canva-style design editor exports. Convert HTML and canvas JSON into Himalaya AST, React-friendly markup, composed HTML pages, or split component files." />
+  <title>coot-parser — Canvas Component Parser</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" aria-label="Site navigation">
+    <a href="/" class="nav__back" aria-label="Back to portfolio">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      PIYUSHM.DEV
+    </a>
+    <a href="https://github.com/PiyushMishra318/canvas-component-parser" class="nav__github" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+      </svg>
+      GitHub
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero__grid-bg" aria-hidden="true"></div>
+    <div class="hero__content">
+      <p class="hero__label">
+        <span class="hero__label-dot" aria-hidden="true"></span>
+        Experimental &mdash; Canvas Component Parser
+      </p>
+      <h1 class="hero__title" id="hero-heading">
+        COOT<br/>
+        <span class="hero__title-accent">PARS</span><br/>
+        ER.
+      </h1>
+      <p class="hero__tagline">
+        Turn <strong>Canva-style editor exports</strong> into Himalaya AST, React-ready markup,
+        composed HTML pages, and split component files &mdash; from a single CLI command.
+      </p>
+      <div class="hero__cta-group">
+        <a href="/products/coot-parser/" class="btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          Live Demo
+        </a>
+        <a href="https://github.com/PiyushMishra318/canvas-component-parser" class="btn-secondary" target="_blank" rel="noopener noreferrer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          View Source
+        </a>
+      </div>
+      <div class="hero__stat-strip" aria-label="Key metrics">
+        <div class="hero__stat">
+          <span class="hero__stat-value">4</span>
+          <span class="hero__stat-label">Parse Modes</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-value">AST</span>
+          <span class="hero__stat-label">Output Format</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-value">JSX</span>
+          <span class="hero__stat-label">React Ready</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-value">MIT</span>
+          <span class="hero__stat-label">License</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" aria-labelledby="features-heading">
+    <div class="section__inner">
+      <p class="section__eyebrow">What It Does</p>
+      <h2 class="section__title" id="features-heading">FOUR<br/>MODES.</h2>
+      <div class="features-grid">
+
+        <article class="feature-card">
+          <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          <h3 class="feature-card__title">Himalaya AST</h3>
+          <p class="feature-card__desc">Parse any HTML export into a full JSON abstract syntax tree using the Himalaya parser. Inspect every node, attribute, and text fragment programmatically.</p>
+        </article>
+
+        <article class="feature-card">
+          <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 9h6M9 12h6M9 15h4"/>
+          </svg>
+          <h3 class="feature-card__title">React Markup</h3>
+          <p class="feature-card__desc">Convert raw HTML into JSX-friendly output: <code>class</code> becomes <code>className</code>, inline styles become objects, and DOM events map to React props.</p>
+        </article>
+
+        <article class="feature-card">
+          <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8M12 17v4"/>
+          </svg>
+          <h3 class="feature-card__title">Compose Pages</h3>
+          <p class="feature-card__desc">Feed a canvas JSON array of positioned components and get back a single composed HTML page with absolute positioning, pseudo-state CSS, and injected scripts.</p>
+        </article>
+
+        <article class="feature-card">
+          <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <h3 class="feature-card__title">Split Components</h3>
+          <p class="feature-card__desc">Mark layers with <code>data-component</code> attributes and the parser splits them into individual files, outputting a structured component directory ready for your project.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" aria-labelledby="how-heading">
+    <div class="section__inner">
+      <p class="section__eyebrow">How It Works</p>
+      <h2 class="section__title" id="how-heading">PARSE<br/>FLOW.</h2>
+      <div class="how-it-works">
+
+        <div class="how-steps" role="list">
+          <div class="how-step" role="listitem">
+            <span class="how-step__num" aria-hidden="true">01</span>
+            <div class="how-step__body">
+              <h3 class="how-step__title">Export from Editor</h3>
+              <p class="how-step__desc">Take any HTML export or canvas JSON array from your Canva-style design editor. No preprocessing required &mdash; paste or point the CLI at the file.</p>
+            </div>
+          </div>
+          <div class="how-step" role="listitem">
+            <span class="how-step__num" aria-hidden="true">02</span>
+            <div class="how-step__body">
+              <h3 class="how-step__title">Choose a Mode</h3>
+              <p class="how-step__desc">Run <code>ast</code>, <code>react</code>, <code>compose</code>, or <code>split</code> as your CLI subcommand. Each mode targets a specific output format.</p>
+            </div>
+          </div>
+          <div class="how-step" role="listitem">
+            <span class="how-step__num" aria-hidden="true">03</span>
+            <div class="how-step__body">
+              <h3 class="how-step__title">Himalaya Parses</h3>
+              <p class="how-step__desc">The Himalaya library tokenises your HTML into a typed AST. The parser then walks that tree, applying conversions and attribute transforms.</p>
+            </div>
+          </div>
+          <div class="how-step" role="listitem">
+            <span class="how-step__num" aria-hidden="true">04</span>
+            <div class="how-step__body">
+              <h3 class="how-step__title">Output Written</h3>
+              <p class="how-step__desc">Results are written to <code>--out</code> or <code>--out-dir</code>. Use the REST demo server for browser-based parsing with live preview tabs.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="terminal" aria-label="CLI usage examples">
+          <div class="terminal__bar" aria-hidden="true">
+            <span class="terminal__dot terminal__dot--red"></span>
+            <span class="terminal__dot terminal__dot--yellow"></span>
+            <span class="terminal__dot terminal__dot--green"></span>
+            <span class="terminal__title">canvas-component-parser — bash</span>
+          </div>
+          <div class="terminal__body">
+            <pre><span class="t-comment"># Install</span>
+<span class="t-prompt">$</span> <span class="t-cmd">git clone</span> <span class="t-path">git@github.com:PiyushMishra318/canvas-component-parser.git</span>
+<span class="t-prompt">$</span> <span class="t-cmd">npm install</span>
+
+<span class="t-comment"># AST — HTML to JSON tree</span>
+<span class="t-prompt">$</span> <span class="t-cmd">node bin/canvas-component-parser.js</span> <span class="t-flag">ast</span> <span class="t-path">fixtures/template.html</span> <span class="t-flag">--out</span> ast.json
+
+<span class="t-comment"># React — JSX-ready markup</span>
+<span class="t-prompt">$</span> <span class="t-cmd">node bin/canvas-component-parser.js</span> <span class="t-flag">react</span> <span class="t-path">fixtures/template.html</span> <span class="t-flag">--out</span> out.jsx.html
+
+<span class="t-comment"># Compose — canvas JSON to full page</span>
+<span class="t-prompt">$</span> <span class="t-cmd">node bin/canvas-component-parser.js</span> <span class="t-flag">compose</span> <span class="t-path">fixtures/components.sample.json</span> <span class="t-flag">--out</span> page.html
+
+<span class="t-comment"># Split — by data-component attribute</span>
+<span class="t-prompt">$</span> <span class="t-cmd">node bin/canvas-component-parser.js</span> <span class="t-flag">split</span> <span class="t-path">fixtures/template.html</span> <span class="t-flag">--out-dir</span> dist/
+
+<span class="t-comment"># Demo server</span>
+<span class="t-prompt">$</span> <span class="t-cmd">npm start</span>
+<span class="t-output">  Listening on http://127.0.0.1:3000</span></pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CLI MODES DETAIL -->
+  <section class="section" aria-labelledby="modes-heading">
+    <div class="section__inner">
+      <p class="section__eyebrow">CLI Reference</p>
+      <h2 class="section__title" id="modes-heading">ALL<br/>COMMANDS.</h2>
+      <div class="modes-grid">
+
+        <div class="mode-card">
+          <span class="mode-card__badge">ast</span>
+          <p class="mode-card__cmd">canvas-component-parser ast &lt;file&gt;</p>
+          <p class="mode-card__desc">Produces a full Himalaya AST in JSON. Every element, attribute, and text node is captured. Pipe to jq or feed to downstream tooling.</p>
+        </div>
+
+        <div class="mode-card">
+          <span class="mode-card__badge">react</span>
+          <p class="mode-card__cmd">canvas-component-parser react &lt;file&gt;</p>
+          <p class="mode-card__desc">Rewrites HTML for JSX compatibility: <code>class</code> &rarr; <code>className</code>, style strings &rarr; JS objects, <code>onclick</code> &rarr; <code>onClick</code>, and more.</p>
+        </div>
+
+        <div class="mode-card">
+          <span class="mode-card__badge">compose</span>
+          <p class="mode-card__cmd">canvas-component-parser compose &lt;json&gt;</p>
+          <p class="mode-card__desc">Takes a JSON array of canvas layer objects with <code>html</code>, <code>style</code>, <code>position</code>, and <code>scripts</code> fields. Outputs a single composed HTML page.</p>
+        </div>
+
+        <div class="mode-card">
+          <span class="mode-card__badge">split</span>
+          <p class="mode-card__cmd">canvas-component-parser split &lt;file&gt;</p>
+          <p class="mode-card__desc">Walks the AST for elements bearing <code>data-component="Name"</code> and writes each as its own file into the output directory &mdash; one component per file.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section class="section" aria-labelledby="tech-heading">
+    <div class="section__inner">
+      <p class="section__eyebrow">Technology</p>
+      <h2 class="section__title" id="tech-heading">BUILT<br/>WITH.</h2>
+      <div class="tech-list" role="list">
+
+        <div class="tech-item" role="listitem">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+          <div>
+            <span class="tech-item__name">Node.js &ge;18</span>
+            <span class="tech-item__role">Runtime</span>
+          </div>
+        </div>
+
+        <div class="tech-item" role="listitem">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          <div>
+            <span class="tech-item__name">Himalaya</span>
+            <span class="tech-item__role">HTML &rarr; AST parser</span>
+          </div>
+        </div>
+
+        <div class="tech-item" role="listitem">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <div>
+            <span class="tech-item__name">Express</span>
+            <span class="tech-item__role">Demo REST server</span>
+          </div>
+        </div>
+
+        <div class="tech-item" role="listitem">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8M12 17v4"/>
+          </svg>
+          <div>
+            <span class="tech-item__name">Vercel</span>
+            <span class="tech-item__role">Live demo hosting</span>
+          </div>
+        </div>
+
+        <div class="tech-item" role="listitem">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+          <div>
+            <span class="tech-item__name">MIT License</span>
+            <span class="tech-item__role">Open source</span>
+          </div>
+        </div>
+
+        <div class="tech-item" role="listitem">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+          </svg>
+          <div>
+            <span class="tech-item__name">data-component</span>
+            <span class="tech-item__role">Layer marker protocol</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" aria-labelledby="cta-heading">
+    <div class="cta-section__bg" aria-hidden="true"></div>
+    <div class="cta-section__inner">
+      <h2 class="cta-section__title" id="cta-heading">
+        PARSE<br/><em>YOUR</em><br/>CANVAS.
+      </h2>
+      <p class="cta-section__sub">
+        Clone, install, run. No config files, no lock-in &mdash; just a Node CLI and four powerful modes for turning design exports into structured code.
+      </p>
+      <div class="cta-section__actions">
+        <a href="/products/coot-parser/" class="btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          Try the Demo
+        </a>
+        <a href="https://github.com/PiyushMishra318/canvas-component-parser" class="btn-secondary" target="_blank" rel="noopener noreferrer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          Star on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__brand">
+        <span>COOT</span>-PARSER &mdash; by PIYUSHM.DEV
+      </p>
+      <nav class="footer__links" aria-label="Footer links">
+        <a href="https://github.com/PiyushMishra318/canvas-component-parser" class="footer__link" target="_blank" rel="noopener noreferrer" aria-label="GitHub repository">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          GitHub
+        </a>
+        <a href="/products/coot-parser/" class="footer__link" aria-label="Live demo">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          Live Demo
+        </a>
+        <a href="/" class="footer__link" aria-label="Back to portfolio">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Portfolio
+        </a>
+      </nav>
+      <p class="footer__copy">
+        &copy; 2024 Piyush Mishra &mdash; canvas-component-parser &mdash; MIT License
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

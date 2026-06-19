@@ -12,7 +12,7 @@ const PORT = Number(process.env.PORT) || 4173;
 
 const SLUGS = [
   "background-remover", "canvas-games", "codediff", "coot-parser", "django-learning",
-  "email-validation", "tracktemp", "lambda", "lumina", "playground", "postman-to-swagger",
+  "email-validation", "tracktemp", "lambda", "lumina", "postman-to-swagger",
   "readtime", "svg-palette", "talkative", "transcribe", "tsukiyomi", "page-speed", "wingman", "xbat",
 ];
 

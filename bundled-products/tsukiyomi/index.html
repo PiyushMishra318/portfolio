@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tsukiyomi — GBA Library for Android</title>
+  <meta name="description" content="Tsukiyomi is a Flutter Android app and NestJS API for browsing GBA ROM metadata, managing favorites, and launching your emulator — all under a moonlit Japanese aesthetic." />
+  <meta name="theme-color" content="#05070c" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="page">
+
+  <!-- CRT scanlines overlay -->
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- ── Navigation ─────────────────────────────────── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="/" class="nav__brand" aria-label="Back to piyushm.dev">
+          <span class="nav__brand-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+          </span>
+          <span class="nav__brand-text">PIYUSHM.DEV</span>
+        </a>
+
+        <div class="nav__links">
+          <a href="#features" class="nav__link">Features</a>
+          <a href="#howitworks" class="nav__link">How It Works</a>
+          <a href="#tech" class="nav__link">Tech</a>
+          <a href="https://github.com/PiyushMishra318/Tsukiyomi-Platform" class="nav__link nav__link--cta" target="_blank" rel="noopener noreferrer">
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ───────────────────────────────────────── -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero__content">
+        <!-- Left: copy -->
+        <div>
+          <div class="hero__badge">
+            <div class="hero__badge-dot" aria-hidden="true"></div>
+            Flutter &amp; NestJS &middot; Open Source
+          </div>
+
+          <h1 class="hero__title" id="hero-heading">
+            Your GBA Library,
+            <span class="hero__title-accent glow-text">Reimagined.</span>
+          </h1>
+
+          <p class="hero__tagline">
+            Tsukiyomi is a moonlit Android companion for Game Boy Advance enthusiasts.
+            Browse ROM metadata, curate favourites, launch your emulator — all wrapped
+            in a phosphor-teal Japanese aesthetic.
+          </p>
+
+          <div class="hero__actions">
+            <a href="https://github.com/PiyushMishra318/Tsukiyomi-Platform/releases" class="btn btn--primary" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download APK
+            </a>
+            <a href="https://github.com/PiyushMishra318/Tsukiyomi-Platform" class="btn btn--ghost" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+              View Source
+            </a>
+          </div>
+
+          <div class="hero__meta">
+            <div class="hero__meta-item">
+              <strong>2 800+</strong>
+              <span>GBA ROMs indexed</span>
+            </div>
+            <div class="hero__meta-item">
+              <strong>MIT</strong>
+              <span>Open licence</span>
+            </div>
+            <div class="hero__meta-item">
+              <strong>Flutter</strong>
+              <span>Android client</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: device mockup -->
+        <div class="hero__device" aria-hidden="true">
+          <div class="hero__device-glow"></div>
+          <div class="hero__device-frame">
+            <div class="hero__device-screen">
+              <!-- Simulated app UI inside device -->
+              <div style="
+                padding: 44px 12px 12px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                height: 100%;
+                position: relative;
+                z-index: 0;
+              ">
+                <div style="
+                  font-family: 'Syne', sans-serif;
+                  font-size: 10px;
+                  font-weight: 700;
+                  color: #3dffc8;
+                  letter-spacing: 0.12em;
+                  text-transform: uppercase;
+                  padding: 0 4px;
+                ">月夜見 &mdash; GBA</div>
+                <!-- Fake game tiles -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex: 1; overflow: hidden;">
+                  <div style="background: #111929; border-radius: 8px; border: 1px solid rgba(61,255,200,0.15); aspect-ratio: 4/3; display:flex;align-items:center;justify-content:center;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3dffc8" stroke-width="1.5" opacity="0.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                  </div>
+                  <div style="background: #111929; border-radius: 8px; border: 1px solid rgba(61,255,200,0.15); aspect-ratio: 4/3; display:flex;align-items:center;justify-content:center;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                  </div>
+                  <div style="background: #111929; border-radius: 8px; border: 1px solid rgba(61,255,200,0.15); aspect-ratio: 4/3; display:flex;align-items:center;justify-content:center;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3dffc8" stroke-width="1.5" opacity="0.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  </div>
+                  <div style="background: #111929; border-radius: 8px; border: 1px solid rgba(61,255,200,0.15); aspect-ratio: 4/3; display:flex;align-items:center;justify-content:center;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </div>
+                </div>
+                <!-- Bottom nav bar -->
+                <div style="display:flex;justify-content:space-around;padding: 8px 0 4px; border-top: 1px solid rgba(61,255,200,0.1);">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3dffc8" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4d5e80" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4d5e80" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4d5e80" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── Features ───────────────────────────────────── -->
+  <section class="features section" id="features" aria-labelledby="features-heading">
+    <div class="container">
+      <header class="features__header">
+        <p class="features__label">What it does</p>
+        <h2 class="features__title" id="features-heading">
+          Everything your GBA library deserves
+        </h2>
+      </header>
+
+      <div class="features__grid">
+
+        <div class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">ROM Metadata Browser</h3>
+          <p class="feature-card__desc">
+            Instantly browse 2 800+ GBA titles with full metadata — genre, region,
+            release year, and description — served from a fast NestJS API backed by
+            a Turso libSQL database.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Favourites &amp; History</h3>
+          <p class="feature-card__desc">
+            Mark games as favourites and keep a play history that syncs via JWT-secured
+            REST endpoints. Your library is yours — stored locally and in the cloud.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Emulator Launch</h3>
+          <p class="feature-card__desc">
+            One tap to hand off any title to your preferred GBA emulator via Android
+            intent dispatch. Works with RetroArch, My OldBoy, and any emulator that
+            accepts file intents.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Secure JWT Auth</h3>
+          <p class="feature-card__desc">
+            Phone-number registration and login with bcrypt-hashed passwords. Tokens
+            are stored in Android Keystore via flutter_secure_storage — no plain text,
+            no Firebase dependency.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Smart Recommendations</h3>
+          <p class="feature-card__desc">
+            Genre-aware suggestions based on your play history. The server analyses
+            your favourites and surfaces titles in the same genre family you play most.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">CI / CD Pipeline</h3>
+          <p class="feature-card__desc">
+            GitHub Actions workflows run Flutter analyze &amp; test, NestJS unit tests,
+            and produce a signed APK artifact on every push to main — ship confidently.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── How It Works ───────────────────────────────── -->
+  <section class="howitworks section" id="howitworks" aria-labelledby="howitworks-heading">
+    <div class="container">
+      <header class="howitworks__header">
+        <p class="howitworks__label">Under the hood</p>
+        <h2 class="howitworks__title" id="howitworks-heading">
+          From ROM list to game launch in four steps
+        </h2>
+      </header>
+
+      <div class="howitworks__steps">
+
+        <div class="step">
+          <div class="step__number" aria-hidden="true">01</div>
+          <div class="step__content">
+            <h3 class="step__title">Register &amp; authenticate</h3>
+            <p class="step__desc">
+              Create an account with your phone number and a password. The NestJS
+              server hashes credentials with bcrypt and issues a signed JWT stored
+              securely in Android Keystore.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step__number" aria-hidden="true">02</div>
+          <div class="step__content">
+            <h3 class="step__title">Browse the GBA catalogue</h3>
+            <p class="step__desc">
+              The Flutter app fetches paginated ROM metadata from the REST API.
+              Titles are seeded from <code style="color:var(--color-teal);font-size:0.875em">GBA_Roms_Names.json</code> and
+              <code style="color:var(--color-teal);font-size:0.875em">GBA_Roms_Genres.json</code> on first server startup
+              into a Turso (libSQL) database for sub-millisecond queries.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step__number" aria-hidden="true">03</div>
+          <div class="step__content">
+            <h3 class="step__title">Curate your collection</h3>
+            <p class="step__desc">
+              Favourite games are POSTed to <code style="color:var(--color-teal);font-size:0.875em">/api/user/favourites</code>.
+              Your play history is tracked automatically and feeds the recommendation
+              engine, which surfaces genre-matched suggestions in real time.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step__number" aria-hidden="true">04</div>
+          <div class="step__content">
+            <h3 class="step__title">Launch in your emulator</h3>
+            <p class="step__desc">
+              Tap Play and Tsukiyomi fires an Android intent with the ROM file path.
+              Your installed emulator (RetroArch, My OldBoy, and others) picks up the
+              intent and launches the title immediately.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── Tech Stack ─────────────────────────────────── -->
+  <section class="tech section" id="tech" aria-labelledby="tech-heading">
+    <div class="container">
+      <header class="tech__header">
+        <p class="tech__label">Built with</p>
+        <h2 class="tech__title" id="tech-heading">
+          Modern stack, moonlit finish
+        </h2>
+      </header>
+
+      <div class="tech__grid">
+
+        <div class="tech-pill">
+          <span class="tech-pill__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+          </span>
+          <span class="tech-pill__name">Flutter</span>
+        </div>
+
+        <div class="tech-pill">
+          <span class="tech-pill__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </span>
+          <span class="tech-pill__name">NestJS</span>
+        </div>
+
+        <div class="tech-pill">
+          <span class="tech-pill__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+            </svg>
+          </span>
+          <span class="tech-pill__name">Turso libSQL</span>
+        </div>
+
+        <div class="tech-pill">
+          <span class="tech-pill__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </span>
+          <span class="tech-pill__name">JWT + bcrypt</span>
+        </div>
+
+        <div class="tech-pill">
+          <span class="tech-pill__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            </svg>
+          </span>
+          <span class="tech-pill__name">Vercel Serverless</span>
+        </div>
+
+        <div class="tech-pill">
+          <span class="tech-pill__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </span>
+          <span class="tech-pill__name">GitHub Actions CI</span>
+        </div>
+
+        <div class="tech-pill">
+          <span class="tech-pill__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+          </span>
+          <span class="tech-pill__name">Android Keystore</span>
+        </div>
+
+        <div class="tech-pill">
+          <span class="tech-pill__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </span>
+          <span class="tech-pill__name">Riverpod State Mgmt</span>
+        </div>
+
+        <div class="tech-pill">
+          <span class="tech-pill__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+            </svg>
+          </span>
+          <span class="tech-pill__name">TypeScript</span>
+        </div>
+
+        <div class="tech-pill">
+          <span class="tech-pill__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+          </span>
+          <span class="tech-pill__name">MIT Licence</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── Screenshots ────────────────────────────────── -->
+  <section class="screenshots section" id="screenshots" aria-labelledby="screenshots-heading">
+    <div class="container">
+      <header class="screenshots__header">
+        <p class="screenshots__label">App screens</p>
+        <h2 class="screenshots__title" id="screenshots-heading">
+          See the moonlit UI
+        </h2>
+      </header>
+
+      <div class="screenshots__track">
+
+        <div class="screenshot-card">
+          <div class="screenshot-card__img" aria-label="Home screen showing featured GBA titles">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-text-muted);position:relative;z-index:1">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+          <div class="screenshot-card__caption">Home Screen</div>
+        </div>
+
+        <div class="screenshot-card">
+          <div class="screenshot-card__img" aria-label="ROM browser grid view with genre filters">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-text-muted);position:relative;z-index:1">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <div class="screenshot-card__caption">ROM Browser</div>
+        </div>
+
+        <div class="screenshot-card">
+          <div class="screenshot-card__img" aria-label="Game detail page with metadata and launch button">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-text-muted);position:relative;z-index:1">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+            </svg>
+          </div>
+          <div class="screenshot-card__caption">Game Detail</div>
+        </div>
+
+        <div class="screenshot-card">
+          <div class="screenshot-card__img" aria-label="Favourites collection list">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-text-muted);position:relative;z-index:1">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <div class="screenshot-card__caption">Favourites</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── Footer ─────────────────────────────────────── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+
+        <div class="footer__brand">
+          <span class="footer__brand-name">Tsukiyomi</span>
+          <p class="footer__tagline">
+            A Flutter Android client and NestJS API for GBA ROM metadata,
+            favourites, and emulator launch. Open source. MIT licensed.
+          </p>
+        </div>
+
+        <div class="footer__links">
+          <a href="https://github.com/PiyushMishra318/Tsukiyomi-Platform" class="footer__link" target="_blank" rel="noopener noreferrer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+          <a href="https://github.com/PiyushMishra318/Tsukiyomi-Platform/releases" class="footer__link" target="_blank" rel="noopener noreferrer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download APK
+          </a>
+          <a href="/" class="footer__link">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+            PIYUSHM.DEV
+          </a>
+        </div>
+
+        <p class="footer__copy">
+          MIT &copy; 2026 Piyush Mishra &middot; 月夜見
+        </p>
+
+      </div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
