@@ -13,7 +13,7 @@ export const PRODUCTS = {
   "postman-to-swagger": { folder: "postman-to-swagger", root: false },
   readtime: { folder: "realtime-text-readtime", root: false, apiCatchAll: true },
   "svg-palette": { folder: "SVG-Palette-Processor", root: false },
-  talkative: { folder: "talkative", root: false },
+  talkative: { folder: "talkative", root: false, bundlePath: "bundled-products/talkative" },
   transcribe: { folder: "transcribe", root: false },
   tsukiyomi: { folder: "Tsukiyomi-Platform", root: false },
   "page-speed": { folder: "website-page-speed-report", root: false },

@@ -24,7 +24,6 @@ const PRODUCT_REPOS = {
   "postman-to-swagger": "postman-to-swagger",
   "realtime-text-readtime": "htmx-reading-time",
   "SVG-Palette-Processor": "SVG-Palette-Processor",
-  talkative: "talkative",
   transcribe: "transcribe",
   "Tsukiyomi-Platform": "Tsukiyomi-Platform",
   "website-page-speed-report": "website-page-speed-report",

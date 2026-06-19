@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talkative — Chat that Feels Natural</title>
+  <meta name="description" content="Talkative is a Flutter chat app with Google sign-in, real-time messaging, and a clean conversation inbox. Connect and chat, naturally." />
+  <meta name="theme-color" content="#7c3aed" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Background ambient orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+    <div class="bg-orb bg-orb--3"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav" aria-label="Site navigation">
+    <div class="nav__inner">
+      <a class="nav__back" href="/" aria-label="Back to portfolio">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        PIYUSHM.DEV
+      </a>
+      <span class="nav__logo">Talkative</span>
+      <a class="nav__cta" href="https://github.com/PiyushMishra318/talkative" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/>
+        </svg>
+        GitHub
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero__inner">
+
+      <!-- Left: copy -->
+      <div class="hero__content">
+        <div class="hero__badge">
+          <span class="hero__badge-dot" aria-hidden="true"></span>
+          Flutter &middot; Open Source
+        </div>
+
+        <h1 class="hero__title">
+          Chat that<br>
+          <span class="hero__title-gradient">Feels Natural</span>
+        </h1>
+
+        <p class="hero__tagline">
+          Talkative is a Flutter Android chat app — Google sign-in, a clean inbox, and focused conversation threads that keep you present, not distracted.
+        </p>
+
+        <div class="hero__actions">
+          <a class="btn-primary" href="https://github.com/PiyushMishra318/talkative" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+            View on GitHub
+          </a>
+          <a class="btn-secondary" href="#features">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4m0 4h.01"/>
+            </svg>
+            Learn More
+          </a>
+        </div>
+
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <span class="hero__stat-value">Flutter</span>
+            <span class="hero__stat-label">Framework</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-value">MIT</span>
+            <span class="hero__stat-label">License</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-value">100%</span>
+            <span class="hero__stat-label">Open Source</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: phone mockup -->
+      <div class="hero__visual" aria-hidden="true">
+
+        <!-- Floating ambient bubbles -->
+        <div class="hero__bubble hero__bubble--1">
+          <div class="hero__bubble-avatar hero__bubble-avatar--pink"></div>
+          <span>Hey, you there? 👋</span>
+        </div>
+        <div class="hero__bubble hero__bubble--2">
+          <div class="hero__bubble-avatar hero__bubble-avatar--indigo"></div>
+          <span>Online now</span>
+        </div>
+        <div class="hero__bubble hero__bubble--3">
+          <div class="hero__bubble-avatar"></div>
+          <span>Delivered ✓✓</span>
+        </div>
+
+        <div class="phone-mockup">
+          <div class="phone-mockup__frame">
+            <div class="phone-mockup__screen">
+
+              <!-- Chat header -->
+              <div class="phone-screen__header">
+                <div class="phone-screen__avatar"></div>
+                <div class="phone-screen__header-info">
+                  <div class="phone-screen__name">Alex Morgan</div>
+                  <div class="phone-screen__status">
+                    <span class="phone-screen__status-dot"></span>
+                    Online
+                  </div>
+                </div>
+              </div>
+
+              <!-- Messages -->
+              <div class="phone-screen__messages">
+                <div class="msg msg--in">
+                  <div class="msg__bubble">Hey! Just checked out the new build 🔥</div>
+                  <div class="msg__time">10:42 AM</div>
+                </div>
+                <div class="msg msg--out">
+                  <div class="msg__bubble">Right? The UI feels so smooth now</div>
+                  <div class="msg__time">10:43 AM</div>
+                </div>
+                <div class="msg msg--in">
+                  <div class="msg__bubble">Google sign-in worked first try!</div>
+                  <div class="msg__time">10:44 AM</div>
+                </div>
+                <div class="msg msg--out">
+                  <div class="msg__bubble">That took a while to get right lol</div>
+                  <div class="msg__time">10:44 AM</div>
+                </div>
+                <div class="msg msg--in">
+                  <div class="msg__bubble">Worth it. Ship it!</div>
+                  <div class="msg__time">10:45 AM</div>
+                </div>
+              </div>
+
+              <!-- Input bar -->
+              <div class="phone-screen__input">
+                <div class="phone-screen__input-field"></div>
+                <div class="phone-screen__send-btn">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/>
+                  </svg>
+                </div>
+              </div>
+
+            </div><!-- .phone-mockup__screen -->
+          </div><!-- .phone-mockup__frame -->
+        </div><!-- .phone-mockup -->
+
+      </div><!-- .hero__visual -->
+    </div><!-- .hero__inner -->
+  </section><!-- .hero -->
+
+  <!-- FEATURES -->
+  <section class="section features" id="features" aria-labelledby="features-title">
+    <div class="wrapper">
+      <div class="section__header">
+        <span class="section__eyebrow">Features</span>
+        <h2 class="section__title" id="features-title">Everything you need to connect</h2>
+        <p class="section__subtitle">Built with Flutter and Firebase, Talkative gives you the fundamentals of social messaging — clean, fast, and open source.</p>
+      </div>
+
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Google Sign-In</h3>
+          <p class="feature-card__desc">Authenticate instantly with your Google account. No passwords to remember — secure OAuth 2.0 flow with a single tap.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Clean Inbox</h3>
+          <p class="feature-card__desc">A focused conversation list that shows your active chats at a glance. No noise, no algorithm — just the people you actually talk to.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Real-Time Messaging</h3>
+          <p class="feature-card__desc">Send and receive messages instantly. Powered by Firebase Firestore with live updates — your conversation thread stays in sync.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Guest / Dev Mode</h3>
+          <p class="feature-card__desc">Skip OAuth setup during local development. Continue as guest to explore all UI screens without configuring credentials.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Secure Auth Flow</h3>
+          <p class="feature-card__desc">Industry-standard Google OAuth 2.0. Your credentials never touch our servers — Firebase handles authentication end-to-end.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/>
+              <path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Cross-Platform Ready</h3>
+          <p class="feature-card__desc">Built with Flutter — same codebase targets Android, iOS, and Web. One code, many platforms, zero compromise on experience.</p>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- .features -->
+
+  <!-- HOW IT WORKS -->
+  <section class="section how-it-works" id="how" aria-labelledby="how-title">
+    <div class="wrapper">
+      <div class="section__header">
+        <span class="section__eyebrow">How It Works</span>
+        <h2 class="section__title" id="how-title">Up and running in minutes</h2>
+        <p class="section__subtitle">From clone to conversation — get Talkative running locally or deploy your own instance with a few commands.</p>
+      </div>
+
+      <div class="how-grid">
+
+        <div class="how-step">
+          <div class="how-step__num">1</div>
+          <h3 class="how-step__title">Clone the Repo</h3>
+          <p class="how-step__desc">Fork or clone from GitHub. All source code is MIT licensed and fully open to explore.</p>
+        </div>
+
+        <div class="how-step">
+          <div class="how-step__num">2</div>
+          <h3 class="how-step__title">Install Flutter</h3>
+          <p class="how-step__desc">Install Flutter stable and run <code>flutter pub get</code> to fetch all dependencies in seconds.</p>
+        </div>
+
+        <div class="how-step">
+          <div class="how-step__num">3</div>
+          <h3 class="how-step__title">Configure OAuth</h3>
+          <p class="how-step__desc">Set up Google OAuth client IDs in Cloud Console, or use Guest mode to skip setup during dev.</p>
+        </div>
+
+        <div class="how-step">
+          <div class="how-step__num">4</div>
+          <h3 class="how-step__title">Run &amp; Chat</h3>
+          <p class="how-step__desc">Launch with <code>flutter run</code> and start chatting. Run tests with <code>flutter test &amp;&amp; flutter analyze</code>.</p>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- .how-it-works -->
+
+  <!-- TECH STACK -->
+  <section class="section tech" id="tech" aria-labelledby="tech-title">
+    <div class="wrapper">
+      <div class="section__header">
+        <span class="section__eyebrow">Tech Stack</span>
+        <h2 class="section__title" id="tech-title">Built on solid foundations</h2>
+        <p class="section__subtitle">Talkative uses a modern, battle-tested stack. Every technology was chosen for reliability and developer experience.</p>
+      </div>
+
+      <div class="tech-grid">
+
+        <div class="tech-item">
+          <div class="tech-item__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="tech-item__info">
+            <div class="tech-item__name">Flutter + Dart</div>
+            <div class="tech-item__role">Cross-platform UI framework</div>
+          </div>
+        </div>
+
+        <div class="tech-item">
+          <div class="tech-item__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 20h16M4 4h16M9 4v16M15 4v16"/>
+            </svg>
+          </div>
+          <div class="tech-item__info">
+            <div class="tech-item__name">Firebase Firestore</div>
+            <div class="tech-item__role">Real-time database &amp; sync</div>
+          </div>
+        </div>
+
+        <div class="tech-item">
+          <div class="tech-item__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4m0 4h.01"/>
+            </svg>
+          </div>
+          <div class="tech-item__info">
+            <div class="tech-item__name">Google Sign-In</div>
+            <div class="tech-item__role">OAuth 2.0 authentication</div>
+          </div>
+        </div>
+
+        <div class="tech-item">
+          <div class="tech-item__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+          </div>
+          <div class="tech-item__info">
+            <div class="tech-item__name">GitHub CI</div>
+            <div class="tech-item__role">Automated testing &amp; analysis</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- .tech -->
+
+  <!-- CTA / DOWNLOAD -->
+  <section class="section cta-section" id="download" aria-labelledby="cta-title">
+    <div class="wrapper">
+      <div class="cta-section__glow" aria-hidden="true"></div>
+      <div class="cta-section__inner">
+        <h2 class="cta-section__title" id="cta-title">Start chatting, today</h2>
+        <p class="cta-section__subtitle">
+          Clone the repo, run it locally, or fork it and make it your own. Talkative is open source — free forever, for everyone.
+        </p>
+        <div class="cta-section__actions">
+          <a class="btn-primary" href="https://github.com/PiyushMishra318/talkative" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+            Clone on GitHub
+          </a>
+          <a class="btn-secondary" href="https://github.com/PiyushMishra318/talkative/archive/refs/heads/main.zip" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+            </svg>
+            Download ZIP
+          </a>
+        </div>
+      </div>
+    </div>
+  </section><!-- .cta-section -->
+
+  <!-- FOOTER -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">Talkative</span>
+        <span class="footer__tagline">Flutter chat app &mdash; open source</span>
+      </div>
+
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a class="footer__link" href="/" aria-label="Portfolio">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Portfolio
+        </a>
+        <a class="footer__link" href="https://github.com/PiyushMishra318/talkative" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/>
+          </svg>
+          GitHub
+        </a>
+        <a class="footer__link" href="https://github.com/PiyushMishra318/talkative/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+          MIT License
+        </a>
+      </nav>
+
+      <p class="footer__copy">
+        Built by <a class="footer__link" href="/" style="display:inline-flex">Piyush Mishra</a> &mdash; MIT Licensed &copy; 2024
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

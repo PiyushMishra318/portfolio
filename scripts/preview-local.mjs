@@ -88,8 +88,9 @@ function resolvePortfolio(pathname) {
 function resolveProduct(slug, rest) {
   const entry = PRODUCTS[slug];
   if (!entry) return null;
-  const { folder, root: useRoot, staticOut } = entry;
+  const { folder, root: useRoot, staticOut, bundlePath } = entry;
   const base = join(root, "products", folder);
+  const bundledRoot = bundlePath ? join(root, bundlePath) : null;
   const publicDir = staticOut ? join(base, staticOut) : join(base, "public");
 
   if (slug === "canvas-games") {
@@ -106,7 +107,12 @@ function resolveProduct(slug, rest) {
     return safePath(publicDir, "index.html");
   }
 
-  const productRoot = useRoot || (!staticOut && !existsSync(join(base, "public"))) ? base : publicDir;
+  const productRoot =
+    bundledRoot && existsSync(bundledRoot)
+      ? bundledRoot
+      : useRoot || (!staticOut && !existsSync(join(base, "public")))
+        ? base
+        : publicDir;
 
   let rel = rest.replace(/^\//, "");
   if (!rel || rel.endsWith("/")) rel = (rel || "") + "index.html";
