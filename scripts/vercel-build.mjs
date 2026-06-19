@@ -20,6 +20,19 @@ function npmIn(dir, script) {
   if (script) run(`npm run ${script}`, dir, `build ${dir}`);
 }
 
+const apiProducts = [
+  "CodeDiff",
+  "Email-Validation",
+  "lambda",
+  "postman-to-swagger",
+  "realtime-text-readtime",
+  "coot-parser--experimental",
+];
+
+for (const folder of apiProducts) {
+  npmIn(join(root, "products", folder));
+}
+
 npmIn(join(root, "products", "website-page-speed-report"), "build");
 npmIn(join(root, "products", "Tsukiyomi-Platform", "apps", "server"), "build");
 npmIn(join(root, "products", "piyush-playground"), "build");

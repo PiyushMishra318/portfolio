@@ -8,14 +8,14 @@
     }
   ],
   "functions": {
-    "products/CodeDiff/api/compare.ts": { "maxDuration": 30 },
-    "products/Email-Validation/api/validate.ts": { "maxDuration": 30 },
-    "products/lambda/api/simulate.js": { "maxDuration": 30 },
-    "products/postman-to-swagger/api/convert.ts": { "maxDuration": 30 },
-    "products/realtime-text-readtime/api/index.js": { "maxDuration": 30 },
-    "products/coot-parser--experimental/api/index.js": { "maxDuration": 60 },
-    "products/website-page-speed-report/api/pagespeed.ts": { "maxDuration": 60 },
-    "products/Tsukiyomi-Platform/apps/server/api/index.ts": {
+    "api/products/codediff/compare.ts": { "maxDuration": 30 },
+    "api/products/email-validation/validate.ts": { "maxDuration": 30 },
+    "api/products/lambda/simulate.js": { "maxDuration": 30 },
+    "api/products/postman-to-swagger/convert.ts": { "maxDuration": 30 },
+    "api/products/readtime.js": { "maxDuration": 30 },
+    "api/products/coot-parser.js": { "maxDuration": 60 },
+    "api/products/page-speed/pagespeed.ts": { "maxDuration": 60 },
+    "api/products/tsukiyomi.ts": {
       "maxDuration": 60,
       "includeFiles": "products/Tsukiyomi-Platform/apps/server/dist/**,products/Tsukiyomi-Platform/apps/server/GBA_Roms_Names.json,products/Tsukiyomi-Platform/apps/server/GBA_Roms_Genres.json,products/Tsukiyomi-Platform/apps/server/Images/**"
     }
@@ -28,16 +28,16 @@
     { "source": "/project/:slug/", "destination": "/products/:slug/" },
     { "source": "/project/:slug/:path*", "destination": "/products/:slug/:path*" },
 
-    { "source": "/products/codediff/api/compare", "destination": "/products/CodeDiff/api/compare" },
-    { "source": "/products/lambda/api/simulate", "destination": "/products/lambda/api/simulate" },
-    { "source": "/products/email-validation/api/validate", "destination": "/products/Email-Validation/api/validate" },
-    { "source": "/products/postman-to-swagger/convert", "destination": "/products/postman-to-swagger/api/convert" },
-    { "source": "/products/page-speed/api/pagespeed", "destination": "/products/website-page-speed-report/api/pagespeed" },
-    { "source": "/products/readtime", "destination": "/products/realtime-text-readtime/api/index.js" },
-    { "source": "/products/readtime/:path*", "destination": "/products/realtime-text-readtime/api/index.js" },
-    { "source": "/products/coot-parser", "destination": "/products/coot-parser--experimental/api/index.js" },
-    { "source": "/products/coot-parser/:path*", "destination": "/products/coot-parser--experimental/api/index.js" },
-    { "source": "/products/tsukiyomi/api/:path*", "destination": "/products/Tsukiyomi-Platform/apps/server/api/index.ts" },
+    { "source": "/products/codediff/api/compare", "destination": "/api/products/codediff/compare" },
+    { "source": "/products/lambda/api/simulate", "destination": "/api/products/lambda/simulate" },
+    { "source": "/products/email-validation/api/validate", "destination": "/api/products/email-validation/validate" },
+    { "source": "/products/postman-to-swagger/convert", "destination": "/api/products/postman-to-swagger/convert" },
+    { "source": "/products/page-speed/api/pagespeed", "destination": "/api/products/page-speed/pagespeed" },
+    { "source": "/products/readtime", "destination": "/api/products/readtime" },
+    { "source": "/products/readtime/:path*", "destination": "/api/products/readtime" },
+    { "source": "/products/coot-parser", "destination": "/api/products/coot-parser" },
+    { "source": "/products/coot-parser/:path*", "destination": "/api/products/coot-parser" },
+    { "source": "/products/tsukiyomi/api/:path*", "destination": "/api/products/tsukiyomi" },
     { "source": "/products/tsukiyomi/Images/:path*", "destination": "/products/Tsukiyomi-Platform/apps/server/Images/:path*" },
 
     { "source": "/products/playground/_next/:path*", "destination": "/products/piyush-playground/out/_next/:path*" },
