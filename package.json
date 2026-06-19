@@ -6,7 +6,11 @@
   },
   "scripts": {
     "test:utm": "node scripts/test-utm.mjs",
-    "test:imr": "node scripts/test-imr.mjs"
+    "test:imr": "node scripts/test-imr.mjs",
+    "preview:local": "node scripts/preview-local.mjs",
+    "capture:products": "node scripts/capture-product-screenshots.mjs",
+    "capture:screenshots": "node scripts/capture-product-screenshots.mjs",
+    "vercel-build": "node scripts/vercel-build.mjs"
   },
   "devDependencies": {
     "playwright": "^1.52.0"

@@ -1,4 +1,4 @@
-const staticCacheName = "piyush-portfolio-v5";
+const staticCacheName = "piyush-portfolio-v6";
 const filesToCache = [
   "index.html",
   "main.css",

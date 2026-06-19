@@ -17,3 +17,6 @@ coot-ai-site-landscape.png
 *.report.html
 
 .vercel
+
+# Cloned product repos (each has its own git remote)
+products/

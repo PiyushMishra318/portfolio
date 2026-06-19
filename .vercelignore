@@ -1,0 +1,3 @@
+products/**/node_modules
+products/Tsukiyomi-Platform/apps/mobile/build
+products/Tsukiyomi-Platform/apps/mobile/.cxx
