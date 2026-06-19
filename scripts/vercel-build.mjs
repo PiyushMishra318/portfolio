@@ -32,10 +32,23 @@ const PRODUCT_REPOS = {
   XBat: "XBat",
 };
 
-function run(cmd, cwd, label) {
+function run(cmd, cwd, label, { optional = false } = {}) {
   console.log(`[vercel-build] ${label}: ${cmd}`);
   const r = spawnSync(cmd, { cwd, shell: true, stdio: "inherit", env: process.env });
-  if (r.status !== 0) process.exit(r.status ?? 1);
+  if (r.status !== 0) {
+    if (optional) {
+      console.warn(`[vercel-build] ${label} failed (continuing)`);
+      return false;
+    }
+    process.exit(r.status ?? 1);
+  }
+  return true;
+}
+
+function cloneUrl(repo) {
+  const token = process.env.GITHUB_TOKEN || process.env.VERCEL_GITHUB_TOKEN;
+  if (!token) return `https://github.com/PiyushMishra318/${repo}.git`;
+  return `https://x-access-token:${token}@github.com/PiyushMishra318/${repo}.git`;
 }
 
 function hasProduct(dir) {
@@ -56,17 +69,18 @@ function ensureProducts() {
       continue;
     }
     run(
-      `git clone --depth 1 "https://github.com/PiyushMishra318/${repo}.git" "${dir}"`,
+      `git clone --depth 1 "${cloneUrl(repo)}" "${dir}"`,
       root,
       `clone ${repo}`,
+      { optional: true },
     );
   }
 }
 
 function npmIn(dir, script) {
   if (!existsSync(join(dir, "package.json"))) return;
-  run("npm install", dir, `install ${dir}`);
-  if (script) run(`npm run ${script}`, dir, `build ${dir}`);
+  run("npm install", dir, `install ${dir}`, { optional: true });
+  if (script) run(`npm run ${script}`, dir, `build ${dir}`, { optional: true });
 }
 
 ensureProducts();
