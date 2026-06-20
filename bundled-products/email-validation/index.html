@@ -61,63 +61,163 @@
           </a>
         </div>
 
-        <!-- Demo UI mockup -->
-        <div class="demo-card animate-fade-up animate-delay-4">
-          <div class="demo-card__bar">
+        <!-- Interactive SES Simulator -->
+        <div class="ses-sim animate-fade-up animate-delay-4" role="region" aria-label="SES Verdict Simulator">
+          <div class="ses-sim__bar">
             <div class="demo-dot demo-dot--red"></div>
             <div class="demo-dot demo-dot--amber"></div>
             <div class="demo-dot demo-dot--green"></div>
-            <span class="demo-card__title">email-validation.vercel.app — SES Verdict Simulator</span>
+            <span class="ses-sim__title">SES Verdict Simulator — client-side</span>
           </div>
-          <div class="demo-card__body">
-            <div class="demo-row">
-              <div class="demo-verdict">
-                <span class="demo-verdict__label">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div class="ses-sim__body">
+
+            <!-- Email fields -->
+            <div class="ses-fields">
+              <div class="ses-field-row">
+                <label class="ses-label" for="sim-from">From</label>
+                <input class="ses-input" id="sim-from" type="email" value="spammer@untrusted.xyz" autocomplete="off" />
+              </div>
+              <div class="ses-field-row">
+                <label class="ses-label" for="sim-subject">Subject</label>
+                <input class="ses-input" id="sim-subject" type="text" value="YOU WON $1,000,000 — Claim now!!!" autocomplete="off" />
+              </div>
+              <div class="ses-field-row ses-field-row--body">
+                <label class="ses-label" for="sim-body">Body</label>
+                <textarea class="ses-input ses-textarea" id="sim-body" rows="2">Click here to claim your prize. No strings attached.</textarea>
+              </div>
+            </div>
+
+            <!-- Verdict toggles -->
+            <div class="ses-verdicts" role="group" aria-label="Verdict toggles">
+              <div class="ses-verdict-item" data-check="spf">
+                <span class="ses-verdict-name">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                   SPF
                 </span>
-                <span class="demo-verdict__pass">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                  PASS
-                </span>
+                <button class="ses-toggle ses-toggle--pass" aria-pressed="false" aria-label="SPF verdict — currently PASS, click to toggle">
+                  <span class="ses-toggle__pass">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    PASS
+                  </span>
+                  <span class="ses-toggle__fail">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    FAIL
+                  </span>
+                </button>
               </div>
-              <div class="demo-verdict">
-                <span class="demo-verdict__label">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+              <div class="ses-verdict-item" data-check="dkim">
+                <span class="ses-verdict-name">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                   DKIM
                 </span>
-                <span class="demo-verdict__pass">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                  PASS
-                </span>
+                <button class="ses-toggle ses-toggle--pass" aria-pressed="false" aria-label="DKIM verdict — currently PASS, click to toggle">
+                  <span class="ses-toggle__pass">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    PASS
+                  </span>
+                  <span class="ses-toggle__fail">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    FAIL
+                  </span>
+                </button>
               </div>
-              <div class="demo-verdict">
-                <span class="demo-verdict__label">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              <div class="ses-verdict-item" data-check="spam">
+                <span class="ses-verdict-name">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
                   Spam
                 </span>
-                <span class="demo-verdict__fail">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                  FAIL
-                </span>
+                <button class="ses-toggle ses-toggle--pass" aria-pressed="false" aria-label="Spam verdict — currently PASS, click to toggle">
+                  <span class="ses-toggle__pass">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    PASS
+                  </span>
+                  <span class="ses-toggle__fail">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    FAIL
+                  </span>
+                </button>
               </div>
-              <div class="demo-verdict">
-                <span class="demo-verdict__label">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <div class="ses-verdict-item" data-check="virus">
+                <span class="ses-verdict-name">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                   Virus
                 </span>
-                <span class="demo-verdict__pass">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                  PASS
-                </span>
+                <button class="ses-toggle ses-toggle--pass" aria-pressed="false" aria-label="Virus verdict — currently PASS, click to toggle">
+                  <span class="ses-toggle__pass">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    PASS
+                  </span>
+                  <span class="ses-toggle__fail">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    FAIL
+                  </span>
+                </button>
               </div>
             </div>
-            <div class="demo-result">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Verdict: BOUNCE — spam check failed. Message rejected.
+
+            <!-- Run button -->
+            <button class="ses-run-btn" id="sesRunBtn" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Run Verdict
+            </button>
+
+            <!-- Output -->
+            <div class="ses-output" id="sesOutput" aria-live="polite" aria-atomic="true" hidden>
+              <div class="ses-output__inner" id="sesOutputInner"></div>
             </div>
+
           </div>
         </div>
+
+        <script>
+        (function () {
+          var toggles = {};
+          document.querySelectorAll('.ses-verdict-item').forEach(function (item) {
+            var check = item.dataset.check;
+            var btn = item.querySelector('.ses-toggle');
+            toggles[check] = 'PASS';
+            btn.addEventListener('click', function () {
+              if (toggles[check] === 'PASS') {
+                toggles[check] = 'FAIL';
+                btn.className = 'ses-toggle ses-toggle--fail';
+                btn.setAttribute('aria-pressed', 'true');
+                btn.setAttribute('aria-label', check.toUpperCase() + ' verdict — currently FAIL, click to toggle');
+              } else {
+                toggles[check] = 'PASS';
+                btn.className = 'ses-toggle ses-toggle--pass';
+                btn.setAttribute('aria-pressed', 'false');
+                btn.setAttribute('aria-label', check.toUpperCase() + ' verdict — currently PASS, click to toggle');
+              }
+            });
+          });
+
+          document.getElementById('sesRunBtn').addEventListener('click', function () {
+            var failed = Object.keys(toggles).filter(function (k) { return toggles[k] === 'FAIL'; });
+            var bounce = failed.length > 0;
+            var output = document.getElementById('sesOutput');
+            var inner = document.getElementById('sesOutputInner');
+            output.removeAttribute('hidden');
+
+            if (bounce) {
+              var labels = { spf: 'SPF', dkim: 'DKIM', spam: 'Spam', virus: 'Virus' };
+              var failList = failed.map(function (k) { return '<span class="ses-fail-badge">' + labels[k] + '</span>'; }).join(' ');
+              inner.innerHTML =
+                '<div class="ses-result ses-result--bounce">' +
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>' +
+                '<strong>BOUNCE</strong> — ses:SendBounce fired. Failed checks: ' + failList +
+                '</div>' +
+                '<div class="ses-disposition">disposition: STOP_RULE_SET</div>';
+            } else {
+              inner.innerHTML =
+                '<div class="ses-result ses-result--pass">' +
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
+                '<strong>ACCEPT</strong> — All four verdicts passed. Message delivered.' +
+                '</div>' +
+                '<div class="ses-disposition">disposition: CONTINUE</div>';
+            }
+          });
+        })();
+        </script>
       </section>
 
       <!-- FEATURES (BENTO GRID) -->

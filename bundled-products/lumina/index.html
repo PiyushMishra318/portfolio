@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumina — Walkthroughs become browser tests</title>
+  <meta name="description" content="Record a product walkthrough once. Lumina transcribes narration, analyzes frames, generates AI test cases, and runs them in Playwright — fully self-hosted." />
+  <meta name="theme-color" content="#080500" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Ambient page glow -->
+  <div class="page-glow" aria-hidden="true"></div>
+
+  <!-- ── NAV ──────────────────────────────────────────────── -->
+  <nav class="nav" aria-label="Site navigation">
+    <div class="nav__inner">
+      <a class="nav__brand" href="/" aria-label="Back to piyushm.dev portfolio">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        PIYUSHM.DEV
+      </a>
+      <span class="nav__product">Lumina</span>
+      <a class="nav__cta" href="https://github.com/PiyushMishra318/lumina" target="_blank" rel="noopener noreferrer" aria-label="View Lumina on GitHub">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+        GitHub
+      </a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ── HERO ──────────────────────────────────────────── -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__film-grain" aria-hidden="true"></div>
+      <div class="hero__inner">
+
+        <div class="hero__badge" role="status" aria-label="Self-hosted, AI-powered">
+          <span class="hero__badge-dot" aria-hidden="true"></span>
+          Self-hosted &middot; AI-powered
+        </div>
+
+        <h1 class="hero__title" id="hero-heading">
+          Record once.<br>
+          <span class="hero__title-highlight">Test forever.</span>
+        </h1>
+
+        <p class="hero__subtitle">
+          Lumina turns your Loom-style screen recordings into live Playwright browser tests — automatically. No writing test scripts. No cloud. Runs entirely on your machine.
+        </p>
+
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="https://github.com/PiyushMishra318/lumina" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            View on GitHub
+          </a>
+          <a class="btn btn--ghost" href="#how-it-works">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+            </svg>
+            See how it works
+          </a>
+        </div>
+
+        <div class="hero__scroll-hint" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+          Scroll
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── DEMO WINDOW ───────────────────────────────────── -->
+    <section class="demo" aria-label="Code demo">
+      <div class="demo__inner">
+        <div class="demo__window" role="img" aria-label="Lumina test output example">
+
+          <div class="demo__titlebar" aria-hidden="true">
+            <div class="demo__dots">
+              <span class="demo__dot demo__dot--red"></span>
+              <span class="demo__dot demo__dot--yellow"></span>
+              <span class="demo__dot demo__dot--green"></span>
+            </div>
+            <span class="demo__tab">lumina &mdash; test_runner.py</span>
+          </div>
+
+          <div class="demo__body" aria-hidden="true">
+            <div class="demo__line">
+              <span class="demo__line-num">1</span>
+              <span class="demo__comment"># Lumina auto-generated test suite from recording.mp4</span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">2</span>
+              <span>&nbsp;</span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">3</span>
+              <span><span class="demo__keyword">from</span> <span class="demo__param">lumina</span> <span class="demo__keyword">import</span> <span class="demo__fn">LuminaRunner</span></span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">4</span>
+              <span>&nbsp;</span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">5</span>
+              <span><span class="demo__param">runner</span> = <span class="demo__fn">LuminaRunner</span>(<span class="demo__string">"recording.mp4"</span>)</span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">6</span>
+              <span><span class="demo__param">report</span> = <span class="demo__param">runner</span>.<span class="demo__fn">run</span>(headless=<span class="demo__keyword">True</span>)</span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">7</span>
+              <span>&nbsp;</span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">8</span>
+              <span class="demo__comment"># Results</span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">9</span>
+              <span><span class="demo__pass">PASS</span><span class="demo__muted">  navigate to /dashboard ........................ 142ms</span></span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">10</span>
+              <span><span class="demo__pass">PASS</span><span class="demo__muted">  click "New Project" button ..................... 89ms</span></span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">11</span>
+              <span><span class="demo__pass">PASS</span><span class="demo__muted">  fill in project name field ................... 203ms</span></span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">12</span>
+              <span><span class="demo__pass">PASS</span><span class="demo__muted">  verify success toast visible .................. 67ms</span></span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">13</span>
+              <span>&nbsp;</span>
+            </div>
+            <div class="demo__line">
+              <span class="demo__line-num">14</span>
+              <span><span class="demo__muted">Tests: </span><span class="demo__pass">4 passed</span><span class="demo__muted"> (4 total) &middot; Duration: 501ms</span></span>
+            </div>
+          </div>
+
+          <div class="demo__status-bar" aria-hidden="true">
+            <span class="demo__status-indicator">
+              <span class="demo__status-dot"></span>
+              All tests passing
+            </span>
+            <span>Playwright 1.40</span>
+            <span>Whisper base &middot; local</span>
+            <span>Ollama llama2</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── HOW IT WORKS (PIPELINE) ──────────────────────── -->
+    <section class="pipeline" id="how-it-works" aria-labelledby="pipeline-heading">
+      <div class="pipeline__inner">
+
+        <p class="section-label">How it works</p>
+        <h2 class="section-heading" id="pipeline-heading">Four steps from recording to green tests</h2>
+        <p class="section-subheading">Lumina chains together audio transcription, frame analysis, AI reasoning, and real browser execution — all without leaving your local machine.</p>
+
+        <ol class="pipeline__steps">
+
+          <li class="pipeline__step">
+            <p class="pipeline__step-num">Step 01</p>
+            <div class="pipeline__step-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 10l4.553-2.069A1 1 0 0121 8.876V15.124a1 1 0 01-1.447.895L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
+              </svg>
+            </div>
+            <h3 class="pipeline__step-title">Extract Audio &amp; Frames</h3>
+            <p class="pipeline__step-desc">FFmpeg strips audio from your Loom-style MP4. Key video frames are sampled for visual context alongside the narration track.</p>
+          </li>
+
+          <li class="pipeline__step">
+            <p class="pipeline__step-num">Step 02</p>
+            <div class="pipeline__step-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v3M8 22h8"/>
+              </svg>
+            </div>
+            <h3 class="pipeline__step-title">Transcribe with Whisper</h3>
+            <p class="pipeline__step-desc">Local Whisper converts spoken narration into timestamped text — no cloud API, no data leaving your machine, GPU-optional.</p>
+          </li>
+
+          <li class="pipeline__step">
+            <p class="pipeline__step-num">Step 03</p>
+            <div class="pipeline__step-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M17.5 17.5l2.5 2.5M14 17.5h7M17.5 14v7"/>
+              </svg>
+            </div>
+            <h3 class="pipeline__step-title">Generate Test Cases via AI</h3>
+            <p class="pipeline__step-desc">Ollama + LangChain fuse transcript and frame data to produce structured Playwright test steps — each with assertions and selectors.</p>
+          </li>
+
+          <li class="pipeline__step">
+            <p class="pipeline__step-num">Step 04</p>
+            <div class="pipeline__step-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+              </svg>
+            </div>
+            <h3 class="pipeline__step-title">Run in Playwright</h3>
+            <p class="pipeline__step-desc">Tests execute in a real Chromium browser — headless or headed, parallel or sequential — with screenshots captured on every failure.</p>
+          </li>
+
+        </ol>
+      </div>
+    </section>
+
+    <div class="divider" role="separator"></div>
+
+    <!-- ── FEATURES ──────────────────────────────────────── -->
+    <section class="features" aria-labelledby="features-heading">
+      <div class="features__inner">
+
+        <div class="features__header">
+          <p class="section-label">Features</p>
+          <h2 class="section-heading" id="features-heading">Everything you need to test from video</h2>
+          <p class="section-subheading">Built for developers who want CI-ready coverage without the manual scripting overhead.</p>
+        </div>
+
+        <ul class="features__grid">
+
+          <li class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Fully Self-hosted</h3>
+            <p class="feature-card__desc">No cloud dependencies. Whisper, Ollama, and Playwright all run locally. Your recordings and tests stay on-premise.</p>
+          </li>
+
+          <li class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Parallel Execution</h3>
+            <p class="feature-card__desc">Test steps run concurrently across browser workers. Dramatically reduces wall-clock time for large test suites.</p>
+          </li>
+
+          <li class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Screenshot on Failure</h3>
+            <p class="feature-card__desc">Every failing step captures a full-page screenshot automatically, so you always know exactly what broke and where.</p>
+          </li>
+
+          <li class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">JSON Report Output</h3>
+            <p class="feature-card__desc">Structured JSON reports with pass/fail status, timings, and screenshot paths — ready to integrate with CI pipelines or dashboards.</p>
+          </li>
+
+          <li class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Desktop &amp; Headless Modes</h3>
+            <p class="feature-card__desc">Watch tests run in a visible browser window during development, then flip to headless mode for unattended CI execution.</p>
+          </li>
+
+          <li class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Lampshade Integration</h3>
+            <p class="feature-card__desc">Designed as the spotlight testing module for Lampshade — slot directly into your existing project review pipeline.</p>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+    <div class="divider" role="separator"></div>
+
+    <!-- ── TECH STACK ─────────────────────────────────────── -->
+    <section class="tech" aria-labelledby="tech-heading">
+      <div class="tech__inner">
+
+        <div>
+          <p class="section-label">Tech stack</p>
+          <h2 class="section-heading" id="tech-heading">Open source, local-first, no SaaS lock-in</h2>
+          <p class="section-subheading">Every component is battle-tested open source. Swap out the LLM, adjust the ASR model, or bring your own Playwright config.</p>
+
+          <div class="tech__pills" role="list" aria-label="Technology list">
+            <span class="tech__pill" role="listitem"><span class="tech__pill-dot" aria-hidden="true"></span>Python 3.11+</span>
+            <span class="tech__pill" role="listitem"><span class="tech__pill-dot" aria-hidden="true"></span>Playwright</span>
+            <span class="tech__pill" role="listitem"><span class="tech__pill-dot" aria-hidden="true"></span>Whisper (local)</span>
+            <span class="tech__pill" role="listitem"><span class="tech__pill-dot" aria-hidden="true"></span>Ollama LLM</span>
+            <span class="tech__pill" role="listitem"><span class="tech__pill-dot" aria-hidden="true"></span>LangChain</span>
+            <span class="tech__pill" role="listitem"><span class="tech__pill-dot" aria-hidden="true"></span>FFmpeg</span>
+            <span class="tech__pill" role="listitem"><span class="tech__pill-dot" aria-hidden="true"></span>Tesseract OCR</span>
+            <span class="tech__pill" role="listitem"><span class="tech__pill-dot" aria-hidden="true"></span>Chromium</span>
+          </div>
+        </div>
+
+        <div class="tech__architecture" aria-label="Processing pipeline architecture">
+          <p class="arch__title">Processing Pipeline</p>
+          <div class="arch__flow">
+
+            <div class="arch__node">
+              <div class="arch__node-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 10l4.553-2.069A1 1 0 0121 8.876V15.124a1 1 0 01-1.447.895L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
+                </svg>
+              </div>
+              <div class="arch__node-text">
+                <span class="arch__node-label">Video Input</span>
+                <span class="arch__node-sublabel">MP4 / Loom recording</span>
+              </div>
+            </div>
+
+            <div class="arch__arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+              </svg>
+            </div>
+
+            <div class="arch__node">
+              <div class="arch__node-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/>
+                </svg>
+              </div>
+              <div class="arch__node-text">
+                <span class="arch__node-label">Whisper ASR</span>
+                <span class="arch__node-sublabel">Local transcription, timestamped</span>
+              </div>
+            </div>
+
+            <div class="arch__arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+              </svg>
+            </div>
+
+            <div class="arch__node">
+              <div class="arch__node-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+                </svg>
+              </div>
+              <div class="arch__node-text">
+                <span class="arch__node-label">Ollama + LangChain</span>
+                <span class="arch__node-sublabel">Structured test case generation</span>
+              </div>
+            </div>
+
+            <div class="arch__arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+              </svg>
+            </div>
+
+            <div class="arch__node">
+              <div class="arch__node-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                  <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                </svg>
+              </div>
+              <div class="arch__node-text">
+                <span class="arch__node-label">Playwright Runner</span>
+                <span class="arch__node-sublabel">Chromium, JSON report + screenshots</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── CTA ───────────────────────────────────────────── -->
+    <section class="cta-section" aria-labelledby="cta-heading">
+      <div class="cta-section__inner">
+        <div class="cta-section__card">
+          <h2 class="cta-section__title" id="cta-heading">
+            Stop writing tests.<br>Start recording them.
+          </h2>
+          <p class="cta-section__subtitle">
+            Clone Lumina, point it at a screen recording, and have a full Playwright test suite in minutes — zero cloud required.
+          </p>
+          <div class="cta-section__actions">
+            <a class="btn btn--primary" href="https://github.com/PiyushMishra318/lumina" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+              Clone on GitHub
+            </a>
+            <a class="btn btn--ghost" href="#how-it-works">
+              Read the docs
+            </a>
+          </div>
+          <p class="cta-section__note">Open source &middot; MIT license &middot; Self-hosted</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <span class="footer__brand">Lumina</span>
+      <span class="footer__copy">&copy; 2024 Piyush Mishra</span>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a class="footer__link" href="/" aria-label="Back to piyushm.dev portfolio">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          piyushm.dev
+        </a>
+        <a class="footer__link" href="https://github.com/PiyushMishra318/lumina" target="_blank" rel="noopener noreferrer" aria-label="View Lumina source on GitHub">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          GitHub
+        </a>
+      </nav>
+    </div>
+  </footer>
+
+</body>
+</html>

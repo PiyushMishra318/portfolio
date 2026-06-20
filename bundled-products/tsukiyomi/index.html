@@ -101,46 +101,117 @@
           <div class="hero__device-frame">
             <div class="hero__device-screen">
               <!-- Simulated app UI inside device -->
-              <div style="
-                padding: 44px 12px 12px;
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-                height: 100%;
-                position: relative;
-                z-index: 0;
-              ">
-                <div style="
-                  font-family: 'Syne', sans-serif;
-                  font-size: 10px;
-                  font-weight: 700;
-                  color: #3dffc8;
-                  letter-spacing: 0.12em;
-                  text-transform: uppercase;
-                  padding: 0 4px;
-                ">月夜見 &mdash; GBA</div>
-                <!-- Fake game tiles -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex: 1; overflow: hidden;">
-                  <div style="background: #111929; border-radius: 8px; border: 1px solid rgba(61,255,200,0.15); aspect-ratio: 4/3; display:flex;align-items:center;justify-content:center;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3dffc8" stroke-width="1.5" opacity="0.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              <div style="padding:44px 0 0;display:flex;flex-direction:column;height:100%;position:relative;z-index:0;overflow:hidden;">
+
+                <!-- ── TOP PANEL: GBA game list ── -->
+                <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+                  <!-- Screen header -->
+                  <div style="padding:0 10px 6px;display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-family:'Syne',sans-serif;font-size:9px;font-weight:700;color:#3dffc8;letter-spacing:0.14em;text-transform:uppercase;">月夜見 · Library</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3dffc8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                   </div>
-                  <div style="background: #111929; border-radius: 8px; border: 1px solid rgba(61,255,200,0.15); aspect-ratio: 4/3; display:flex;align-items:center;justify-content:center;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                  </div>
-                  <div style="background: #111929; border-radius: 8px; border: 1px solid rgba(61,255,200,0.15); aspect-ratio: 4/3; display:flex;align-items:center;justify-content:center;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3dffc8" stroke-width="1.5" opacity="0.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                  </div>
-                  <div style="background: #111929; border-radius: 8px; border: 1px solid rgba(61,255,200,0.15); aspect-ratio: 4/3; display:flex;align-items:center;justify-content:center;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                  </div>
+
+                  <!-- Game list as inline SVG -->
+                  <svg viewBox="0 0 180 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;flex:1;" preserveAspectRatio="xMidYMid meet">
+                    <!-- Row 1: Pokémon Emerald -->
+                    <rect x="6" y="2" width="168" height="54" rx="6" fill="#0d1420" stroke="#1a2535" stroke-width="1"/>
+                    <!-- Cover art -->
+                    <rect x="12" y="8" width="38" height="42" rx="4" fill="#1a4a2a"/>
+                    <rect x="14" y="10" width="34" height="38" rx="3" fill="#22643a"/>
+                    <ellipse cx="31" cy="29" rx="9" ry="9" fill="#3dffc8" opacity="0.8"/>
+                    <ellipse cx="31" cy="29" rx="5" ry="5" fill="#080c14"/>
+                    <ellipse cx="31" cy="29" rx="2" ry="2" fill="#3dffc8"/>
+                    <!-- Text -->
+                    <text x="56" y="20" font-family="sans-serif" font-size="8" font-weight="700" fill="#e2eaf5">Pokémon Emerald</text>
+                    <rect x="56" y="24" width="28" height="8" rx="3" fill="rgba(61,255,200,0.15)" stroke="rgba(61,255,200,0.4)" stroke-width="0.5"/>
+                    <text x="60" y="30.5" font-family="sans-serif" font-size="5.5" fill="#3dffc8">RPG</text>
+                    <text x="56" y="42" font-family="sans-serif" font-size="6" fill="#8fa3be">GBA · 2004</text>
+                    <!-- Play button -->
+                    <circle cx="158" cy="29" r="10" fill="rgba(61,255,200,0.12)" stroke="#3dffc8" stroke-width="0.8"/>
+                    <polygon points="155,25 163,29 155,33" fill="#3dffc8"/>
+
+                    <!-- Row 2: Metroid Fusion -->
+                    <rect x="6" y="62" width="168" height="54" rx="6" fill="#0d1420" stroke="#1a2535" stroke-width="1"/>
+                    <rect x="12" y="68" width="38" height="42" rx="4" fill="#0a1a2e"/>
+                    <rect x="14" y="70" width="34" height="38" rx="3" fill="#0d2240"/>
+                    <ellipse cx="31" cy="89" rx="10" ry="10" fill="#ff6b35" opacity="0.6"/>
+                    <rect x="25" y="83" width="12" height="12" rx="2" fill="#ff6b35" opacity="0.9"/>
+                    <rect x="28" y="86" width="6" height="6" rx="1" fill="#fff5e6"/>
+                    <text x="56" y="80" font-family="sans-serif" font-size="8" font-weight="700" fill="#e2eaf5">Metroid Fusion</text>
+                    <rect x="56" y="84" width="34" height="8" rx="3" fill="rgba(255,107,53,0.15)" stroke="rgba(255,107,53,0.4)" stroke-width="0.5"/>
+                    <text x="60" y="90.5" font-family="sans-serif" font-size="5.5" fill="#ff8c5a">Action</text>
+                    <text x="56" y="102" font-family="sans-serif" font-size="6" fill="#8fa3be">GBA · 2002</text>
+                    <circle cx="158" cy="89" r="10" fill="rgba(255,107,53,0.1)" stroke="#ff6b35" stroke-width="0.8"/>
+                    <polygon points="155,85 163,89 155,93" fill="#ff6b35"/>
+
+                    <!-- Row 3: Fire Emblem -->
+                    <rect x="6" y="122" width="168" height="54" rx="6" fill="#0d1420" stroke="#1a2535" stroke-width="1"/>
+                    <rect x="12" y="128" width="38" height="42" rx="4" fill="#2a0d0d"/>
+                    <rect x="14" y="130" width="34" height="38" rx="3" fill="#401010"/>
+                    <polygon points="31,135 36,148 31,145 26,148" fill="#e84040"/>
+                    <polygon points="31,138 34,146 31,143 28,146" fill="#ff8080"/>
+                    <rect x="28" y="148" width="6" height="10" rx="1" fill="#8fa3be"/>
+                    <text x="56" y="140" font-family="sans-serif" font-size="8" font-weight="700" fill="#e2eaf5">Fire Emblem</text>
+                    <rect x="56" y="144" width="34" height="8" rx="3" fill="rgba(232,64,64,0.15)" stroke="rgba(232,64,64,0.4)" stroke-width="0.5"/>
+                    <text x="60" y="150.5" font-family="sans-serif" font-size="5.5" fill="#e84040">Strategy</text>
+                    <text x="56" y="162" font-family="sans-serif" font-size="6" fill="#8fa3be">GBA · 2003</text>
+                    <circle cx="158" cy="149" r="10" fill="rgba(232,64,64,0.1)" stroke="#e84040" stroke-width="0.8"/>
+                    <polygon points="155,145 163,149 155,153" fill="#e84040"/>
+                  </svg>
                 </div>
-                <!-- Bottom nav bar -->
-                <div style="display:flex;justify-content:space-around;padding: 8px 0 4px; border-top: 1px solid rgba(61,255,200,0.1);">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3dffc8" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4d5e80" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4d5e80" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4d5e80" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+
+                <!-- ── BOTTOM PANEL: Game detail view ── -->
+                <div style="border-top:1px solid #1a2535;background:#080c14;padding:8px 10px 6px;flex-shrink:0;">
+                  <svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" preserveAspectRatio="xMidYMid meet">
+                    <!-- Cover art large -->
+                    <rect x="4" y="4" width="52" height="60" rx="6" fill="#1a4a2a"/>
+                    <rect x="6" y="6" width="48" height="56" rx="5" fill="#22643a"/>
+                    <ellipse cx="30" cy="34" rx="14" ry="14" fill="#3dffc8" opacity="0.8"/>
+                    <ellipse cx="30" cy="34" rx="8" ry="8" fill="#080c14"/>
+                    <ellipse cx="30" cy="34" rx="3" ry="3" fill="#3dffc8"/>
+                    <text x="30" y="72" font-family="sans-serif" font-size="5" fill="#8fa3be" text-anchor="middle">GBA · 2004</text>
+
+                    <!-- Title + meta -->
+                    <text x="62" y="14" font-family="sans-serif" font-size="8.5" font-weight="700" fill="#e2eaf5">Pokémon Emerald</text>
+                    <!-- Stars -->
+                    <text x="62" y="24" font-family="sans-serif" font-size="9" fill="#3dffc8">★★★★</text>
+                    <text x="98" y="24" font-family="sans-serif" font-size="9" fill="#1a2535">★</text>
+                    <text x="110" y="24" font-family="sans-serif" font-size="5" fill="#8fa3be">4.2</text>
+
+                    <!-- Tags -->
+                    <rect x="62" y="28" width="22" height="8" rx="3" fill="rgba(61,255,200,0.12)" stroke="rgba(61,255,200,0.35)" stroke-width="0.5"/>
+                    <text x="66" y="34.5" font-family="sans-serif" font-size="5.2" fill="#3dffc8">RPG</text>
+                    <rect x="87" y="28" width="30" height="8" rx="3" fill="rgba(168,85,247,0.12)" stroke="rgba(168,85,247,0.35)" stroke-width="0.5"/>
+                    <text x="91" y="34.5" font-family="sans-serif" font-size="5.2" fill="#a855f7">Adventure</text>
+                    <rect x="120" y="28" width="26" height="8" rx="3" fill="rgba(143,163,190,0.1)" stroke="#1a2535" stroke-width="0.5"/>
+                    <text x="124" y="34.5" font-family="sans-serif" font-size="5.2" fill="#8fa3be">Nintendo</text>
+
+                    <!-- Description lines -->
+                    <rect x="62" y="42" width="110" height="4" rx="2" fill="#1a2535"/>
+                    <rect x="62" y="49" width="88" height="4" rx="2" fill="#1a2535"/>
+                    <rect x="62" y="56" width="96" height="4" rx="2" fill="#1a2535"/>
+
+                    <!-- Launch button -->
+                    <rect x="62" y="66" width="110" height="18" rx="5" fill="#3dffc8"/>
+                    <polygon points="107,72 113,75 107,78" fill="#080c14"/>
+                    <text x="120" y="78" font-family="sans-serif" font-size="6.5" font-weight="700" fill="#080c14">Launch Game</text>
+
+                    <!-- Divider line -->
+                    <line x1="4" y1="94" x2="176" y2="94" stroke="#1a2535" stroke-width="0.5"/>
+                    <!-- Bottom nav -->
+                    <text x="22" y="106" font-family="sans-serif" font-size="5" fill="#3dffc8" text-anchor="middle">Home</text>
+                    <text x="62" y="106" font-family="sans-serif" font-size="5" fill="#4d5e80" text-anchor="middle">Browse</text>
+                    <text x="102" y="106" font-family="sans-serif" font-size="5" fill="#4d5e80" text-anchor="middle">Favs</text>
+                    <text x="142" y="106" font-family="sans-serif" font-size="5" fill="#4d5e80" text-anchor="middle">Profile</text>
+                    <!-- Nav icons -->
+                    <path d="M18,97 L22,94 L26,97 L26,103 L18,103 Z" fill="none" stroke="#3dffc8" stroke-width="1"/>
+                    <rect x="57" y="94" width="10" height="8" rx="2" fill="none" stroke="#4d5e80" stroke-width="0.8"/>
+                    <circle cx="102" cy="98" r="4" fill="none" stroke="#4d5e80" stroke-width="0.8"/>
+                    <circle cx="140" cy="96" r="3" fill="none" stroke="#4d5e80" stroke-width="0.8"/>
+                    <path d="M136,103 Q136,100 140,100 Q144,100 144,103" fill="none" stroke="#4d5e80" stroke-width="0.8"/>
+                  </svg>
                 </div>
+
               </div>
             </div>
           </div>

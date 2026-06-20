@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canvas JS Games — Retro Arcade Collection</title>
+  <meta name="description" content="A collection of vanilla HTML5 Canvas mini-games — Flappy Bird and Space Shooter — with high-DPI scaling, sprite animations, medals, and mobile support." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- CRT OVERLAY -->
+  <div class="crt-overlay" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       NAV
+       ============================================================ -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="nav-logo" aria-label="Back to portfolio — PIYUSHM.DEV">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      PIYUSHM.DEV
+    </a>
+    <a href="/products/canvas-games/" class="nav-cta">
+      PLAY NOW
+    </a>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="scanlines" aria-hidden="true"></div>
+    <div class="hero-bg-grid" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge" role="status">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+        VANILLA JS · NO FRAMEWORKS · NO BUILD STEP
+      </div>
+
+      <h1 class="hero-title" id="hero-title">
+        CANVAS
+        <span class="hero-title-accent">JS GAMES</span>
+      </h1>
+
+      <p class="hero-tagline">
+        Two fully playable arcade games built with <strong>pure HTML5 Canvas</strong>.
+        High-DPI rendering, sprite sheets, and mobile joystick support — zero dependencies.
+      </p>
+
+      <div class="hero-pixel-art" aria-hidden="true">
+        <!-- Pixel bird sprite (SVG) -->
+        <svg class="pixel-sprite" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="8" height="6" rx="1" fill="#FACC15"/>
+          <rect x="10" y="5" width="3" height="2" rx="0.5" fill="#F97316"/>
+          <rect x="6" y="5" width="2" height="2" rx="0.5" fill="#0F172A"/>
+          <rect x="7" y="5" width="1" height="1" fill="#fff"/>
+          <rect x="3" y="6" width="3" height="2" rx="0.5" fill="#FACC15"/>
+          <rect x="5" y="10" width="2" height="2" rx="0.5" fill="#F97316"/>
+          <rect x="8" y="10" width="2" height="2" rx="0.5" fill="#F97316"/>
+        </svg>
+        <!-- Pixel spaceship sprite (SVG) -->
+        <svg class="pixel-sprite" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="7" y="1" width="2" height="3" rx="0.5" fill="#22D3EE"/>
+          <rect x="5" y="4" width="6" height="4" rx="0.5" fill="#A78BFA"/>
+          <rect x="3" y="7" width="10" height="3" rx="0.5" fill="#7C3AED"/>
+          <rect x="1" y="9" width="4" height="2" rx="0.5" fill="#4ADE80"/>
+          <rect x="11" y="9" width="4" height="2" rx="0.5" fill="#4ADE80"/>
+          <rect x="6" y="5" width="4" height="2" rx="0.5" fill="#22D3EE"/>
+          <rect x="6" y="11" width="2" height="2" rx="0.5" fill="#F43F5E"/>
+          <rect x="8" y="11" width="2" height="2" rx="0.5" fill="#F43F5E"/>
+        </svg>
+        <!-- Pixel coin sprite (SVG) -->
+        <svg class="pixel-sprite" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="2" width="6" height="12" rx="3" fill="#FACC15"/>
+          <rect x="6" y="3" width="4" height="10" rx="2" fill="#FEF08A"/>
+          <rect x="7" y="5" width="2" height="1" fill="#FACC15"/>
+          <rect x="7" y="7" width="2" height="4" fill="#FACC15"/>
+        </svg>
+      </div>
+
+      <div class="hero-actions">
+        <a href="/products/canvas-games/" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          PLAY GAMES
+        </a>
+        <a href="https://github.com/PiyushMishra318/HTML5-Canvas-Mini-Games" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          VIEW SOURCE
+        </a>
+      </div>
+
+      <div class="hero-scroll-hint" aria-hidden="true">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+        SCROLL DOWN
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       GAMES SECTION
+       ============================================================ -->
+  <section class="games-section" aria-labelledby="games-title">
+    <div class="section-inner">
+      <header class="games-header">
+        <span class="section-label">SELECT YOUR GAME</span>
+        <h2 class="section-title" id="games-title">TWO ARCADE CLASSICS</h2>
+        <p class="section-desc">Pick a game and start playing instantly in your browser — no installs, no sign-ups.</p>
+      </header>
+
+      <div class="games-grid">
+
+        <!-- Flappy Bird Card -->
+        <a href="/products/canvas-games/flappy-bird/" class="game-card" aria-label="Play Flappy Bird">
+          <div class="game-card-thumbnail">
+            <div class="game-card-canvas-bg game-card-canvas-bg--flappy" aria-hidden="true"></div>
+            <div class="game-card-icon-wrap" style="color: #FACC15;" aria-hidden="true">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <!-- Body -->
+                <rect x="14" y="20" width="30" height="22" rx="4" fill="#FACC15"/>
+                <!-- Wing -->
+                <rect x="8" y="28" width="14" height="8" rx="3" fill="#F59E0B"/>
+                <!-- Beak -->
+                <rect x="40" y="24" width="10" height="7" rx="2" fill="#F97316"/>
+                <!-- Eye -->
+                <rect x="24" y="22" width="8" height="8" rx="4" fill="#0F172A"/>
+                <rect x="26" y="23" width="3" height="3" rx="1.5" fill="#fff"/>
+                <!-- Belly -->
+                <rect x="20" y="32" width="16" height="8" rx="4" fill="#FEF3C7"/>
+                <!-- Feet -->
+                <rect x="20" y="42" width="5" height="5" rx="1" fill="#F97316"/>
+                <rect x="30" y="42" width="5" height="5" rx="1" fill="#F97316"/>
+              </svg>
+            </div>
+          </div>
+          <div class="game-card-body">
+            <h3 class="game-card-name">FLAPPY BIRD</h3>
+            <p class="game-card-desc">Tap or click to soar through pipe gaps. Pixel-perfect sprite-sheet animation on a hi-DPI canvas. How far can you go?</p>
+            <div class="game-card-tags">
+              <span class="game-tag game-tag--cyan">CANVAS 2D</span>
+              <span class="game-tag game-tag--yellow">SPRITE SHEET</span>
+              <span class="game-tag game-tag--green">MEDALS</span>
+              <span class="game-tag game-tag--rose">HIGH SCORE</span>
+            </div>
+            <span class="game-card-link" aria-hidden="true">
+              PLAY NOW
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Space Shooter Card -->
+        <a href="/products/canvas-games/space-shooter/" class="game-card" aria-label="Play Space Shooter">
+          <div class="game-card-thumbnail">
+            <div class="game-card-canvas-bg game-card-canvas-bg--shooter" aria-hidden="true"></div>
+            <div class="game-card-icon-wrap" style="color: #A78BFA;" aria-hidden="true">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <!-- Ship body -->
+                <rect x="27" y="8" width="10" height="12" rx="2" fill="#22D3EE"/>
+                <rect x="20" y="18" width="24" height="16" rx="3" fill="#A78BFA"/>
+                <rect x="12" y="30" width="40" height="10" rx="3" fill="#7C3AED"/>
+                <!-- Wings -->
+                <rect x="4" y="34" width="14" height="8" rx="2" fill="#4ADE80"/>
+                <rect x="46" y="34" width="14" height="8" rx="2" fill="#4ADE80"/>
+                <!-- Cockpit -->
+                <rect x="26" y="20" width="12" height="8" rx="2" fill="#22D3EE"/>
+                <!-- Exhaust -->
+                <rect x="24" y="40" width="6" height="8" rx="1" fill="#F43F5E"/>
+                <rect x="34" y="40" width="6" height="8" rx="1" fill="#F43F5E"/>
+                <!-- Laser cannon -->
+                <rect x="30" y="4" width="4" height="6" rx="1" fill="#FACC15"/>
+              </svg>
+            </div>
+          </div>
+          <div class="game-card-body">
+            <h3 class="game-card-name">SPACE SHOOTER</h3>
+            <p class="game-card-desc">Dodge enemy waves and blast them with laser beams. Full keyboard support on desktop and a virtual joystick on mobile.</p>
+            <div class="game-card-tags">
+              <span class="game-tag game-tag--cyan">KEYBOARD</span>
+              <span class="game-tag game-tag--yellow">VIRTUAL JOYSTICK</span>
+              <span class="game-tag game-tag--green">MOBILE</span>
+              <span class="game-tag game-tag--rose">WAVE MODE</span>
+            </div>
+            <span class="game-card-link" aria-hidden="true">
+              PLAY NOW
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURES SECTION
+       ============================================================ -->
+  <section class="features-section" aria-labelledby="features-title">
+    <div class="section-inner">
+      <header class="features-header">
+        <span class="section-label">POWER-UPS</span>
+        <h2 class="section-title" id="features-title">WHAT MAKES IT TICK</h2>
+        <p class="section-desc">Every technical choice was made for smooth, dependency-free gameplay across all devices.</p>
+      </header>
+
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon--purple" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">HIGH-DPI CANVAS</h3>
+          <p class="feature-desc">Crisp rendering on Retina and HiDPI displays via devicePixelRatio scaling — no blurry sprites ever.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon--cyan" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">DESYNCHRONIZED CONTEXT</h3>
+          <p class="feature-desc">The <code style="font-family:var(--font-display);color:var(--color-cyan);">desynchronized</code> canvas hint bypasses the main thread compositor for minimal input latency.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon--yellow" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="7" width="20" height="14" rx="2"/>
+              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">SPRITE SHEET ANIMATION</h3>
+          <p class="feature-desc">Flappy Bird reads from a single packed PNG sprite sheet, cycling frames at 60 fps for buttery-smooth animation.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon--green" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="5" y="2" width="14" height="20" rx="2"/>
+              <line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">MOBILE JOYSTICK</h3>
+          <p class="feature-desc">Space Shooter ships an on-screen virtual joystick so touch-screen players get the full experience with no keyboard needed.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon--rose" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">MEDALS & HIGH SCORES</h3>
+          <p class="feature-desc">Earn bronze, silver, and gold medals in Flappy Bird based on your score. High scores persist across sessions via localStorage.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon--cyan" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">ZERO DEPENDENCIES</h3>
+          <p class="feature-desc">Vanilla JavaScript throughout — no React, no bundler, no transpiler. Clone it and open <code style="font-family:var(--font-display);color:var(--color-cyan);">index.html</code> directly.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TECH STACK SECTION
+       ============================================================ -->
+  <section class="tech-section" aria-labelledby="tech-title">
+    <div class="section-inner">
+      <div class="tech-layout">
+
+        <div class="tech-intro">
+          <span class="section-label">TECH STACK</span>
+          <h2 class="section-title" id="tech-title">BUILT WITH THE WEB PLATFORM</h2>
+          <p class="section-desc">Every game runs on open web standards. No transpilation. No framework overhead.</p>
+
+          <ul class="tech-list" aria-label="Technology list">
+            <li class="tech-item">
+              <div class="tech-item-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0z"/>
+                  <path fill-rule="evenodd" d="M1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <div class="tech-item-text">
+                <span class="tech-item-name">HTML5 CANVAS API</span>
+                <span class="tech-item-detail">2D rendering context with desynchronized hints and pixel ratio scaling</span>
+              </div>
+            </li>
+            <li class="tech-item">
+              <div class="tech-item-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="16 18 22 12 16 6"/>
+                  <polyline points="8 6 2 12 8 18"/>
+                </svg>
+              </div>
+              <div class="tech-item-text">
+                <span class="tech-item-name">VANILLA JAVASCRIPT</span>
+                <span class="tech-item-detail">ES2020+ modules, requestAnimationFrame game loop, no transpiler required</span>
+              </div>
+            </li>
+            <li class="tech-item">
+              <div class="tech-item-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="5" y="2" width="14" height="20" rx="2"/>
+                  <line x1="12" y1="18" x2="12.01" y2="18"/>
+                </svg>
+              </div>
+              <div class="tech-item-text">
+                <span class="tech-item-name">TOUCH &amp; KEYBOARD INPUT</span>
+                <span class="tech-item-detail">Unified input layer — keyboard events on desktop, virtual joystick on mobile</span>
+              </div>
+            </li>
+            <li class="tech-item">
+              <div class="tech-item-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                </svg>
+              </div>
+              <div class="tech-item-text">
+                <span class="tech-item-name">STATIC HOSTING</span>
+                <span class="tech-item-detail">Deployed on Vercel — no server, no database, instant global CDN delivery</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="tech-terminal" role="region" aria-label="Quick start terminal">
+          <div class="tech-terminal-bar" aria-hidden="true">
+            <div class="terminal-dot terminal-dot--red"></div>
+            <div class="terminal-dot terminal-dot--yellow"></div>
+            <div class="terminal-dot terminal-dot--green"></div>
+            <span class="terminal-title">QUICK START</span>
+          </div>
+          <div class="tech-terminal-body">
+            <div class="terminal-line">
+              <span class="terminal-prompt">$</span>
+              <span class="terminal-cmd">git clone</span>
+              <span class="terminal-arg">git@github.com:PiyushMishra318/</span>
+            </div>
+            <div class="terminal-line">
+              <span class="terminal-output terminal-arg">HTML5-Canvas-Mini-Games.git</span>
+            </div>
+            <div class="terminal-line">
+              <span class="terminal-prompt">$</span>
+              <span class="terminal-cmd">cd</span>
+              <span class="terminal-arg">HTML5-Canvas-Mini-Games</span>
+            </div>
+            <div class="terminal-line">
+              <span class="terminal-prompt">$</span>
+              <span class="terminal-cmd">npm start</span>
+            </div>
+            <div class="terminal-line">
+              <span class="terminal-output terminal-comment"># open /products/canvas-games/</span>
+            </div>
+            <div class="terminal-line">
+              <span class="terminal-prompt">$</span>
+              <span class="terminal-cmd">npm test</span>
+            </div>
+            <div class="terminal-line">
+              <span class="terminal-output" style="color:var(--color-green);">✓ All games pass</span>
+            </div>
+            <div class="terminal-line">
+              <span class="terminal-prompt">$</span>
+              <span class="terminal-cursor" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA SECTION
+       ============================================================ -->
+  <section class="cta-section" aria-labelledby="cta-title">
+    <div class="cta-glow-bg" aria-hidden="true"></div>
+    <div class="section-inner">
+      <div class="cta-box">
+        <div class="cta-pixel-row" aria-hidden="true">
+          <div class="cta-pixel"></div>
+          <div class="cta-pixel"></div>
+          <div class="cta-pixel"></div>
+          <div class="cta-pixel"></div>
+          <div class="cta-pixel"></div>
+        </div>
+
+        <h2 class="cta-title" id="cta-title">INSERT COIN TO CONTINUE</h2>
+        <p class="cta-desc">Jump into the arcade — both games run entirely in your browser. No installs. Just click and play.</p>
+
+        <div class="cta-actions">
+          <a href="/products/canvas-games/" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            PLAY NOW — IT'S FREE
+          </a>
+          <a href="https://github.com/PiyushMishra318/HTML5-Canvas-Mini-Games" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            STAR ON GITHUB
+          </a>
+        </div>
+
+        <div class="cta-score-row">
+          <div class="cta-score-item">
+            <span class="cta-score-value">2</span>
+            <span class="cta-score-label">GAMES</span>
+          </div>
+          <div class="cta-score-item">
+            <span class="cta-score-value">0</span>
+            <span class="cta-score-label">DEPENDENCIES</span>
+          </div>
+          <div class="cta-score-item">
+            <span class="cta-score-value">60</span>
+            <span class="cta-score-label">FPS TARGET</span>
+          </div>
+          <div class="cta-score-item">
+            <span class="cta-score-value">MIT</span>
+            <span class="cta-score-label">LICENSE</span>
+          </div>
+        </div>
+
+        <div class="cta-pixel-row" aria-hidden="true">
+          <div class="cta-pixel"></div>
+          <div class="cta-pixel"></div>
+          <div class="cta-pixel"></div>
+          <div class="cta-pixel"></div>
+          <div class="cta-pixel"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <span class="footer-brand">CANVAS JS GAMES</span>
+      <span class="footer-copy">MIT &copy; 2026 Piyush Mishra</span>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="https://github.com/PiyushMishra318/HTML5-Canvas-Mini-Games" target="_blank" rel="noopener noreferrer" class="footer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          GitHub
+        </a>
+        <a href="/products/canvas-games/" class="footer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          Live Demo
+        </a>
+        <a href="/" class="footer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Portfolio
+        </a>
+      </nav>
+    </div>
+  </footer>
+
+</body>
+</html>

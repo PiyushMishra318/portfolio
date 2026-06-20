@@ -166,6 +166,112 @@
   </section>
 
   <!-- =====================================================================
+       Interactive Demo
+       ===================================================================== -->
+  <section class="demo-section section" id="demo" aria-labelledby="demo-heading">
+    <div class="container">
+      <div class="section__header">
+        <div class="section__label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          Try It Now
+        </div>
+        <h2 class="section__title" id="demo-heading">Analyze any URL — live</h2>
+        <p class="section__desc">
+          Enter a public URL below and see real Core Web Vitals scores for both desktop and mobile, powered by the same API this product exposes.
+        </p>
+      </div>
+
+      <div class="demo-analyzer">
+        <div class="demo-analyzer__input-row">
+          <label for="demo-url-input" class="sr-only">URL to analyze</label>
+          <input
+            id="demo-url-input"
+            class="demo-analyzer__input"
+            type="url"
+            value="https://example.com"
+            placeholder="https://example.com"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="URL to analyze"
+          />
+          <button id="demo-analyze-btn" class="demo-analyzer__btn btn btn--primary" type="button">
+            Analyze
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Loading state -->
+        <div id="demo-loading" class="demo-analyzer__loading" hidden aria-live="polite" aria-label="Analyzing URL">
+          <div class="demo-analyzer__spinner" aria-hidden="true"></div>
+          <span>Running Lighthouse for desktop &amp; mobile&hellip;</span>
+        </div>
+
+        <!-- Error state -->
+        <div id="demo-error" class="demo-analyzer__error" hidden role="alert"></div>
+
+        <!-- Results -->
+        <div id="demo-results" class="demo-analyzer__results" hidden>
+          <div class="demo-analyzer__results-url" id="demo-results-url"></div>
+
+          <div class="demo-scores">
+            <!-- Desktop -->
+            <div class="demo-score-card">
+              <div class="demo-score-card__label">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                Desktop
+              </div>
+              <div class="demo-gauge" id="demo-desktop-gauge" aria-label="Desktop performance score">
+                <svg class="demo-gauge__svg" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="demo-gauge__track" cx="60" cy="60" r="50"/>
+                  <circle class="demo-gauge__fill" id="demo-desktop-ring" cx="60" cy="60" r="50"
+                    stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+                </svg>
+                <div class="demo-gauge__value" id="demo-desktop-score">—</div>
+              </div>
+            </div>
+
+            <!-- Mobile -->
+            <div class="demo-score-card">
+              <div class="demo-score-card__label">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                  <line x1="12" y1="18" x2="12.01" y2="18"/>
+                </svg>
+                Mobile
+              </div>
+              <div class="demo-gauge" id="demo-mobile-gauge" aria-label="Mobile performance score">
+                <svg class="demo-gauge__svg" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="demo-gauge__track" cx="60" cy="60" r="50"/>
+                  <circle class="demo-gauge__fill" id="demo-mobile-ring" cx="60" cy="60" r="50"
+                    stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+                </svg>
+                <div class="demo-gauge__value" id="demo-mobile-score">—</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Core Web Vitals table -->
+          <div class="demo-vitals">
+            <h3 class="demo-vitals__title">Core Web Vitals</h3>
+            <div class="demo-vitals__grid" id="demo-vitals-grid">
+              <!-- populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
        Features
        ===================================================================== -->
   <section class="features section" id="features" aria-labelledby="features-heading">
@@ -613,6 +719,131 @@
         }, 300);
       });
     });
+  </script>
+
+  <script>
+    (function () {
+      var VITALS = [
+        { key: 'Largest Contentful Paint',   short: 'LCP' },
+        { key: 'First Input Delay',           short: 'FID' },
+        { key: 'Cumulative Layout Shift',     short: 'CLS' },
+        { key: 'First Contentful Paint',      short: 'FCP' },
+      ];
+
+      function scoreColor(score) {
+        if (score >= 90) return '#16a34a';
+        if (score >= 50) return '#d97706';
+        return '#dc2626';
+      }
+
+      function scoreClass(score) {
+        if (score >= 90) return 'green';
+        if (score >= 50) return 'amber';
+        return 'red';
+      }
+
+      function circumference(score) {
+        // radius = 50, circumference ≈ 314.16
+        var offset = 314.16 * (1 - score / 100);
+        return offset;
+      }
+
+      function setGauge(ringId, scoreId, score) {
+        var ring = document.getElementById(ringId);
+        var scoreEl = document.getElementById(scoreId);
+        var color = scoreColor(score);
+        ring.style.stroke = color;
+        ring.style.strokeDashoffset = circumference(score);
+        scoreEl.textContent = score;
+        scoreEl.style.color = color;
+      }
+
+      function renderVitals(desktopStats, mobileStats) {
+        var grid = document.getElementById('demo-vitals-grid');
+        grid.innerHTML = '';
+        VITALS.forEach(function (v) {
+          var dVal = (desktopStats && desktopStats[v.key]) || '—';
+          var mVal = (mobileStats  && mobileStats[v.key])  || '—';
+
+          var cell = document.createElement('div');
+          cell.className = 'demo-vital-card';
+          cell.innerHTML =
+            '<div class="demo-vital-card__metric">' + v.short + '</div>' +
+            '<div class="demo-vital-card__full">' + v.key + '</div>' +
+            '<div class="demo-vital-card__values">' +
+              '<span class="demo-vital-card__val">' +
+                '<span class="demo-vital-card__device">Desktop</span>' + dVal +
+              '</span>' +
+              '<span class="demo-vital-card__val">' +
+                '<span class="demo-vital-card__device">Mobile</span>' + mVal +
+              '</span>' +
+            '</div>';
+          grid.appendChild(cell);
+        });
+      }
+
+      function showLoading(show) {
+        document.getElementById('demo-loading').hidden  = !show;
+        document.getElementById('demo-results').hidden  = show || document.getElementById('demo-results').hidden;
+        document.getElementById('demo-error').hidden    = true;
+        document.getElementById('demo-analyze-btn').disabled = show;
+      }
+
+      function showError(msg) {
+        var el = document.getElementById('demo-error');
+        el.textContent = msg;
+        el.hidden = false;
+        document.getElementById('demo-results').hidden = true;
+      }
+
+      function showResults(data) {
+        var dScore = data.desktop && data.desktop.score != null ? data.desktop.score : 0;
+        var mScore = data.mobile  && data.mobile.score  != null ? data.mobile.score  : 0;
+
+        setGauge('demo-desktop-ring', 'demo-desktop-score', dScore);
+        setGauge('demo-mobile-ring',  'demo-mobile-score',  mScore);
+        renderVitals(
+          data.desktop && data.desktop.stats,
+          data.mobile  && data.mobile.stats
+        );
+        document.getElementById('demo-results-url').textContent = data.url || '';
+        document.getElementById('demo-results').hidden = false;
+
+        var desktopGauge = document.getElementById('demo-desktop-gauge');
+        var mobileGauge  = document.getElementById('demo-mobile-gauge');
+        desktopGauge.className = 'demo-gauge demo-gauge--' + scoreClass(dScore);
+        mobileGauge.className  = 'demo-gauge demo-gauge--' + scoreClass(mScore);
+      }
+
+      async function analyze() {
+        var input = document.getElementById('demo-url-input');
+        var url = input.value.trim();
+        if (!url) { showError('Please enter a URL.'); return; }
+        if (!/^https?:\/\//i.test(url)) { url = 'https://' + url; input.value = url; }
+
+        showLoading(true);
+        try {
+          var res = await fetch('/products/page-speed/api/pagespeed?url=' + encodeURIComponent(url));
+          if (!res.ok) {
+            var errText = await res.text().catch(function () { return 'Request failed'; });
+            throw new Error(errText || 'HTTP ' + res.status);
+          }
+          var data = await res.json();
+          showLoading(false);
+          showResults(data);
+        } catch (err) {
+          showLoading(false);
+          showError('Error: ' + (err.message || 'Could not fetch results. Please try again.'));
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('demo-analyze-btn').addEventListener('click', analyze);
+        document.getElementById('demo-url-input').addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') analyze();
+        });
+      });
+    })();
   </script>
 
 </body>

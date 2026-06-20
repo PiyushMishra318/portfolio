@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BackgroundRemover — Real-Time OpenCV Foreground Masking</title>
+  <meta name="description" content="C++ OpenCV project performing real-time foreground masking on live video using MOG2 and KNN background subtraction algorithms." />
+  <meta name="theme-color" content="#060d16" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Matrix rain canvas -->
+  <canvas class="matrix-canvas" id="matrixCanvas" aria-hidden="true"></canvas>
+
+  <!-- Grid overlay -->
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Noise texture -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <a class="nav__brand" href="/" aria-label="Back to portfolio">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      PIYUSHM.DEV
+    </a>
+
+    <div class="nav__badge" aria-label="System status: live">
+      <span class="nav__badge-dot" aria-hidden="true"></span>
+      SYSTEM ONLINE
+    </div>
+
+    <div class="nav__right">
+      <a class="nav__link" href="#how-it-works">Pipeline</a>
+      <a class="nav__cta" href="https://github.com/PiyushMishra318/BackgroundRemover" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        GitHub
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" role="banner">
+
+    <!-- Left: copy -->
+    <div class="hero__content">
+
+      <!-- Terminal prompt badge -->
+      <div class="hero__prompt" role="img" aria-label="Terminal command: ./BackgroundRemover --algo mog2">
+        <span class="hero__prompt-user">user@cv-lab:~$</span>
+        <span class="hero__prompt-cmd">./BackgroundRemover --algo mog2<span class="hero__prompt-cursor" aria-hidden="true"></span></span>
+      </div>
+
+      <h1 class="hero__title">
+        <span class="hero__title-word">Background</span>
+        <span class="hero__title-word hero__title-word--green">Remover</span>
+      </h1>
+
+      <p class="hero__subtitle">
+        Real-time foreground masking on live video streams. MOG2 and KNN background subtraction algorithms, built in native C++ with OpenCV — tuned for static-camera scenes.
+      </p>
+
+      <!-- Meta tags -->
+      <div class="hero__meta" role="list" aria-label="Tech stack">
+        <span class="hero__meta-tag" role="listitem">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+          </svg>
+          C++17
+        </span>
+        <span class="hero__divider" aria-hidden="true"></span>
+        <span class="hero__meta-tag" role="listitem">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+          OpenCV 4.x
+        </span>
+        <span class="hero__divider" aria-hidden="true"></span>
+        <span class="hero__meta-tag" role="listitem">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          MOG2 + KNN
+        </span>
+        <span class="hero__divider" aria-hidden="true"></span>
+        <span class="hero__meta-tag" role="listitem">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/>
+          </svg>
+          Visual Studio
+        </span>
+      </div>
+
+      <!-- CTA buttons -->
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="https://github.com/PiyushMishra318/BackgroundRemover" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          View Source
+        </a>
+        <a class="btn btn--ghost" href="#how-it-works">
+          How it works
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: visual -->
+    <div class="hero__visual" aria-hidden="true">
+
+      <!-- Terminal output window -->
+      <div class="terminal-window terminal-window--glow">
+        <div class="terminal-titlebar">
+          <div class="terminal-dots">
+            <span class="terminal-dot terminal-dot--red"></span>
+            <span class="terminal-dot terminal-dot--yellow"></span>
+            <span class="terminal-dot terminal-dot--green"></span>
+          </div>
+          <span class="terminal-title">BackgroundRemover — main.cpp</span>
+        </div>
+        <div class="terminal-body">
+          <div class="term-line">
+            <span class="term-ps1">$</span>
+            <span class="term-cmd">g++ -o BackgroundRemover main.cpp `pkg-config opencv4 --cflags --libs`</span>
+          </div>
+          <div class="term-spacer"></div>
+          <div class="term-line">
+            <span class="term-output term-output--dim">[INFO]</span>
+            <span class="term-output">Initializing VideoCapture device 0...</span>
+          </div>
+          <div class="term-line">
+            <span class="term-output term-output--green">[OK]</span>
+            <span class="term-output">Camera opened: 1920x1080 @ 30fps</span>
+          </div>
+          <div class="term-line">
+            <span class="term-output term-output--dim">[INFO]</span>
+            <span class="term-output">Algorithm: MOG2 | shadowDetect: true</span>
+          </div>
+          <div class="term-line">
+            <span class="term-output term-output--dim">[INFO]</span>
+            <span class="term-output">Background model warming up... (50 frames)</span>
+          </div>
+          <div class="term-line">
+            <span class="term-output term-output--green">[OK]</span>
+            <span class="term-output">Model ready. Processing live stream.</span>
+          </div>
+          <div class="term-line">
+            <span class="term-output term-output--warn">[PRESS]</span>
+            <span class="term-output">q to quit | s to snapshot mask</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mask preview panel -->
+      <div class="mask-panel" role="img" aria-label="Foreground mask preview: raw video on left, binary mask on right">
+        <div class="mask-panel__viewport mask-panel__viewport--raw">
+          <span class="mask-panel__label">RAW FEED</span>
+          <div class="silhouette-color" aria-hidden="true"></div>
+        </div>
+        <div class="mask-panel__divider" aria-hidden="true">
+          <span class="mask-panel__algo-badge">MOG2</span>
+        </div>
+        <div class="mask-panel__viewport mask-panel__viewport--result">
+          <span class="mask-panel__label">FG MASK</span>
+          <div class="silhouette-mask" aria-hidden="true"></div>
+          <div class="scan-line" aria-hidden="true"></div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip" role="list" aria-label="Key metrics">
+    <div class="stat-strip__item" role="listitem">
+      <span class="stat-strip__value">MOG2</span>
+      <span class="stat-strip__label">Gaussian Mixture</span>
+    </div>
+    <div class="stat-strip__divider" aria-hidden="true"></div>
+    <div class="stat-strip__item" role="listitem">
+      <span class="stat-strip__value">KNN</span>
+      <span class="stat-strip__label">K-Nearest Neighbours</span>
+    </div>
+    <div class="stat-strip__divider" aria-hidden="true"></div>
+    <div class="stat-strip__item" role="listitem">
+      <span class="stat-strip__value">30fps</span>
+      <span class="stat-strip__label">Real-Time Processing</span>
+    </div>
+    <div class="stat-strip__divider" aria-hidden="true"></div>
+    <div class="stat-strip__item" role="listitem">
+      <span class="stat-strip__value">C++</span>
+      <span class="stat-strip__label">Native Performance</span>
+    </div>
+  </div>
+
+  <main id="main-content">
+
+    <!-- WHAT IT DOES -->
+    <section class="section" aria-labelledby="what-heading">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__eyebrow">01 / Overview</p>
+          <h2 class="section__title" id="what-heading">What it does</h2>
+        </div>
+
+        <div class="overview-grid">
+          <div class="overview-text">
+            <p class="overview-lead">
+              BackgroundRemover separates moving foreground objects from a static scene in real time. Each incoming frame is compared against an evolving background model — pixels that diverge significantly become the binary foreground mask.
+            </p>
+            <p class="overview-body">
+              Built as an OpenCV learning project, it demonstrates two state-of-the-art classical algorithms: MOG2 handles gradual lighting changes and shadow detection, while KNN provides robustness against sensor noise and brief occlusions. Both run at real-time speed on standard hardware without any GPU acceleration.
+            </p>
+            <div class="overview-tags" role="list" aria-label="Keywords">
+              <span class="overview-tag" role="listitem">Computer Vision</span>
+              <span class="overview-tag" role="listitem">Background Subtraction</span>
+              <span class="overview-tag" role="listitem">Real-Time</span>
+              <span class="overview-tag" role="listitem">OpenCV</span>
+              <span class="overview-tag" role="listitem">C++</span>
+              <span class="overview-tag" role="listitem">Shadow Detection</span>
+            </div>
+          </div>
+
+          <div class="feature-cards" role="list">
+            <div class="feature-card" role="listitem">
+              <div class="feature-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/>
+                  <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/>
+                  <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/>
+                  <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>
+                </svg>
+              </div>
+              <h3 class="feature-card__title">Shadow Detection</h3>
+              <p class="feature-card__body">MOG2 distinguishes shadows from true foreground objects, reducing false positives in outdoor and mixed-lighting scenes.</p>
+            </div>
+            <div class="feature-card" role="listitem">
+              <div class="feature-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+              </div>
+              <h3 class="feature-card__title">Noise Robustness</h3>
+              <p class="feature-card__body">KNN-based model handles sensor noise and brief occlusions better than simple frame differencing approaches.</p>
+            </div>
+            <div class="feature-card" role="listitem">
+              <div class="feature-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+              </div>
+              <h3 class="feature-card__title">Live VideoCapture</h3>
+              <p class="feature-card__body">Reads from any camera or video file via cv::VideoCapture — swap the source without modifying the pipeline.</p>
+            </div>
+            <div class="feature-card" role="listitem">
+              <div class="feature-card__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+              </div>
+              <h3 class="feature-card__title">Real-Time Speed</h3>
+              <p class="feature-card__body">Native C++ implementation with OpenCV's optimized routines processes frames at full rate with minimal latency.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS / PIPELINE -->
+    <section class="section section--dark" id="how-it-works" aria-labelledby="pipeline-heading">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__eyebrow">02 / Pipeline</p>
+          <h2 class="section__title" id="pipeline-heading">How it works</h2>
+        </div>
+
+        <div class="pipeline" role="list">
+
+          <div class="pipeline__step" role="listitem">
+            <span class="pipeline__number">01</span>
+            <div class="pipeline__content">
+              <h3>Capture</h3>
+              <p>cv::VideoCapture opens camera index 0 or a video file path, reading frames in BGR format at the source's native framerate. The loop runs until the stream ends or the user presses <kbd>q</kbd>.</p>
+              <div class="pipeline__code">
+                <pre><code>cv::VideoCapture cap(0);
+cap &gt;&gt; frame;               // read next BGR frame</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="pipeline__step" role="listitem">
+            <span class="pipeline__number">02</span>
+            <div class="pipeline__content">
+              <h3>Model Update</h3>
+              <p>The background subtractor's apply() method updates the internal model each frame and outputs a binary foreground mask. MOG2 models each pixel as a mixture of Gaussians; KNN tracks the K nearest background samples.</p>
+              <div class="pipeline__code">
+                <pre><code>pMOG2-&gt;apply(frame, fgMask);   // or pKNN->apply(...)
+// fgMask: 255 = foreground, 127 = shadow, 0 = background</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="pipeline__step" role="listitem">
+            <span class="pipeline__number">03</span>
+            <div class="pipeline__content">
+              <h3>Display</h3>
+              <p>cv::imshow renders both the original frame and the foreground mask in separate named windows, updated each iteration at the camera's native framerate.</p>
+              <div class="pipeline__code">
+                <pre><code>cv::imshow("Frame",   frame);
+cv::imshow("FG Mask", fgMask);
+cv::waitKey(30);</code></pre>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="section" aria-labelledby="stack-heading">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__eyebrow">03 / Stack</p>
+          <h2 class="section__title" id="stack-heading">Tech stack</h2>
+        </div>
+
+        <div class="stack-grid" role="list">
+          <div class="stack-card" role="listitem">
+            <div class="stack-card__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <p class="stack-card__name">C++17</p>
+            <p class="stack-card__desc">Core language. Native performance, manual memory management, zero-overhead abstractions.</p>
+          </div>
+          <div class="stack-card" role="listitem">
+            <div class="stack-card__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <p class="stack-card__name">OpenCV 4.x</p>
+            <p class="stack-card__desc">video, imgproc, highgui, and core modules — industry-standard computer vision library.</p>
+          </div>
+          <div class="stack-card" role="listitem">
+            <div class="stack-card__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M9 9h6M9 12h6M9 15h4"/>
+              </svg>
+            </div>
+            <p class="stack-card__name">Visual Studio</p>
+            <p class="stack-card__desc">MSVC compiler, property sheets for include/lib paths, Debug and Release configurations.</p>
+          </div>
+          <div class="stack-card" role="listitem">
+            <div class="stack-card__icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <p class="stack-card__name">MOG2 + KNN</p>
+            <p class="stack-card__desc">Two complementary background subtraction algorithms, selectable at compile time for direct comparison.</p>
+          </div>
+        </div>
+
+        <!-- Prerequisites -->
+        <div class="prereqs">
+          <div class="prereqs__header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: var(--color-matrix)">
+              <polyline points="9 11 12 14 22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+            <h3 class="prereqs__title">Prerequisites</h3>
+          </div>
+          <div class="prereqs__list" role="list">
+            <div class="prereq-item" role="listitem">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              OpenCV 4.x (core, imgproc, video, highgui modules)
+            </div>
+            <div class="prereq-item" role="listitem">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Webcam or video file for input source
+            </div>
+            <div class="prereq-item" role="listitem">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Visual Studio 2019+ with C++ Desktop workload
+            </div>
+            <div class="prereq-item" role="listitem">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Windows (MSVC build chain — Linux/macOS via CMake adaptation)
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ANIMATED DEMO -->
+    <section class="section bgsub-demo-section" aria-labelledby="demo-heading">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__eyebrow">03.5 / Demo</p>
+          <h2 class="section__title" id="demo-heading">Background subtraction in action</h2>
+          <p class="section__sub">Animated simulation of MOG2/KNN foreground masking — run locally for real output.</p>
+        </div>
+
+        <!-- Algorithm toggle -->
+        <div class="bgsub-algo-toggle" role="group" aria-label="Algorithm selector">
+          <button class="bgsub-algo-btn bgsub-algo-btn--active" id="btnMog2" type="button">MOG2</button>
+          <button class="bgsub-algo-btn" id="btnKnn" type="button">KNN</button>
+        </div>
+
+        <!-- Side-by-side panels -->
+        <div class="bgsub-panels">
+
+          <!-- Input frame -->
+          <div class="bgsub-panel bgsub-panel--input">
+            <div class="bgsub-panel__label">Input Frame</div>
+            <div class="bgsub-panel__viewport">
+              <svg class="bgsub-svg" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" aria-label="Animated input frame with walking figure" role="img">
+                <!-- Static background: sky gradient + ground -->
+                <defs>
+                  <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0a1628"/>
+                    <stop offset="100%" stop-color="#1a2f4a"/>
+                  </linearGradient>
+                  <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#1a2f4a"/>
+                    <stop offset="100%" stop-color="#0f1f36"/>
+                  </linearGradient>
+                </defs>
+                <rect width="320" height="200" fill="url(#skyGrad)"/>
+                <!-- Ground -->
+                <rect y="150" width="320" height="50" fill="url(#groundGrad)"/>
+                <!-- Ground line -->
+                <line x1="0" y1="150" x2="320" y2="150" stroke="#2a4a6e" stroke-width="1"/>
+                <!-- Static scene elements: building silhouettes -->
+                <rect x="10" y="90" width="30" height="60" fill="#0a1628" opacity="0.7"/>
+                <rect x="250" y="110" width="40" height="40" fill="#0a1628" opacity="0.7"/>
+                <rect x="270" y="100" width="15" height="50" fill="#0a1628" opacity="0.5"/>
+                <!-- Grid lines on ground -->
+                <line x1="0" y1="165" x2="320" y2="165" stroke="#1a2f4a" stroke-width="0.5"/>
+                <line x1="0" y1="180" x2="320" y2="180" stroke="#1a2f4a" stroke-width="0.5"/>
+
+                <!-- Walking figure — animated left to right -->
+                <g class="bgsub-walker" style="animation: walkAcross 3.2s linear infinite;">
+                  <!-- Body -->
+                  <rect x="-8" y="105" width="16" height="28" rx="3" fill="#00ff41" opacity="0.85"/>
+                  <!-- Head -->
+                  <circle cx="0" cy="100" r="8" fill="#00ff41" opacity="0.9"/>
+                  <!-- Left arm -->
+                  <line x1="-8" y1="112" x2="-14" y2="122" stroke="#00ff41" stroke-width="3" stroke-linecap="round"
+                        style="transform-origin: -8px 112px; animation: armSwing 0.6s ease-in-out infinite alternate;"/>
+                  <!-- Right arm -->
+                  <line x1="8" y1="112" x2="14" y2="122" stroke="#00ff41" stroke-width="3" stroke-linecap="round"
+                        style="transform-origin: 8px 112px; animation: armSwing 0.6s ease-in-out infinite alternate-reverse;"/>
+                  <!-- Left leg -->
+                  <line x1="-4" y1="133" x2="-7" y2="148" stroke="#00ff41" stroke-width="3" stroke-linecap="round"
+                        style="transform-origin: -4px 133px; animation: legSwing 0.6s ease-in-out infinite alternate;"/>
+                  <!-- Right leg -->
+                  <line x1="4" y1="133" x2="7" y2="148" stroke="#00ff41" stroke-width="3" stroke-linecap="round"
+                        style="transform-origin: 4px 133px; animation: legSwing 0.6s ease-in-out infinite alternate-reverse;"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Arrow separator -->
+          <div class="bgsub-arrow" aria-hidden="true">
+            <div class="bgsub-algo-label" id="algoLabel">MOG2 Background Subtraction</div>
+            <svg width="36" height="20" viewBox="0 0 36 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 10H30M30 10L22 3M30 10L22 17" stroke="#00ff41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <!-- Mask output -->
+          <div class="bgsub-panel bgsub-panel--mask">
+            <div class="bgsub-panel__label">Mask Output</div>
+            <div class="bgsub-panel__viewport bgsub-panel__viewport--dark">
+              <svg class="bgsub-svg" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" aria-label="Binary foreground mask" role="img">
+                <!-- Pure black background -->
+                <rect width="320" height="200" fill="#000"/>
+
+                <!-- Mask walker: white silhouette, same animation -->
+                <g class="bgsub-walker" id="maskWalker" style="animation: walkAcross 3.2s linear infinite;">
+                  <!-- Body -->
+                  <rect x="-8" y="105" width="16" height="28" rx="3" fill="white"/>
+                  <!-- Head -->
+                  <circle cx="0" cy="100" r="8" fill="white"/>
+                  <!-- Arms -->
+                  <line x1="-8" y1="112" x2="-14" y2="122" stroke="white" stroke-width="3" stroke-linecap="round"
+                        style="transform-origin: -8px 112px; animation: armSwing 0.6s ease-in-out infinite alternate;"/>
+                  <line x1="8" y1="112" x2="14" y2="122" stroke="white" stroke-width="3" stroke-linecap="round"
+                        style="transform-origin: 8px 112px; animation: armSwing 0.6s ease-in-out infinite alternate-reverse;"/>
+                  <!-- Legs -->
+                  <line x1="-4" y1="133" x2="-7" y2="148" stroke="white" stroke-width="3" stroke-linecap="round"
+                        style="transform-origin: -4px 133px; animation: legSwing 0.6s ease-in-out infinite alternate;"/>
+                  <line x1="4" y1="133" x2="7" y2="148" stroke="white" stroke-width="3" stroke-linecap="round"
+                        style="transform-origin: 4px 133px; animation: legSwing 0.6s ease-in-out infinite alternate-reverse;"/>
+                  <!-- KNN: slightly blurred shadow ring, toggled via class -->
+                  <circle cx="0" cy="100" r="11" fill="none" stroke="white" stroke-width="1" opacity="0.2" class="knn-only" style="display:none"/>
+                </g>
+
+                <!-- Scan line -->
+                <rect class="bgsub-scanline" width="320" height="2" fill="#00ff41" opacity="0.15"
+                      style="animation: scanline 2s linear infinite;"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulated note -->
+        <p class="bgsub-sim-note">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Demo is simulated — run locally with a webcam for real output.
+        </p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" aria-labelledby="cta-heading">
+      <div class="cta-section__bg" aria-hidden="true"></div>
+      <div class="cta-section__inner">
+        <div class="cta-card">
+          <p class="cta-card__eyebrow">04 / Get Started</p>
+          <h2 class="cta-card__title" id="cta-heading">Explore the source</h2>
+          <p class="cta-card__body">
+            An archived reference for classical computer vision background modelling. Clone, build in Visual Studio, and point a webcam at a static scene to see real-time foreground masks.
+          </p>
+          <div class="cta-card__actions">
+            <a class="btn btn--primary btn--large" href="https://github.com/PiyushMishra318/BackgroundRemover" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              View on GitHub
+            </a>
+            <a class="btn btn--ghost btn--large" href="/">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+              Back to portfolio
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <p class="footer__copy">MIT &copy; 2020 Piyush Mishra</p>
+      <div class="footer__links">
+        <a class="footer__link" href="/">piyushm.dev</a>
+        <span class="footer__sep" aria-hidden="true">/</span>
+        <a class="footer__link" href="https://github.com/PiyushMishra318/BackgroundRemover" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BackgroundRemover demo toggle -->
+  <script>
+  (function () {
+    var btnMog2 = document.getElementById('btnMog2');
+    var btnKnn  = document.getElementById('btnKnn');
+    var label   = document.getElementById('algoLabel');
+    var knnEls  = document.querySelectorAll('.knn-only');
+
+    function setAlgo(algo) {
+      if (algo === 'mog2') {
+        btnMog2.classList.add('bgsub-algo-btn--active');
+        btnKnn.classList.remove('bgsub-algo-btn--active');
+        label.textContent = 'MOG2 Background Subtraction';
+        knnEls.forEach(function(el){ el.style.display = 'none'; });
+        document.querySelectorAll('.bgsub-panel--mask .bgsub-svg').forEach(function(svg){
+          svg.style.filter = '';
+        });
+      } else {
+        btnKnn.classList.add('bgsub-algo-btn--active');
+        btnMog2.classList.remove('bgsub-algo-btn--active');
+        label.textContent = 'KNN Background Subtraction';
+        knnEls.forEach(function(el){ el.style.display = ''; });
+        // KNN: slightly noisier mask appearance via subtle blur
+        document.querySelectorAll('.bgsub-panel--mask .bgsub-svg').forEach(function(svg){
+          svg.style.filter = 'contrast(1.1) brightness(0.95)';
+        });
+      }
+    }
+
+    if (btnMog2) btnMog2.addEventListener('click', function(){ setAlgo('mog2'); });
+    if (btnKnn)  btnKnn.addEventListener('click',  function(){ setAlgo('knn'); });
+  })();
+  </script>
+
+  <!-- Matrix rain animation script -->
+  <script>
+    (function () {
+      var canvas = document.getElementById('matrixCanvas');
+      if (!canvas) return;
+
+      // Respect prefers-reduced-motion
+      var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (mq && mq.matches) {
+        canvas.style.display = 'none';
+        return;
+      }
+
+      var ctx = canvas.getContext('2d');
+      var W, H, cols, drops;
+
+      var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>{}[]|\\/-+*=;:.,?!/\\アイウエオカキクケコサシスセソタチツテトナニヌネノ';
+      var FONT_SIZE = 13;
+      var GREEN = '#00ff41';
+      var GREEN_DIM = '#00c832';
+      var GREEN_PALE = 'rgba(0,255,65,0.04)';
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        cols  = Math.floor(W / FONT_SIZE) + 1;
+        drops = [];
+        for (var i = 0; i < cols; i++) {
+          drops[i] = Math.random() * -80 | 0;
+        }
+      }
+
+      function draw() {
+        // Fade trail
+        ctx.fillStyle = 'rgba(6,13,22,0.05)';
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.font = FONT_SIZE + 'px "JetBrains Mono", monospace';
+
+        for (var i = 0; i < cols; i++) {
+          var y = drops[i] * FONT_SIZE;
+          if (y < 0) { drops[i]++; continue; }
+
+          // Head character — bright
+          ctx.fillStyle = GREEN;
+          ctx.fillText(CHARS[Math.random() * CHARS.length | 0], i * FONT_SIZE, y);
+
+          // Trail characters — dimmer
+          if (drops[i] > 2) {
+            ctx.fillStyle = GREEN_DIM;
+            ctx.fillText(CHARS[Math.random() * CHARS.length | 0], i * FONT_SIZE, y - FONT_SIZE);
+          }
+
+          // Reset column
+          if (y > H && Math.random() > 0.975) {
+            drops[i] = Math.floor(Math.random() * -20);
+          } else {
+            drops[i]++;
+          }
+        }
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+
+      var raf;
+      var lastTime = 0;
+      var INTERVAL = 50; // ~20fps for subtlety
+
+      function loop(ts) {
+        raf = requestAnimationFrame(loop);
+        if (ts - lastTime < INTERVAL) return;
+        lastTime = ts;
+        draw();
+      }
+
+      raf = requestAnimationFrame(loop);
+
+      // Pause when tab is hidden to save resources
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+          cancelAnimationFrame(raf);
+        } else {
+          lastTime = 0;
+          raf = requestAnimationFrame(loop);
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

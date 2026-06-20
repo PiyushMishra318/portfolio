@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Readtime — a minimal live reading-time estimator powered by HTMX and Express. See your word count and read time update on every keystroke, no React required." />
   <title>Readtime · Live Reading-Time Estimator</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/styles.css" />
   <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
 </head>
 <body>
@@ -349,7 +349,7 @@
               class="demo-textarea"
               placeholder="Paste or write your text here&#8230;"
               autofocus
-              hx-post="/products/readtime/readtime"
+              hx-post="/readtime"
               hx-trigger="keyup changed delay:250ms"
               hx-target="#readtime-result"
               hx-swap="innerHTML"

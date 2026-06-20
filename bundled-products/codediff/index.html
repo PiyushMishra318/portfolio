@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CodeDiff — compare two code snippets line-by-line via a C++ CLI tool or a live HTTP API. Instant side-by-side diff, sub-millisecond timing, no local setup required." />
+  <title>CodeDiff — Fast C++ Code Comparison Tool</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a class="nav__logo" href="/" aria-label="Back to portfolio — piyushm.dev">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        piyushm.dev
+      </a>
+      <div class="nav__right">
+        <a class="nav__link" href="#features">Features</a>
+        <a class="nav__link" href="#how-it-works">How It Works</a>
+        <a class="nav__link" href="#api">API</a>
+        <a class="nav__cta" href="/products/codediff/">
+          Try Live Demo
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero">
+    <div class="container">
+      <div class="hero__badge" aria-label="Live product">
+        <span class="hero__badge-dot" aria-hidden="true"></span>
+        C++17 · Sub-millisecond
+      </div>
+
+      <h1 class="hero__title">
+        Code<span class="hero__title-accent">Diff</span>
+      </h1>
+
+      <p class="hero__tagline">
+        Compare two code snippets line-by-line with a fast <code>C++</code> engine.
+        Get a side-by-side diff instantly — via CLI or HTTP API, no setup needed.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn-primary" href="/products/codediff/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          Live Demo
+        </a>
+        <a class="btn-secondary" href="https://github.com/PiyushMishra318/CodeDiff" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+          View Source
+        </a>
+      </div>
+
+      <!-- Diff Mockup -->
+      <div class="diff-preview" role="img" aria-label="Side-by-side diff viewer preview">
+        <div class="diff-preview__toolbar">
+          <div class="diff-preview__dots" aria-hidden="true">
+            <span class="diff-preview__dot diff-preview__dot--red"></span>
+            <span class="diff-preview__dot diff-preview__dot--yellow"></span>
+            <span class="diff-preview__dot diff-preview__dot--green"></span>
+          </div>
+          <span class="diff-preview__title">CodeDiff — compare.cpp vs compare_v2.cpp</span>
+          <span class="diff-preview__badge diff-preview__badge--changed">3 changed</span>
+        </div>
+
+        <div class="diff-preview__body">
+          <!-- LEFT panel (original) -->
+          <div class="diff-preview__panel">
+            <div class="diff-preview__panel-header">
+              <span class="diff-preview__panel-label--left">- original</span>
+            </div>
+            <div class="diff-preview__lines">
+              <div class="diff-line diff-line--eq">
+                <span class="diff-line__num">1</span>
+                <span class="diff-line__sign"> </span>
+                <span class="diff-line__code">#include &lt;fstream&gt;</span>
+              </div>
+              <div class="diff-line diff-line--eq">
+                <span class="diff-line__num">2</span>
+                <span class="diff-line__sign"> </span>
+                <span class="diff-line__code">#include &lt;string&gt;</span>
+              </div>
+              <div class="diff-line diff-line--del">
+                <span class="diff-line__num">3</span>
+                <span class="diff-line__sign">-</span>
+                <span class="diff-line__code">bool compare(string a, string b)</span>
+              </div>
+              <div class="diff-line diff-line--eq">
+                <span class="diff-line__num">4</span>
+                <span class="diff-line__sign"> </span>
+                <span class="diff-line__code">{</span>
+              </div>
+              <div class="diff-line diff-line--del">
+                <span class="diff-line__num">5</span>
+                <span class="diff-line__sign">-</span>
+                <span class="diff-line__code">  return a == b;</span>
+              </div>
+              <div class="diff-line diff-line--eq">
+                <span class="diff-line__num">6</span>
+                <span class="diff-line__sign"> </span>
+                <span class="diff-line__code">}</span>
+              </div>
+              <div class="diff-line diff-line--del">
+                <span class="diff-line__num">7</span>
+                <span class="diff-line__sign">-</span>
+                <span class="diff-line__code">// no timing</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT panel (modified) -->
+          <div class="diff-preview__panel">
+            <div class="diff-preview__panel-header">
+              <span class="diff-preview__panel-label--right">+ modified</span>
+            </div>
+            <div class="diff-preview__lines">
+              <div class="diff-line diff-line--eq">
+                <span class="diff-line__num">1</span>
+                <span class="diff-line__sign"> </span>
+                <span class="diff-line__code">#include &lt;fstream&gt;</span>
+              </div>
+              <div class="diff-line diff-line--eq">
+                <span class="diff-line__num">2</span>
+                <span class="diff-line__sign"> </span>
+                <span class="diff-line__code">#include &lt;string&gt;</span>
+              </div>
+              <div class="diff-line diff-line--add">
+                <span class="diff-line__num">3</span>
+                <span class="diff-line__sign">+</span>
+                <span class="diff-line__code">bool compare(const string&amp; a, const string&amp; b)</span>
+              </div>
+              <div class="diff-line diff-line--eq">
+                <span class="diff-line__num">4</span>
+                <span class="diff-line__sign"> </span>
+                <span class="diff-line__code">{</span>
+              </div>
+              <div class="diff-line diff-line--add">
+                <span class="diff-line__num">5</span>
+                <span class="diff-line__sign">+</span>
+                <span class="diff-line__code">  return a == b; // O(n)</span>
+              </div>
+              <div class="diff-line diff-line--eq">
+                <span class="diff-line__num">6</span>
+                <span class="diff-line__sign"> </span>
+                <span class="diff-line__code">}</span>
+              </div>
+              <div class="diff-line diff-line--add">
+                <span class="diff-line__num">7</span>
+                <span class="diff-line__sign">+</span>
+                <span class="diff-line__code">// Time: 0.42ms → Result: 1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="diff-preview__footer">
+          <div class="diff-preview__stat">
+            <span class="diff-preview__stat-add">+3 additions</span>
+            <span>&nbsp;·&nbsp;</span>
+            <span class="diff-preview__stat-del">-3 deletions</span>
+          </div>
+          <span class="diff-preview__timing">Time: 0.42ms · Files differ: 1</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE DEMO -->
+  <section id="demo" class="section demo-section" aria-labelledby="demo-title">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Live Demo</span>
+        <h2 class="section-title" id="demo-title">Try it yourself</h2>
+        <p class="section-desc">Paste two code snippets and hit Compare to see the diff rendered live.</p>
+      </div>
+
+      <div class="demo-inputs">
+        <div class="demo-pane">
+          <div class="demo-pane__header">
+            <span class="demo-pane__label demo-pane__label--left">— left (original)</span>
+          </div>
+          <textarea id="demo-left" class="demo-textarea" spellcheck="false" aria-label="Left code input">int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int x = add(1, 2);
+    return 0;
+}</textarea>
+        </div>
+        <div class="demo-pane">
+          <div class="demo-pane__header">
+            <span class="demo-pane__label demo-pane__label--right">+ right (modified)</span>
+          </div>
+          <textarea id="demo-right" class="demo-textarea" spellcheck="false" aria-label="Right code input">int add(int a, int b) {
+    return a + b;
+}
+
+int multiply(int a, int b) {
+    return a * b;
+}
+
+int main() {
+    int x = add(1, 2);
+    int y = multiply(3, 4);
+    return 0;
+}</textarea>
+        </div>
+      </div>
+
+      <div class="demo-actions">
+        <button id="demo-compare-btn" class="btn-primary demo-btn" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+          Compare →
+        </button>
+        <button id="demo-clear-btn" class="btn-secondary demo-btn" type="button">Clear</button>
+      </div>
+
+      <div id="demo-output" class="demo-output" hidden aria-live="polite">
+        <div class="demo-output__toolbar">
+          <div class="diff-preview__dots" aria-hidden="true">
+            <span class="diff-preview__dot diff-preview__dot--red"></span>
+            <span class="diff-preview__dot diff-preview__dot--yellow"></span>
+            <span class="diff-preview__dot diff-preview__dot--green"></span>
+          </div>
+          <span id="demo-output-title" class="diff-preview__title">diff result</span>
+          <span id="demo-output-badge" class="diff-preview__badge diff-preview__badge--changed"></span>
+        </div>
+
+        <div class="demo-output__body">
+          <div class="demo-output__panel">
+            <div class="demo-pane__header">
+              <span class="demo-pane__label demo-pane__label--left">— original</span>
+            </div>
+            <div id="demo-lines-left" class="diff-preview__lines"></div>
+          </div>
+          <div class="demo-output__panel">
+            <div class="demo-pane__header">
+              <span class="demo-pane__label demo-pane__label--right">+ modified</span>
+            </div>
+            <div id="demo-lines-right" class="diff-preview__lines"></div>
+          </div>
+        </div>
+
+        <div class="diff-preview__footer">
+          <div class="diff-preview__stat">
+            <span id="demo-stat-add" class="diff-preview__stat-add"></span>
+            <span id="demo-stat-sep">&nbsp;·&nbsp;</span>
+            <span id="demo-stat-del" class="diff-preview__stat-del"></span>
+          </div>
+          <span id="demo-timing" class="diff-preview__timing"></span>
+        </div>
+      </div>
+
+      <div id="demo-error" class="demo-error" hidden></div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar" aria-label="Key statistics">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-item__value">&lt;1ms</div>
+          <div class="stat-item__label">Comparison time</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__value">C++17</div>
+          <div class="stat-item__label">Core engine</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__value">REST</div>
+          <div class="stat-item__label">HTTP API</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item__value">MIT</div>
+          <div class="stat-item__label">Open source</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features" class="section features" aria-labelledby="features-title">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Features</span>
+        <h2 class="section-title" id="features-title">Everything you need to diff code</h2>
+        <p class="section-desc">A minimal, precise, and fast comparison engine — with both a command-line interface and a web API.</p>
+      </div>
+
+      <ul class="features-grid">
+        <li class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Line-by-line comparison</h3>
+          <p class="feature-card__desc">Reads both files sequentially and reports equality or difference per line — exact and unambiguous.</p>
+        </li>
+        <li class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Sub-millisecond timing</h3>
+          <p class="feature-card__desc">Prints elapsed time in milliseconds using <code style="font-family:var(--font-mono);font-size:0.9em">std::chrono</code> — see exactly how fast comparison runs.</p>
+        </li>
+        <li class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">CLI-first interface</h3>
+          <p class="feature-card__desc">Pass two file paths as arguments. Exit code 0 for equal, 1 for different — fits any CI/CD pipeline.</p>
+        </li>
+        <li class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">HTTP REST API</h3>
+          <p class="feature-card__desc">POST two snippets as JSON to <code style="font-family:var(--font-mono);font-size:0.9em">/api/compare</code>. Get back a binary result and timing — no auth needed.</p>
+        </li>
+        <li class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Live browser demo</h3>
+          <p class="feature-card__desc">Paste two snippets into the web UI, load equal or diff examples, and hit Compare — instant result.</p>
+        </li>
+        <li class="feature-card">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Cross-platform build</h3>
+          <p class="feature-card__desc">CMake 3.16+ with MSVC, GCC, and Clang support. Generate a Visual Studio solution or build from terminal.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works" class="section how-it-works" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">How it works</span>
+        <h2 class="section-title" id="how-title">Simple. Fast. Scriptable.</h2>
+        <p class="section-desc">Three ways to use CodeDiff — pick the one that fits your workflow.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-card__number" aria-hidden="true">01</div>
+          <h3 class="step-card__title">Build with CMake</h3>
+          <p class="step-card__desc">Clone the repo and compile with CMake. The C++17 engine produces a single binary — no runtime dependencies.</p>
+          <span class="step-card__code">cmake -B build -S .</span>
+        </div>
+        <div class="step-card">
+          <div class="step-card__number" aria-hidden="true">02</div>
+          <h3 class="step-card__title">Run the CLI</h3>
+          <p class="step-card__desc">Pass two files as arguments. The tool prints elapsed milliseconds then <code style="font-family:var(--font-mono)">1</code> (equal) or <code style="font-family:var(--font-mono)">0</code> (different).</p>
+          <span class="step-card__code">./build/CodeDiff a.txt b.txt</span>
+        </div>
+        <div class="step-card">
+          <div class="step-card__number" aria-hidden="true">03</div>
+          <h3 class="step-card__title">Call the API</h3>
+          <p class="step-card__desc">POST JSON with <code style="font-family:var(--font-mono)">left</code> and <code style="font-family:var(--font-mono)">right</code> strings to the Vercel endpoint. No install, no key — just HTTP.</p>
+          <span class="step-card__code">POST /api/compare</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- API SECTION -->
+  <section id="api" class="section api-section" aria-labelledby="api-title">
+    <div class="container">
+      <div class="api-grid">
+        <div class="api-info">
+          <p class="api-info__label">HTTP API</p>
+          <h2 class="api-info__title" id="api-title">Integrate in seconds</h2>
+          <p class="api-info__desc">The hosted API on Vercel accepts plain JSON and returns a binary diff result with timing — ready to drop into any language or pipeline.</p>
+          <div class="api-info__details">
+            <div class="api-detail">
+              <svg class="api-detail__check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span>No authentication required</span>
+            </div>
+            <div class="api-detail">
+              <svg class="api-detail__check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span>JSON request and response</span>
+            </div>
+            <div class="api-detail">
+              <svg class="api-detail__check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span>Returns result (1/0) and elapsed time in ms</span>
+            </div>
+            <div class="api-detail">
+              <svg class="api-detail__check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span>Hosted on Vercel — always available</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="api-code-block">
+          <div class="api-code-block__header">
+            <span class="api-code-block__lang">curl</span>
+            <span class="api-code-block__method">POST</span>
+          </div>
+          <div class="api-code-block__body">
+            <pre><span class="code-kw">curl</span> <span class="code-str">/products/codediff/api/compare/</span> \
+  <span class="code-punc">-H</span> <span class="code-str">"Content-Type: application/json"</span> \
+  <span class="code-punc">-d</span> <span class="code-punc">'</span><span class="code-punc">{</span>
+    <span class="code-key">"left"</span><span class="code-punc">:</span>  <span class="code-str">"int main() { return 0; }"</span><span class="code-punc">,</span>
+    <span class="code-key">"right"</span><span class="code-punc">:</span> <span class="code-str">"int main() { return 1; }"</span>
+  <span class="code-punc">}'</span>
+
+<span class="code-comment">// Response</span>
+<span class="code-punc">{</span>
+  <span class="code-key">"result"</span><span class="code-punc">:</span> <span class="code-num">0</span><span class="code-punc">,</span>
+  <span class="code-key">"elapsed_ms"</span><span class="code-punc">:</span> <span class="code-num">0.38</span>
+<span class="code-punc">}</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section class="section tech-section" aria-labelledby="tech-title">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Tech Stack</span>
+        <h2 class="section-title" id="tech-title">Built with precision</h2>
+        <p class="section-desc">A tight stack chosen for speed and simplicity — native C++ core, zero-dependency frontend.</p>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-card__icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <span class="tech-card__name">C++17</span>
+          <span class="tech-card__role">Comparison engine</span>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card__icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <span class="tech-card__name">CMake</span>
+          <span class="tech-card__role">Cross-platform build</span>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card__icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <span class="tech-card__name">Vanilla JS</span>
+          <span class="tech-card__role">Web frontend</span>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card__icon" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <span class="tech-card__name">Vercel</span>
+          <span class="tech-card__role">Serverless deploy</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" aria-labelledby="cta-title">
+    <div class="container">
+      <div class="cta-section__inner">
+        <h2 class="cta-section__title" id="cta-title">Try it now — no install required</h2>
+        <p class="cta-section__desc">Paste two code snippets in the live demo and compare them instantly. Or clone the repo and build the C++ CLI in under a minute.</p>
+        <div class="cta-section__actions">
+          <a class="btn-primary" href="/products/codediff/">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            Open Live Demo
+          </a>
+          <a class="btn-secondary" href="https://github.com/PiyushMishra318/CodeDiff" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            GitHub Repo
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <span class="footer__brand">Code<span>Diff</span></span>
+        <span class="footer__copy">MIT &copy; 2026 Piyush Mishra</span>
+        <nav class="footer__links" aria-label="Footer links">
+          <a class="footer__link" href="https://github.com/PiyushMishra318/CodeDiff" target="_blank" rel="noopener noreferrer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+          <a class="footer__link" href="/" >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            piyushm.dev
+          </a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var btn     = document.getElementById('demo-compare-btn');
+      var clearBtn= document.getElementById('demo-clear-btn');
+      var output  = document.getElementById('demo-output');
+      var errBox  = document.getElementById('demo-error');
+      var lLines  = document.getElementById('demo-lines-left');
+      var rLines  = document.getElementById('demo-lines-right');
+      var timing  = document.getElementById('demo-timing');
+      var badge   = document.getElementById('demo-output-badge');
+      var statAdd = document.getElementById('demo-stat-add');
+      var statDel = document.getElementById('demo-stat-del');
+
+      function esc(s) {
+        return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      }
+
+      function makeLine(num, sign, text, kind) {
+        var cls = kind === 'insert' ? 'diff-line--add'
+                : kind === 'delete' ? 'diff-line--del'
+                : 'diff-line--eq';
+        return '<div class="diff-line ' + cls + '">'
+          + '<span class="diff-line__num">' + (num !== null ? num : '') + '</span>'
+          + '<span class="diff-line__sign">' + esc(sign) + '</span>'
+          + '<span class="diff-line__code">' + esc(text) + '</span>'
+          + '</div>';
+      }
+
+      btn.addEventListener('click', function () {
+        var left  = document.getElementById('demo-left').value;
+        var right = document.getElementById('demo-right').value;
+        btn.disabled = true;
+        btn.textContent = 'Comparing…';
+        output.hidden = true;
+        errBox.hidden = true;
+
+        fetch('/products/codediff/api/compare', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ left: left, right: right })
+        })
+        .then(function (r) {
+          if (!r.ok) throw new Error('API error ' + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          var diff = data.diff || [];
+          var leftHtml = '', rightHtml = '';
+          var adds = 0, dels = 0;
+
+          diff.forEach(function (d) {
+            var kind = d.kind;
+            if (kind === 'equal') {
+              leftHtml  += makeLine(d.leftNum,  ' ', d.left  || d.content || '', 'equal');
+              rightHtml += makeLine(d.rightNum, ' ', d.right || d.content || '', 'equal');
+            } else if (kind === 'delete') {
+              leftHtml  += makeLine(d.leftNum,  '-', d.left  || d.content || '', 'delete');
+              rightHtml += makeLine(null,        ' ', '',                         'equal');
+              dels++;
+            } else if (kind === 'insert') {
+              leftHtml  += makeLine(null,        ' ', '',                         'equal');
+              rightHtml += makeLine(d.rightNum, '+', d.right || d.content || '', 'insert');
+              adds++;
+            } else if (kind === 'change') {
+              leftHtml  += makeLine(d.leftNum,  '-', d.left  || '', 'delete');
+              rightHtml += makeLine(d.rightNum, '+', d.right || '', 'insert');
+              dels++; adds++;
+            }
+          });
+
+          lLines.innerHTML = leftHtml  || '<div class="diff-line diff-line--eq"><span class="diff-line__code" style="padding:8px;color:var(--text-muted)">(empty)</span></div>';
+          rLines.innerHTML = rightHtml || '<div class="diff-line diff-line--eq"><span class="diff-line__code" style="padding:8px;color:var(--text-muted)">(empty)</span></div>';
+
+          statAdd.textContent = '+' + adds + ' addition' + (adds !== 1 ? 's' : '');
+          statDel.textContent = '-' + dels + ' deletion' + (dels !== 1 ? 's' : '');
+          timing.textContent  = 'Time: ' + (data.elapsedMs != null ? data.elapsedMs.toFixed(2) + 'ms' : '—') + ' · ' + (data.equal ? 'Files equal' : 'Files differ');
+
+          var changed = adds + dels;
+          badge.textContent = data.equal ? 'equal' : changed + ' changed';
+          badge.className   = 'diff-preview__badge ' + (data.equal ? 'diff-preview__badge--equal' : 'diff-preview__badge--changed');
+
+          output.hidden = false;
+        })
+        .catch(function (err) {
+          errBox.textContent = 'Error: ' + err.message;
+          errBox.hidden = false;
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Compare →';
+        });
+      });
+
+      clearBtn.addEventListener('click', function () {
+        document.getElementById('demo-left').value  = '';
+        document.getElementById('demo-right').value = '';
+        output.hidden  = true;
+        errBox.hidden  = true;
+      });
+    })();
+  </script>
+</body>
+</html>

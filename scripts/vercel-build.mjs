@@ -2,7 +2,7 @@
  * Portfolio Vercel build: clone product repos (not in git), install, and build.
  */
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync } from "node:fs";
+import { existsSync, mkdirSync, copyFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { PRODUCTS } from "./products-manifest.mjs";
@@ -94,6 +94,28 @@ function npmIn(dir, script) {
 }
 
 ensureProducts();
+
+// Overlay bundled landing pages onto cloned product public/ directories.
+// This ensures custom-designed landings survive Vercel's fresh clone.
+function overlayBundledLandings() {
+  for (const product of Object.values(PRODUCTS)) {
+    if (!product.bundlePath) continue;
+    const bundleDir = join(root, product.bundlePath);
+    if (!existsSync(bundleDir)) continue;
+    const productPublic = join(productsRoot, product.folder, "public");
+    if (!existsSync(productPublic)) mkdirSync(productPublic, { recursive: true });
+    for (const file of ["index.html", "styles.css"]) {
+      const src = join(bundleDir, file);
+      if (existsSync(src)) {
+        const dest = join(productPublic, file);
+        copyFileSync(src, dest);
+        console.log(`[vercel-build] overlay ${product.folder}/public/${file}`);
+      }
+    }
+  }
+}
+
+overlayBundledLandings();
 
 const apiProducts = [
   "CodeDiff",

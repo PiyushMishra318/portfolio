@@ -413,7 +413,73 @@
         <p class="section-desc">Paste your Postman collection JSON below and hit Convert to see the Swagger UI rendered instantly.</p>
       </div>
 
-      <div id="app"></div>
+      <div id="app">
+        <!-- Input panel -->
+        <div class="demo-layout">
+          <div class="demo-input-panel">
+            <div class="demo-panel-header">
+              <span class="demo-panel-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+                Postman Collection JSON
+              </span>
+              <label class="demo-file-label" for="file" aria-label="Upload Postman collection file">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Upload file
+                <input type="file" id="file" accept=".json" class="demo-file-input" />
+              </label>
+            </div>
+            <textarea
+              id="collection"
+              class="demo-textarea"
+              spellcheck="false"
+              autocomplete="off"
+              placeholder="Paste your Postman collection JSON here…"
+              aria-label="Postman collection JSON input"
+            ></textarea>
+            <div class="demo-actions">
+              <button id="sample" class="btn-secondary btn-sm" type="button">Load sample</button>
+              <button id="convert" class="btn-primary btn-sm" type="button">
+                Convert
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+            <div id="error" class="demo-error" hidden role="alert"></div>
+            <div id="loading" class="demo-loading" hidden aria-live="polite">
+              <span class="demo-loading__dot"></span>
+              <span class="demo-loading__dot"></span>
+              <span class="demo-loading__dot"></span>
+              Converting…
+            </div>
+          </div>
+
+          <!-- Output panel -->
+          <div id="output-panel" class="demo-output-panel" hidden>
+            <div class="demo-panel-header">
+              <span class="demo-panel-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                OpenAPI / Swagger JSON
+              </span>
+              <button id="copy-btn" class="demo-copy-btn" type="button" aria-label="Copy output JSON to clipboard">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copy
+              </button>
+            </div>
+            <pre class="demo-output" id="json-output"><code id="json-output-code"></code></pre>
+          </div>
+        </div>
+
+        <!-- Swagger UI mount (shown after conversion) -->
+        <div id="swagger-wrap" class="demo-swagger-wrap" hidden>
+          <div class="demo-panel-header demo-swagger-header">
+            <span class="demo-panel-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Swagger UI Preview
+            </span>
+            <span class="demo-badge">Live</span>
+          </div>
+          <div id="swagger-ui"></div>
+        </div>
+      </div>
     </section>
 
     <!-- CTA -->

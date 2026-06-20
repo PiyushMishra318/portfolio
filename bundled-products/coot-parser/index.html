@@ -343,6 +343,210 @@
     </div>
   </section>
 
+  <!-- INTERACTIVE DEMO -->
+  <section class="section demo-section" aria-labelledby="demo-heading">
+    <div class="section__inner">
+      <p class="section__eyebrow">Try It Live</p>
+      <h2 class="section__title" id="demo-heading">LIVE<br/>DEMO.</h2>
+      <div class="demo-layout">
+
+        <div class="demo-input-col">
+          <div class="demo-panel">
+            <div class="demo-panel__header">
+              <span class="demo-panel__label">INPUT &mdash; Component JSON</span>
+              <div class="demo-panel__controls">
+                <select id="demo-mode" class="demo-select" aria-label="Parse mode">
+                  <option value="parse">parse</option>
+                  <option value="compose">compose</option>
+                  <option value="split">split</option>
+                </select>
+                <button class="demo-run-btn" id="demo-run-btn" aria-label="Run parser">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  RUN
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="demo-input"
+              class="demo-textarea"
+              spellcheck="false"
+              aria-label="Component definition JSON input"
+              rows="14"
+            >{
+  "name": "Button",
+  "props": {
+    "label": "Click me",
+    "variant": "primary"
+  },
+  "children": []
+}</textarea>
+          </div>
+          <div class="demo-presets" role="group" aria-label="Presets">
+            <span class="demo-presets__label">PRESETS:</span>
+            <button class="demo-preset-btn" data-preset="button">Button</button>
+            <button class="demo-preset-btn" data-preset="card">Card</button>
+            <button class="demo-preset-btn" data-preset="compose">Compose</button>
+          </div>
+        </div>
+
+        <div class="demo-output-col">
+          <div class="demo-panel">
+            <div class="demo-panel__header">
+              <span class="demo-panel__label">OUTPUT &mdash; Parsed Result</span>
+              <span class="demo-status" id="demo-status" aria-live="polite"></span>
+            </div>
+            <pre class="demo-output" id="demo-output" aria-label="Parser output"><span class="demo-output__hint">// Hit RUN to parse.</span></pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function () {
+    var PRESETS = {
+      button: '{\n  "name": "Button",\n  "props": {\n    "label": "Click me",\n    "variant": "primary"\n  },\n  "children": []\n}',
+      card: '{\n  "name": "Card",\n  "props": {\n    "title": "Hello World",\n    "body": "A canvas component card.",\n    "theme": "dark"\n  },\n  "children": [\n    { "name": "Button", "props": { "label": "Action" }, "children": [] }\n  ]\n}',
+      compose: '[\n  {\n    "html": "<div class=\\"hero\\">Welcome</div>",\n    "style": { "position": "absolute", "top": "0", "left": "0" },\n    "position": { "x": 0, "y": 0, "w": 1280, "h": 480 }\n  }\n]'
+    };
+
+    var MOCK_RESULTS = {
+      parse: function (input) {
+        try {
+          var obj = JSON.parse(input);
+          return {
+            status: 'ok',
+            mode: 'parse',
+            component: obj.name || 'Unknown',
+            ast: {
+              type: 'ComponentNode',
+              name: obj.name || 'Unknown',
+              props: obj.props || {},
+              children: (obj.children || []).map(function (c) {
+                return { type: 'ComponentNode', name: c.name, props: c.props || {}, children: [] };
+              }),
+              meta: { parsedAt: new Date().toISOString(), himalayaVersion: '1.1.0' }
+            }
+          };
+        } catch (e) {
+          return { status: 'error', message: 'Invalid JSON: ' + e.message };
+        }
+      },
+      compose: function (input) {
+        try {
+          var layers = JSON.parse(input);
+          var count = Array.isArray(layers) ? layers.length : 1;
+          return {
+            status: 'ok',
+            mode: 'compose',
+            layersComposed: count,
+            output: '<!DOCTYPE html><html><body style="position:relative;width:1280px">\n' +
+              (Array.isArray(layers) ? layers.map(function (l) {
+                return '  <!-- layer -->\n  ' + (l.html || '<div></div>');
+              }).join('\n') : '  <!-- layer -->\n  <div></div>') +
+              '\n</body></html>'
+          };
+        } catch (e) {
+          return { status: 'error', message: 'Invalid JSON: ' + e.message };
+        }
+      },
+      split: function (input) {
+        try {
+          var obj = JSON.parse(input);
+          var name = obj.name || 'Component';
+          var children = obj.children || [];
+          var files = {};
+          files[name + '.html'] = '<div data-component="' + name + '">\n  <!-- ' + name + ' -->\n</div>';
+          children.forEach(function (c) {
+            files[(c.name || 'Child') + '.html'] = '<div data-component="' + (c.name || 'Child') + '">\n  <!-- ' + (c.name || 'Child') + ' -->\n</div>';
+          });
+          return { status: 'ok', mode: 'split', filesWritten: Object.keys(files).length, files: files };
+        } catch (e) {
+          return { status: 'error', message: 'Invalid JSON: ' + e.message };
+        }
+      }
+    };
+
+    var inputEl = document.getElementById('demo-input');
+    var outputEl = document.getElementById('demo-output');
+    var statusEl = document.getElementById('demo-status');
+    var modeEl = document.getElementById('demo-mode');
+    var runBtn = document.getElementById('demo-run-btn');
+
+    document.querySelectorAll('.demo-preset-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var preset = PRESETS[btn.dataset.preset];
+        if (preset) {
+          inputEl.value = preset;
+          if (btn.dataset.preset === 'compose') modeEl.value = 'compose';
+          else modeEl.value = 'parse';
+        }
+      });
+    });
+
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function syntaxHighlight(json) {
+      return escapeHtml(json)
+        .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (m) {
+          var cls = 'demo-json-num';
+          if (/^"/.test(m)) cls = /:$/.test(m) ? 'demo-json-key' : 'demo-json-str';
+          else if (/true|false/.test(m)) cls = 'demo-json-bool';
+          else if (/null/.test(m)) cls = 'demo-json-null';
+          return '<span class="' + cls + '">' + m + '</span>';
+        });
+    }
+
+    function runDemo() {
+      var mode = modeEl.value;
+      var input = inputEl.value.trim();
+      runBtn.disabled = true;
+      runBtn.textContent = '...';
+      statusEl.textContent = '';
+      statusEl.className = 'demo-status';
+
+      var tryFetch = mode === 'parse';
+      var componentName = 'Button';
+      try { componentName = JSON.parse(input).name || 'Button'; } catch (e) {}
+
+      function showResult(result) {
+        var json = JSON.stringify(result, null, 2);
+        outputEl.innerHTML = syntaxHighlight(json);
+        if (result.status === 'error') {
+          statusEl.textContent = 'ERROR';
+          statusEl.className = 'demo-status demo-status--error';
+        } else {
+          statusEl.textContent = 'OK';
+          statusEl.className = 'demo-status demo-status--ok';
+        }
+        runBtn.disabled = false;
+        runBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> RUN';
+      }
+
+      if (tryFetch) {
+        fetch('/products/coot-parser/parse/' + encodeURIComponent(componentName), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: input
+        })
+          .then(function (res) { return res.json(); })
+          .then(showResult)
+          .catch(function () { showResult(MOCK_RESULTS[mode](input)); });
+      } else {
+        setTimeout(function () { showResult(MOCK_RESULTS[mode](input)); }, 120);
+      }
+    }
+
+    runBtn.addEventListener('click', runDemo);
+    inputEl.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runDemo();
+    });
+  })();
+  </script>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer__inner">

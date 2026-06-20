@@ -1,8 +1,23 @@
 /** Shared slug → product folder map for preview and Vercel routing. */
 export const PRODUCTS = {
-  "background-remover": { folder: "BackgroundRemover", root: false },
-  "canvas-games": { folder: "Canvas-Js-Games", root: true },
-  codediff: { folder: "CodeDiff", root: false },
+  "background-remover": {
+    folder: "BackgroundRemover",
+    root: false,
+    bundlePath: "bundled-products/background-remover",
+    skipClone: true,
+  },
+  "canvas-games": {
+    folder: "Canvas-Js-Games",
+    root: true,
+    bundlePath: "bundled-products/canvas-games",
+    skipClone: true,
+  },
+  codediff: {
+    folder: "CodeDiff",
+    root: false,
+    bundlePath: "bundled-products/codediff",
+    skipClone: true,
+  },
   "coot-parser": {
     folder: "coot-parser--experimental",
     root: false,
@@ -21,14 +36,31 @@ export const PRODUCTS = {
     bundlePath: "bundled-products/email-validation",
     skipClone: true,
   },
-  tracktemp: { folder: "ESP8266-DHT11-Google-Sheets-Logger", root: false },
+  tracktemp: {
+    folder: "ESP8266-DHT11-Google-Sheets-Logger",
+    root: false,
+    bundlePath: "bundled-products/tracktemp",
+    skipClone: true,
+  },
   lambda: {
     folder: "lambda",
     root: false,
     bundlePath: "bundled-products/lambda",
     skipClone: true,
   },
-  lumina: { folder: "lumina", root: false },
+  lumina: {
+    folder: "lumina",
+    root: false,
+    bundlePath: "bundled-products/lumina",
+    skipClone: true,
+  },
+  playground: {
+    folder: "piyush-playground",
+    root: false,
+    staticOut: "out",
+    bundlePath: "bundled-products/playground",
+    skipClone: true,
+  },
   "postman-to-swagger": {
     folder: "postman-to-swagger",
     root: false,
@@ -49,7 +81,12 @@ export const PRODUCTS = {
     skipClone: true,
   },
   talkative: { folder: "talkative", root: false, bundlePath: "bundled-products/talkative" },
-  transcribe: { folder: "transcribe", root: false },
+  transcribe: {
+    folder: "transcribe",
+    root: false,
+    bundlePath: "bundled-products/transcribe",
+    skipClone: true,
+  },
   tsukiyomi: {
     folder: "Tsukiyomi-Platform",
     root: false,
@@ -61,8 +98,18 @@ export const PRODUCTS = {
     bundlePath: "bundled-products/page-speed",
     skipClone: true,
   },
-  wingman: { folder: "wingman", root: false },
-  xbat: { folder: "XBat", root: false },
+  wingman: {
+    folder: "wingman",
+    root: false,
+    bundlePath: "bundled-products/wingman",
+    skipClone: true,
+  },
+  xbat: {
+    folder: "XBat",
+    root: false,
+    bundlePath: "bundled-products/xbat",
+    skipClone: true,
+  },
 };
 
 export const PRODUCT_SLUGS = Object.keys(PRODUCTS);

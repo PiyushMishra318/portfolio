@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="XBat — Minimalist glassmorphism desktop widget for Xbox controller battery life and session analytics. Real-time XInput monitoring with tray support on Windows." />
+  <title>XBat — Xbox Controller Battery Monitor</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav" role="navigation" aria-label="Site navigation">
+    <div class="nav__inner">
+      <a href="/" class="nav__back" aria-label="Back to PIYUSHM.DEV portfolio">
+        <svg class="nav__back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        <span class="nav__back-text">PIYUSHM.DEV</span>
+      </a>
+      <span class="nav__badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+        </svg>
+        Windows App
+      </span>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__glow" aria-hidden="true"></div>
+
+    <div class="container">
+      <div class="hero__content">
+
+        <!-- Left column — copy -->
+        <div>
+          <div class="hero__eyebrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="7" width="20" height="14" rx="2"/>
+              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+            </svg>
+            Xbox Controller Companion
+          </div>
+
+          <h1 class="hero__title" id="hero-title">
+            Your battery,
+            <span class="hero__title-accent">always in sight</span>
+          </h1>
+
+          <p class="hero__tagline">
+            XBat is a sleek glassmorphism desktop widget for Windows that tracks Xbox controller battery life and session performance in real time — via XInput and PowerShell fallback. Runs quietly in the system tray.
+          </p>
+
+          <div class="hero__actions">
+            <a
+              href="https://github.com/PiyushMishra318/xbat/releases"
+              class="btn btn--primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download EXE
+            </a>
+            <a
+              href="https://github.com/PiyushMishra318/xbat"
+              class="btn btn--outline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+              View Source
+            </a>
+          </div>
+        </div>
+
+        <!-- Right column — animated widget preview -->
+        <div class="hero__widget" aria-hidden="true">
+          <div class="glow-ring"></div>
+          <div class="hero__widget-frame">
+            <svg class="hero__widget-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="8" width="12" height="8" rx="2"/>
+              <path d="M10 8V6a2 2 0 0 1 4 0v2"/>
+              <line x1="12" y1="10" x2="12" y2="14"/>
+              <line x1="10" y1="12" x2="14" y2="12"/>
+            </svg>
+
+            <div class="hero__widget-label">Battery Level</div>
+            <div class="hero__widget-percent">78%</div>
+
+            <div class="hero__widget-bar">
+              <div class="hero__widget-bar-fill"></div>
+            </div>
+
+            <div class="hero__widget-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STATS ===================== -->
+  <section class="stats" aria-label="Project statistics">
+    <div class="container">
+      <div class="stats__grid">
+        <div class="stat-card">
+          <div class="stat-card__value">4</div>
+          <div class="stat-card__label">Controllers supported simultaneously</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value">~5 MB</div>
+          <div class="stat-card__label">Portable EXE footprint</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value">30 Hz</div>
+          <div class="stat-card__label">XInput polling rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__value">Win 10+</div>
+          <div class="stat-card__label">Compatible Windows versions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURES ===================== -->
+  <section class="features section" aria-labelledby="features-title">
+    <div class="container">
+      <div class="features__header">
+        <div class="features__eyebrow">What it does</div>
+        <h2 class="features__title" id="features-title">Everything you need, nothing you don't</h2>
+        <div class="divider" style="margin: 1.5rem auto 0;"></div>
+      </div>
+
+      <div class="features__grid">
+
+        <!-- Feature 1 -->
+        <article class="feature-card">
+          <div class="feature-card__icon-wrap">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="7" width="18" height="11" rx="2"/>
+              <path d="M22 11v2"/>
+              <line x1="7" y1="11" x2="7" y2="15"/>
+              <line x1="5" y1="13" x2="9" y2="13"/>
+              <line x1="14" y1="12" x2="16" y2="12"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Real-time Battery Monitoring</h3>
+          <p class="feature-card__desc">Precise tracking for both wired and wireless controllers via XInput. Percentage updates live so you always know where you stand before a long session.</p>
+        </article>
+
+        <!-- Feature 2 -->
+        <article class="feature-card">
+          <div class="feature-card__icon-wrap">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4.93 4.93a10 10 0 1 0 14.14 0"/>
+              <path d="M12 2v6"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Bluetooth Fallback</h3>
+          <p class="feature-card__desc">Custom PowerShell integration accurately reports battery levels when standard XInput is unavailable — perfect for Bluetooth-connected controllers.</p>
+        </article>
+
+        <!-- Feature 3 -->
+        <article class="feature-card">
+          <div class="feature-card__icon-wrap">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Session Analytics</h3>
+          <p class="feature-card__desc">Track total play time and battery drain percentage per session. Understand exactly how your battery performs during different game genres and intensities.</p>
+        </article>
+
+        <!-- Feature 4 -->
+        <article class="feature-card">
+          <div class="feature-card__icon-wrap">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Performance History</h3>
+          <p class="feature-card__desc">View a detailed log of past sessions to see how your battery sets are performing over time. Identify degradation trends before they disrupt gameplay.</p>
+        </article>
+
+        <!-- Feature 5 -->
+        <article class="feature-card">
+          <div class="feature-card__icon-wrap">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M9 3v18"/>
+              <path d="M15 3v18"/>
+              <path d="M3 9h18"/>
+              <path d="M3 15h18"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Smooth Resizing</h3>
+          <p class="feature-card__desc">A fully responsive Electron UI that scales to any preferred desktop size. Drag a corner to resize the widget and it adapts instantly without layout jank.</p>
+        </article>
+
+        <!-- Feature 6 -->
+        <article class="feature-card">
+          <div class="feature-card__icon-wrap">
+            <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Minimize to Tray</h3>
+          <p class="feature-card__desc">Runs as a lightweight background service. Double-click the system tray icon to show or hide the widget. Zero desktop clutter when you need your screen space.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section class="how section" aria-labelledby="how-title">
+    <div class="container">
+      <div class="how__header">
+        <div class="how__eyebrow">Under the hood</div>
+        <h2 class="how__title" id="how-title">How XBat works</h2>
+        <div class="divider" style="margin: 1.5rem auto 0;"></div>
+      </div>
+
+      <ol class="how__steps">
+
+        <li class="step">
+          <div class="step__number" aria-hidden="true">01</div>
+          <div class="step__content">
+            <h3 class="step__title">Connect Controller</h3>
+            <p class="step__desc">Plug in via USB or pair via Bluetooth. XBat detects your Xbox controller automatically on launch.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step__number" aria-hidden="true">02</div>
+          <div class="step__content">
+            <h3 class="step__title">XInput Query</h3>
+            <p class="step__desc">The Electron main process calls the native XInput API at 30 Hz to retrieve precise battery level and controller state.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step__number" aria-hidden="true">03</div>
+          <div class="step__content">
+            <h3 class="step__title">PowerShell Fallback</h3>
+            <p class="step__desc">When XInput returns no data (Bluetooth mode), a PowerShell script queries the WMI battery namespace for accurate readings.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step__number" aria-hidden="true">04</div>
+          <div class="step__content">
+            <h3 class="step__title">Live UI Update</h3>
+            <p class="step__desc">Data is piped via IPC to the renderer process and displayed in the glassmorphism widget with animated bar and session timer.</p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== TECH STACK ===================== -->
+  <section class="tech section" aria-labelledby="tech-title">
+    <div class="container">
+      <div class="tech__header">
+        <div class="tech__eyebrow">Built with</div>
+        <h2 class="tech__title" id="tech-title">The stack behind XBat</h2>
+        <div class="divider" style="margin: 1.5rem auto 0;"></div>
+      </div>
+
+      <div class="tech__grid">
+
+        <div class="tech-item">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+          <span class="tech-item__name">Electron</span>
+          <span class="tech-item__sub">Desktop shell</span>
+        </div>
+
+        <div class="tech-item">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          <span class="tech-item__name">Node.js</span>
+          <span class="tech-item__sub">Runtime</span>
+        </div>
+
+        <div class="tech-item">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          <span class="tech-item__name">XInput</span>
+          <span class="tech-item__sub">Windows API</span>
+        </div>
+
+        <div class="tech-item">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 3l14 9-14 9V3z"/>
+          </svg>
+          <span class="tech-item__name">PowerShell</span>
+          <span class="tech-item__sub">BT fallback</span>
+        </div>
+
+        <div class="tech-item">
+          <svg class="tech-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+            <path d="M2 12h20"/>
+          </svg>
+          <span class="tech-item__name">Electron Builder</span>
+          <span class="tech-item__sub">Packaging</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="cta section" aria-labelledby="cta-title">
+    <div class="container">
+      <div class="cta__inner">
+        <span class="badge">Free &amp; Open Source</span>
+
+        <h2 class="cta__title" id="cta-title">
+          Stop guessing your battery
+        </h2>
+        <p class="cta__sub">
+          Download XBat in seconds. No installer, no account, no tracking. Just drop the EXE, run it, and your controller battery is always one glance away.
+        </p>
+
+        <div class="cta__actions">
+          <a
+            href="https://github.com/PiyushMishra318/xbat/releases"
+            class="btn btn--primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download for Windows
+          </a>
+          <a
+            href="https://github.com/PiyushMishra318/xbat"
+            class="btn btn--outline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            Star on GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+
+        <div class="footer__brand">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" color="var(--color-teal)" aria-hidden="true">
+            <rect x="2" y="7" width="18" height="11" rx="2"/>
+            <path d="M22 11v2"/>
+            <line x1="7" y1="11" x2="7" y2="15"/>
+            <line x1="5" y1="13" x2="9" y2="13"/>
+            <line x1="14" y1="12" x2="16" y2="12"/>
+          </svg>
+          <span class="footer__brand-name">XBat</span>
+        </div>
+
+        <nav class="footer__links" aria-label="Footer links">
+          <a
+            href="https://github.com/PiyushMishra318/xbat"
+            class="footer__link"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View XBat on GitHub"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            GitHub
+          </a>
+          <a
+            href="https://github.com/PiyushMishra318/xbat/releases"
+            class="footer__link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Releases
+          </a>
+          <a href="/" class="footer__link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Portfolio
+          </a>
+        </nav>
+
+      </div>
+
+      <p class="footer__copy">
+        Built by Piyush Mishra &mdash; open source under MIT License &mdash; &copy; 2024 XBat
+      </p>
+    </div>
+  </footer>
+
+</div><!-- /.page -->
+
+</body>
+</html>
