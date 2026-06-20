@@ -15,7 +15,6 @@
   var progressStart = 0;
   var progressElapsed = 0;
   var progressPaused = false;
-  var progressFill = null;
   var hoverPauseCount = 0;
 
   var PROJECTS = [
@@ -228,20 +227,34 @@
   }
 
   function ensureProgressBar(root) {
-    var bar = root.querySelector(".home_featured_progress");
-    if (bar) return bar;
-    bar = global.document.createElement("div");
-    bar.className = "home_featured_progress";
-    bar.setAttribute("aria-hidden", "true");
-    bar.innerHTML =
-      '<div class="home_featured_progress_track">' +
-      '<div class="home_featured_progress_fill"></div></div>';
-    root.appendChild(bar);
-    return bar;
+    var carousel = root.querySelector(".home_featured_c");
+    if (!carousel) return null;
+
+    root.querySelectorAll(":scope > .home_featured_progress").forEach(function (el) {
+      el.remove();
+    });
+
+    var wrap = root.querySelector(".home_featured_carousel");
+    if (!wrap) {
+      wrap = global.document.createElement("div");
+      wrap.className = "home_featured_carousel";
+      carousel.parentNode.insertBefore(wrap, carousel);
+      wrap.innerHTML =
+        '<div class="home_featured_progress home_featured_progress--left" aria-hidden="true">' +
+        '<div class="home_featured_progress_track"><div class="home_featured_progress_fill"></div></div></div>' +
+        '<div class="home_featured_progress home_featured_progress--right" aria-hidden="true">' +
+        '<div class="home_featured_progress_track"><div class="home_featured_progress_fill"></div></div></div>';
+      wrap.insertBefore(carousel, wrap.children[1]);
+    }
+
+    return wrap;
   }
 
   function setProgress(pct) {
-    if (progressFill) progressFill.style.transform = "scaleX(" + pct + ")";
+    if (!activeRoot) return;
+    activeRoot.querySelectorAll(".home_featured_progress_fill").forEach(function (fill) {
+      fill.style.transform = "scaleY(" + pct + ")";
+    });
   }
 
   function stopProgressLoop() {
@@ -320,7 +333,7 @@
 
   function startProgress(root) {
     activeRoot = root;
-    progressFill = ensureProgressBar(root).querySelector(".home_featured_progress_fill");
+    ensureProgressBar(root);
     resetProgressCycle();
     progressPaused = false;
     hoverPauseCount = 0;
@@ -332,7 +345,6 @@
   function stopTimer() {
     stopProgressLoop();
     activeRoot = null;
-    progressFill = null;
     progressPaused = false;
     hoverPauseCount = 0;
     progressElapsed = 0;
