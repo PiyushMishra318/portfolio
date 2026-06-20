@@ -964,7 +964,7 @@ body::before {
 .demo-panel {
   border: var(--border-brutal);
   background: var(--c-bg-card);
-  overflow: hidden;
+  overflow: visible;
   box-shadow: var(--shadow-brutal);
 }
 
