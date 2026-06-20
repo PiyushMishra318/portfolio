@@ -407,7 +407,7 @@
       </nav>
 
       <p class="footer__copy">
-        Built by <a class="footer__link" href="/" style="display:inline-flex">Piyush Mishra</a> &mdash; MIT Licensed &copy; 2024
+        Built by <a class="footer__link" href="/" style="display:inline-flex">Piyush Mishra</a> &mdash; MIT Licensed &copy; <span class="copy-yr"></span>
       </p>
     </div>
   </footer>
@@ -423,5 +423,6 @@
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   </script>
+<script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

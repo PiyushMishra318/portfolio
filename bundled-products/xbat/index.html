@@ -439,12 +439,12 @@
       </div>
 
       <p class="footer__copy">
-        Built by Piyush Mishra &mdash; open source under MIT License &mdash; &copy; 2024 XBat
+        Built by Piyush Mishra &mdash; open source under MIT License &mdash; &copy; <span class="copy-yr"></span> XBat
       </p>
     </div>
   </footer>
 
 </div><!-- /.page -->
-
+<script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>
