@@ -1311,7 +1311,9 @@ details { width: 100%; }
 .flow-uri code { color: var(--color-cyan); font-size: 0.80rem; }
 .flow-steps-scroll { max-height: 360px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md); }
 .flow-steps-list { display: flex; flex-direction: column; }
-article.flow-step { display: grid; grid-template-columns: 2rem 1fr; gap: 0.9rem; align-items: flex-start; padding: 1rem 1.1rem; border-bottom: 1px solid var(--color-border); background: var(--color-surface-2); }
+article.flow-step { display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem 1.1rem; border-bottom: 1px solid var(--color-border); background: var(--color-surface-2); }
+.step-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.1rem; }
+.step-header h3 { margin: 0; font-size: 0.88rem; font-weight: 600; color: var(--color-text); }
 article.flow-step[hidden] { display: none; }
 article.flow-step:last-child { border-bottom: none; }
 article.flow-step.revealed { animation: reveal-step 0.4s ease both; }

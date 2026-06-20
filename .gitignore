@@ -18,6 +18,10 @@ coot-ai-site-landscape.png
 
 .vercel
 
+# Local env overrides (API keys etc — never commit)
+.env.local
+.env*.local
+
 # Cloned product repos (each has its own git remote); cloned on Vercel during build
 products/
 

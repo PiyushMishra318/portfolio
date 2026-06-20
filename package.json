@@ -7,7 +7,7 @@
   "scripts": {
     "test:utm": "node scripts/test-utm.mjs",
     "test:imr": "node scripts/test-imr.mjs",
-    "preview:local": "node scripts/preview-local.mjs",
+    "preview:local": "node --env-file=.env.local scripts/preview-local.mjs",
     "capture:products": "node scripts/capture-product-screenshots.mjs",
     "capture:screenshots": "node scripts/capture-product-screenshots.mjs",
     "vercel-build": "node scripts/vercel-build.mjs"
