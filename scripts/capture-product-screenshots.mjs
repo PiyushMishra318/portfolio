@@ -22,52 +22,33 @@ let captured = 0;
 const failed = [];
 
 try {
-  // ── Homepage mobile screenshot → my-image.jpeg ──────────────────────────
-  {
-    const mobilePage = await browser.newPage({ viewport: { width: 390, height: 844 } });
-    try {
-      await mobilePage.goto(`${BASE}/`, { waitUntil: "networkidle", timeout: 30000 });
-      await mobilePage.waitForTimeout(2500); // let WebGL/preloader settle
-      await mobilePage.screenshot({
-        path: join(root, "my-image.jpeg"),
-        type: "jpeg",
-        quality: 92,
-        fullPage: false,
-      });
-      console.log("ok  homepage-mobile → my-image.jpeg");
-    } catch (err) {
-      console.error("fail homepage-mobile:", err.message);
-      failed.push("homepage-mobile");
-    } finally {
-      await mobilePage.close();
-    }
-  }
-
   // ── Product pages ────────────────────────────────────────────────────────
-  // landscape: 1280×720 full-page (used as large card image)
-  // resized:   640×400 viewport crop (used as small thumbnail)
+  // landscape: 1280×720 viewport hero shot (used as large card image)
+  // resized:   640×360 viewport hero shot (used as small thumbnail)
   const desktopPage = await browser.newPage({ viewport: { width: 1280, height: 720 } });
-  const thumbPage   = await browser.newPage({ viewport: { width: 640, height: 400 } });
+  const thumbPage   = await browser.newPage({ viewport: { width: 640, height: 360 } });
 
   for (const slug of SLUGS) {
     try {
-      // Landscape (full-page)
+      // Landscape — 1280×720 hero viewport
       const res = await desktopPage.goto(`${BASE}/products/${slug}/`, {
         waitUntil: "networkidle",
         timeout: 45000,
       });
       if (!res || !res.ok()) throw new Error(`HTTP ${res?.status()}`);
+      await desktopPage.evaluate(() => window.scrollTo(0, 0));
       await desktopPage.waitForTimeout(1200);
       await desktopPage.screenshot({
         path: join(root, `product-${slug}-landscape.png`),
-        fullPage: true,
+        fullPage: false,
       });
 
-      // Resized thumbnail (viewport only, smaller)
+      // Resized thumbnail — 640×360 hero viewport
       await thumbPage.goto(`${BASE}/products/${slug}/`, {
         waitUntil: "networkidle",
         timeout: 45000,
       });
+      await thumbPage.evaluate(() => window.scrollTo(0, 0));
       await thumbPage.waitForTimeout(800);
       await thumbPage.screenshot({
         path: join(root, `product-${slug}-resized.png`),
