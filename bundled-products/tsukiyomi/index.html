@@ -888,5 +888,16 @@
 </div>
 
   <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
+  <script>
+    document.addEventListener('click', function(e) {
+      var a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var id = a.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
 </body>
 </html>
