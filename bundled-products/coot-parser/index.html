@@ -43,7 +43,7 @@
         composed HTML pages, and split component files &mdash; from a single CLI command.
       </p>
       <div class="hero__cta-group">
-        <a href="/products/coot-parser/" class="btn-primary">
+        <a href="#demo" class="btn-primary">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
             <polyline points="15 3 21 3 21 9"/>
@@ -325,7 +325,7 @@
         Clone, install, run. No config files, no lock-in &mdash; just a Node CLI and four powerful modes for turning design exports into structured code.
       </p>
       <div class="cta-section__actions">
-        <a href="/products/coot-parser/" class="btn-primary">
+        <a href="#demo" class="btn-primary">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
             <polyline points="15 3 21 3 21 9"/>
@@ -344,7 +344,7 @@
   </section>
 
   <!-- INTERACTIVE DEMO -->
-  <section class="section demo-section" aria-labelledby="demo-heading">
+  <section id="demo" class="section demo-section" aria-labelledby="demo-heading">
     <div class="section__inner">
       <p class="section__eyebrow">Try It Live</p>
       <h2 class="section__title" id="demo-heading">LIVE<br/>DEMO.</h2>
@@ -446,7 +446,6 @@
                 return '  <!-- layer -->\n  ' + (l.html || '<div></div>');
               }).join('\n') : '  <!-- layer -->\n  <div></div>') +
               '\n
-  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body></html>'
           };
         } catch (e) {
@@ -562,7 +561,7 @@
           </svg>
           GitHub
         </a>
-        <a href="/products/coot-parser/" class="footer__link" aria-label="Live demo">
+        <a href="#demo" class="footer__link" aria-label="Live demo">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
             <polyline points="15 3 21 3 21 9"/>
@@ -584,7 +583,17 @@
     </div>
   </footer>
 
-
   <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
+  <script>
+    document.addEventListener('click', function(e) {
+      var a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var id = a.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
 </body>
 </html>

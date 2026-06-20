@@ -213,17 +213,20 @@ async function handleCompare(req, res) {
 }
 
 function normalizePostmanUrl(url) {
-  if (!url || typeof url === "string") return url;
-  if (!url.host || !url.path) {
+  if (!url) return url;
+  // Convert string URL to object form that postman-2-swagger expects
+  const raw = typeof url === "string" ? url : (url.raw || "");
+  const base = typeof url === "object" ? url : {};
+  if (!base.host || !base.path) {
     try {
-      const raw = url.raw || "";
       const parsed = new URL(raw.startsWith("http") ? raw : `https://${raw}`);
-      url = {
-        ...url,
-        host: url.host || parsed.hostname.split("."),
-        path: url.path || parsed.pathname.replace(/^\//, "").split("/").filter(Boolean),
-        protocol: url.protocol || parsed.protocol.replace(":", ""),
-        port: url.port || parsed.port || undefined,
+      return {
+        ...base,
+        raw,
+        host: base.host?.length ? base.host : parsed.hostname.split("."),
+        path: base.path?.length ? base.path : parsed.pathname.replace(/^\//, "").split("/").filter(Boolean),
+        protocol: base.protocol || parsed.protocol.replace(":", ""),
+        port: base.port || parsed.port || undefined,
       };
     } catch {}
   }
