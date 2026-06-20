@@ -22,9 +22,9 @@
     }
   },
   "rewrites": [
-    { "source": "/about", "destination": "/about.html" },
-    { "source": "/projects", "destination": "/projects.html" },
-    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/projects", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" },
     { "source": "/project/:slug", "destination": "/products/:slug/" },
     { "source": "/project/:slug/", "destination": "/products/:slug/" },
     { "source": "/project/:slug/:path*", "destination": "/products/:slug/:path*" },

@@ -77,11 +77,10 @@ function serveProductAsset(slug, rest, res, mountPath = `/products/${slug}`) {
 function resolvePortfolio(pathname) {
   const clean = pathname.split("?")[0];
   if (clean === "/") return join(root, "index.html");
+  // SPA: all portfolio routes serve index.html so main.js initializes scroll correctly
+  if (clean === "/projects" || clean === "/about" || clean === "/contact") return join(root, "index.html");
   const direct = join(root, clean.replace(/^\//, ""));
   if (existsSync(direct) && statSync(direct).isFile()) return direct;
-  if (clean === "/projects") return join(root, "projects.html");
-  if (clean === "/about") return join(root, "about.html");
-  if (clean === "/contact") return join(root, "contact.html");
   return null;
 }
 
