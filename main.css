@@ -131,12 +131,19 @@ html.phone .home_featured_c {
   padding-bottom: 2rem;
   overflow-x: auto;
   overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+html.phone .home_featured_c::-webkit-scrollbar {
+  display: none;
 }
 html.phone .home_featured_project {
-  width: 33.5rem;
+  width: 72vw;
   height: auto !important;
   flex-shrink: 0;
   margin-top: 0 !important;
+  scroll-snap-align: start;
 }
 html.phone .home_featured_project .home_featured_img {
   height: auto !important;
@@ -165,8 +172,9 @@ html.phone .home_featured_text {
   margin-top: 1rem;
 }
 html.phone .project_last {
-  width: 33.5rem;
+  width: calc(72vw + 2rem);
   padding-right: 2rem;
+  scroll-snap-align: start;
 }
 
 /* Featured carousel — Steam-style side progress bars */
