@@ -95,16 +95,23 @@ function resolveProduct(slug, rest) {
 
   if (slug === "canvas-games") {
     let rel = rest.replace(/^\//, "");
-    if (!rel || rel === "" || rel.endsWith("/")) {
+    // Root — serve bundled landing page
+    if (!rel || rel === "") {
+      const bundledLanding = bundledRoot ? join(bundledRoot, "index.html") : null;
+      if (bundledLanding && existsSync(bundledLanding)) return bundledLanding;
       const landing = join(publicDir, "index.html");
       if (existsSync(landing)) return landing;
     }
-    const publicAsset = safePath(publicDir, rel);
-    if (publicAsset && existsSync(publicAsset) && statSync(publicAsset).isFile()) return publicAsset;
+    // Sub-asset in bundled dir (styles.css, theme.js etc)
+    if (bundledRoot) {
+      const bundledAsset = safePath(bundledRoot, rel);
+      if (bundledAsset && existsSync(bundledAsset) && statSync(bundledAsset).isFile()) return bundledAsset;
+    }
+    // Resolve path inside the actual game repo
     if (!rel.endsWith(".html") && !extname(rel)) rel = join(rel, "index.html").replace(/\\/g, "/");
     const gameFile = safePath(base, rel);
     if (gameFile && existsSync(gameFile) && statSync(gameFile).isFile()) return gameFile;
-    return safePath(publicDir, "index.html");
+    return null;
   }
 
   const productRoot =
@@ -135,7 +142,14 @@ async function serveProductRoute(slug, rest, req, res, mountPath) {
     res.end(`Product not found: ${slug}`);
     return;
   }
-  serveProductAsset(slug, rest, res, mountPath);
+  // For canvas-games sub-pages (e.g. /flappy-bird/), the <base> must point at the
+  // sub-directory so relative assets (game.js, sprite.js, image/) resolve correctly.
+  let effectiveMountPath = mountPath;
+  if (slug === "canvas-games" && rest && rest !== "/") {
+    const sub = rest.replace(/\/$/, ""); // e.g. "/flappy-bird"
+    effectiveMountPath = mountPath + sub; // e.g. "/products/canvas-games/flappy-bird"
+  }
+  serveProductAsset(slug, rest, res, effectiveMountPath);
 }
 
 async function handler(req, res) {

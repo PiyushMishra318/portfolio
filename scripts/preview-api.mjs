@@ -212,6 +212,38 @@ async function handleCompare(req, res) {
   });
 }
 
+function normalizePostmanUrl(url) {
+  if (!url || typeof url === "string") return url;
+  if (!url.host || !url.path) {
+    try {
+      const raw = url.raw || "";
+      const parsed = new URL(raw.startsWith("http") ? raw : `https://${raw}`);
+      url = {
+        ...url,
+        host: url.host || parsed.hostname.split("."),
+        path: url.path || parsed.pathname.replace(/^\//, "").split("/").filter(Boolean),
+        protocol: url.protocol || parsed.protocol.replace(":", ""),
+        port: url.port || parsed.port || undefined,
+      };
+    } catch {}
+  }
+  return url;
+}
+
+function normalizePostmanCollection(col) {
+  if (!col || !Array.isArray(col.item)) return col;
+  function normalizeItems(items) {
+    return items.map((item) => {
+      if (item.item) return { ...item, item: normalizeItems(item.item) };
+      if (item.request?.url) {
+        return { ...item, request: { ...item.request, url: normalizePostmanUrl(item.request.url) } };
+      }
+      return item;
+    });
+  }
+  return { ...col, item: normalizeItems(col.item) };
+}
+
 async function handleConvert(req, res) {
   if (req.method === "OPTIONS") {
     res.writeHead(204, {
@@ -232,11 +264,12 @@ async function handleConvert(req, res) {
     return;
   }
   try {
+    const normalized = normalizePostmanCollection(body);
     const convert = withProductCwd("postman-to-swagger", () => {
       const mod = productRequire("postman-to-swagger")("postman-2-swagger");
       return mod.default ?? mod;
     });
-    sendJson(res, 200, convert(body));
+    sendJson(res, 200, convert(normalized));
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Conversion failed";
     if (msg.includes("Cannot find module")) {
@@ -261,55 +294,37 @@ async function handlePagespeed(req, res, searchParams) {
   }
 
   const apiKey = process.env.PAGESPEED_KEY;
-  if (apiKey) {
-    try {
-      const result = await withProductCwd("page-speed", async () => {
-        const axios = productRequire("website-page-speed-report")("axios");
-        const { getMetrics, getOpportunities } = productRequire("website-page-speed-report")(
-          "./dist/src/pagespeed/lighthouse.js",
+  try {
+    const result = await withProductCwd("page-speed", async () => {
+      const axios = productRequire("website-page-speed-report")("axios");
+      const { getMetrics, getOpportunities } = productRequire("website-page-speed-report")(
+        "./dist/src/pagespeed/lighthouse.js",
+      );
+      async function runPagespeed(url, strategy) {
+        const params = { url, strategy };
+        if (apiKey) params.key = apiKey;
+        const response = await axios.get(
+          "https://www.googleapis.com/pagespeedonline/v5/runPagespeed",
+          { params },
         );
-        async function runPagespeed(url, strategy) {
-          const response = await axios.get(
-            "https://www.googleapis.com/pagespeedonline/v5/runPagespeed",
-            { params: { url, strategy, key: apiKey } },
-          );
-          const lighthouse = response.data.lighthouseResult;
-          return {
-            score: lighthouse.categories.performance.score * 100,
-            stats: getMetrics(lighthouse),
-            opportunities: getOpportunities(lighthouse.audits),
-          };
-        }
-        const [desktop, mobile] = await Promise.all([
-          runPagespeed(target, "desktop"),
-          runPagespeed(target, "mobile"),
-        ]);
-        return { url: target, desktop, mobile };
-      });
-      sendJson(res, 200, result);
-      return;
-    } catch (err) {
-      sendJson(res, 502, { error: err instanceof Error ? err.message : "PageSpeed request failed" });
-      return;
-    }
+        const lighthouse = response.data.lighthouseResult;
+        return {
+          score: lighthouse.categories.performance.score * 100,
+          stats: getMetrics(lighthouse),
+          opportunities: getOpportunities(lighthouse.audits),
+        };
+      }
+      const [desktop, mobile] = await Promise.all([
+        runPagespeed(target, "desktop"),
+        runPagespeed(target, "mobile"),
+      ]);
+      return { url: target, desktop, mobile };
+    });
+    sendJson(res, 200, result);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "PageSpeed request failed";
+    sendJson(res, 502, { error: msg });
   }
-
-  const mockStats = {
-    "Largest Contentful Paint": "1.2 s",
-    "First Input Delay": "10 ms",
-    "Cumulative Layout Shift": "0.05",
-    "First Contentful Paint": "0.8 s",
-    "Speed Index": "1.5 s",
-    "Time To Interactive": "2.1 s",
-    "Total Blocking Time": "50 ms",
-  };
-  sendJson(res, 200, {
-    url: target,
-    mode: "mock",
-    note: "Set PAGESPEED_KEY env var for live Google PageSpeed API results",
-    desktop: { score: 88, stats: mockStats, opportunities: [] },
-    mobile: { score: 74, stats: mockStats, opportunities: [] },
-  });
 }
 
 async function handleReadtime(req, res) {
