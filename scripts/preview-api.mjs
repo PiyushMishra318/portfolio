@@ -301,7 +301,7 @@ async function handlePagespeed(req, res, searchParams) {
     const result = await withProductCwd("page-speed", async () => {
       const axios = productRequire("website-page-speed-report")("axios");
       const { getMetrics, getOpportunities } = productRequire("website-page-speed-report")(
-        "./dist/src/pagespeed/lighthouse.js",
+        "./dist/pagespeed/lighthouse.js",
       );
       async function runPagespeed(url, strategy) {
         const params = { url, strategy };
