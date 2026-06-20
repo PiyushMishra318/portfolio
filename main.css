@@ -231,3 +231,20 @@ html.phone .home_featured_carousel .home_featured_c {
 html.phone .home_featured_progress_track {
   min-height: 18rem;
 }
+
+/* Featured project swap — staggered fade/slide on rotation */
+.home_featured--swap .home_featured_project,
+.home_featured--swap .home_featured_text,
+.home_featured--swap .home_featured_title_all_c,
+.home_featured--swap .home_featured_img {
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home_featured--swap .home_featured_project,
+  .home_featured--swap .home_featured_text,
+  .home_featured--swap .home_featured_title_all_c,
+  .home_featured--swap .home_featured_img {
+    will-change: auto;
+  }
+}

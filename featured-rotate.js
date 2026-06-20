@@ -16,6 +16,11 @@
   var progressElapsed = 0;
   var progressPaused = false;
   var hoverPauseCount = 0;
+  var swapAnimating = false;
+  var SWAP_OUT_MS = 420;
+  var SWAP_IN_MS = 560;
+  var SWAP_STAGGER_MS = 70;
+  var SWAP_EASE = "cubic-bezier(0.25, 1, 0.5, 1)";
 
   var PROJECTS = [
     { slug: "lumina", title: "Lumina", desc: "Walkthroughs become tests", tags: "Whisper · Playwright · LangChain · Python", label: "PYTHON · TESTING" },
@@ -141,18 +146,24 @@
     });
   }
 
-  function updateWebGLFeatured(projects) {
-    var store = global.__portfolioApp && global.__portfolioApp.canvas &&
+  function getFeaturedStore() {
+    return global.__portfolioApp && global.__portfolioApp.canvas &&
       global.__portfolioApp.canvas.home && global.__portfolioApp.canvas.home.store;
-    if (!store || !store.length) return;
+  }
 
-    store.forEach(function (item, i) {
+  function updateWebGLFeatured(projects) {
+    var store = getFeaturedStore();
+    if (!store || !store.length) return Promise.resolve();
+
+    var jobs = store.map(function (item, i) {
       var project = projects[i];
-      if (!project || !item.el || !item.material || !item.material.uniforms) return;
+      if (!project || !item.el || !item.material || !item.material.uniforms) {
+        return Promise.resolve();
+      }
       var url = imagePaths(project.slug).landscape;
       item.el.setAttribute("data-src", url);
       item.el.setAttribute("data-touch", url);
-      loadTextureEntry(url).then(function (entry) {
+      return loadTextureEntry(url).then(function (entry) {
         item.material.uniforms.tex.value = entry[0];
         if (item.material.uniforms.ns && item.material.uniforms.ns.value) {
           item.material.uniforms.ns.value.x = entry[1];
@@ -161,6 +172,8 @@
         if (typeof item.cb === "function") item.cb();
       }).catch(function () {});
     });
+
+    return Promise.all(jobs);
   }
 
   function applyTouchImage(img, src) {
@@ -204,8 +217,131 @@
 
     lastSetKey = projects.map(function (p) { return p.slug; }).sort().join(",");
 
-    if (isDesktopLayout()) updateWebGLFeatured(projects);
     scheduleTouchRefresh(root);
+    if (isDesktopLayout()) return updateWebGLFeatured(projects);
+    return Promise.resolve();
+  }
+
+  function prefersReducedMotion() {
+    return global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function animateWebGLAlpha(store, target, duration) {
+    return new Promise(function (resolve) {
+      if (!store || !store.length || !duration) {
+        resolve();
+        return;
+      }
+      var from = store.map(function (item) {
+        return item.material && item.material.uniforms && item.material.uniforms.al
+          ? item.material.uniforms.al.value
+          : 1;
+      });
+      var start = global.performance.now();
+      function frame(now) {
+        var t = Math.min((now - start) / duration, 1);
+        var eased = easeOutCubic(t);
+        store.forEach(function (item, i) {
+          if (item.material && item.material.uniforms && item.material.uniforms.al) {
+            item.material.uniforms.al.value = from[i] + (target - from[i]) * eased;
+          }
+        });
+        if (t < 1) global.requestAnimationFrame(frame);
+        else resolve();
+      }
+      global.requestAnimationFrame(frame);
+    });
+  }
+
+  function clearSwapStyles(elements) {
+    elements.forEach(function (el) {
+      if (!el || !el.getAnimations) return;
+      el.getAnimations().forEach(function (anim) { anim.cancel(); });
+      el.style.opacity = "";
+      el.style.transform = "";
+    });
+  }
+
+  function animateSwapElements(elements, keyframes, duration, stagger) {
+    if (!elements.length || !global.Element || !global.Element.prototype.animate) {
+      return Promise.resolve();
+    }
+    var waits = elements.map(function (el, i) {
+      if (!el || !el.animate) return Promise.resolve();
+      var anim = el.animate(keyframes, {
+        duration: duration,
+        delay: i * stagger,
+        easing: SWAP_EASE,
+        fill: "forwards",
+      });
+      return anim.finished.catch(function () {});
+    });
+    return Promise.all(waits);
+  }
+
+  function getSwapTargets(root) {
+    return {
+      cards: Array.prototype.slice.call(root.querySelectorAll(".home_featured_project")),
+      titles: Array.prototype.slice.call(root.querySelectorAll(".home_featured_title_all_c")),
+      texts: Array.prototype.slice.call(root.querySelectorAll(".home_featured_text")),
+      imgs: Array.prototype.slice.call(root.querySelectorAll(".home_featured_img")),
+    };
+  }
+
+  function runFeaturedSwap(root, projects) {
+    if (prefersReducedMotion()) {
+      return applyFeaturedSet(projects, root);
+    }
+
+    var targets = getSwapTargets(root);
+    var store = isDesktopLayout() ? getFeaturedStore() : null;
+    var outKeyframes = [
+      { opacity: 1, transform: "translate3d(0, 0, 0)" },
+      { opacity: 0, transform: "translate3d(0, -1.2rem, 0)" },
+    ];
+    var inKeyframes = [
+      { opacity: 0, transform: "translate3d(0, 1.2rem, 0)" },
+      { opacity: 1, transform: "translate3d(0, 0, 0)" },
+    ];
+    var domOut = targets.cards.concat(targets.texts);
+    if (isTouchLayout()) domOut = domOut.concat(targets.imgs);
+
+    root.classList.add("home_featured--swap");
+
+    return Promise.all([
+      animateSwapElements(domOut, outKeyframes, SWAP_OUT_MS, SWAP_STAGGER_MS),
+      animateSwapElements(targets.titles, outKeyframes, SWAP_OUT_MS * 0.85, SWAP_STAGGER_MS * 0.6),
+      isDesktopLayout() ? animateWebGLAlpha(store, 0, SWAP_OUT_MS) : Promise.resolve(),
+    ]).then(function () {
+      clearSwapStyles(targets.cards.concat(targets.titles, targets.texts, targets.imgs));
+      return applyFeaturedSet(projects, root);
+    }).then(function () {
+      targets = getSwapTargets(root);
+      store = isDesktopLayout() ? getFeaturedStore() : null;
+      var domIn = targets.cards.concat(targets.texts);
+      if (isTouchLayout()) domIn = domIn.concat(targets.imgs);
+      return Promise.all([
+        animateSwapElements(domIn, inKeyframes, SWAP_IN_MS, SWAP_STAGGER_MS),
+        animateSwapElements(targets.titles, inKeyframes, SWAP_IN_MS * 0.85, SWAP_STAGGER_MS * 0.6),
+        isDesktopLayout() ? animateWebGLAlpha(store, 1, SWAP_IN_MS) : Promise.resolve(),
+      ]);
+    }).then(function () {
+      targets = getSwapTargets(root);
+      clearSwapStyles(targets.cards.concat(targets.titles, targets.texts, targets.imgs));
+      root.classList.remove("home_featured--swap");
+    });
+  }
+
+  function rotateFeatured(root) {
+    if (swapAnimating) return;
+    swapAnimating = true;
+    runFeaturedSwap(root, pickRandom(COUNT, lastSetKey)).finally(function () {
+      swapAnimating = false;
+    });
   }
 
   function scheduleTouchRefresh(root) {
@@ -220,10 +356,6 @@
     setTimeout(refresh, 0);
     setTimeout(refresh, 50);
     setTimeout(refresh, 300);
-  }
-
-  function rotateFeatured(root) {
-    applyFeaturedSet(pickRandom(COUNT, lastSetKey), root);
   }
 
   function ensureProgressBar(root) {
@@ -315,14 +447,14 @@
       activeRoot = null;
       return;
     }
-    if (progressPaused) {
+    if (progressPaused || swapAnimating) {
       progressRaf = global.requestAnimationFrame(progressLoop);
       return;
     }
     if (!progressStart) progressStart = timestamp;
     var elapsed = progressElapsed + (timestamp - progressStart);
     setProgress(Math.min(elapsed / INTERVAL_MS, 1));
-    if (elapsed >= INTERVAL_MS) {
+    if (elapsed >= INTERVAL_MS && !swapAnimating) {
       rotateFeatured(activeRoot);
       progressElapsed = 0;
       progressStart = timestamp;
