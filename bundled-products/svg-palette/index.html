@@ -513,7 +513,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p class="footer-copy">2026 Piyush Mishra. Built with Node.js.</p>
+        <p class="footer-copy"><span class="copy-yr"></span> Piyush Mishra. Built with Node.js.</p>
         <div class="footer-mit">
           <span class="footer-mit-badge">MIT</span>
           Open source — free to use and modify.
@@ -522,5 +522,7 @@
     </div>
   </footer>
 
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

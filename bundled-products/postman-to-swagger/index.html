@@ -550,12 +550,14 @@
           Live App
         </a>
       </nav>
-      <p class="footer__copy">&copy; 2024 Piyush Mishra &mdash; MIT License</p>
+      <p class="footer__copy">&copy; <span class="copy-yr"></span> Piyush Mishra &mdash; MIT License</p>
     </div>
   </footer>
 
   <!-- App script (existing converter logic) -->
   <script src="app.js"></script>
 
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

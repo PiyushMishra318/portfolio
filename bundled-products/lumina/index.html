@@ -433,7 +433,7 @@
   <footer class="footer">
     <div class="footer__inner">
       <span class="footer__brand">Lumina</span>
-      <span class="footer__copy">&copy; 2024 Piyush Mishra</span>
+      <span class="footer__copy">&copy; <span class="copy-yr"></span> Piyush Mishra</span>
       <nav class="footer__links" aria-label="Footer navigation">
         <a class="footer__link" href="/" aria-label="Back to piyushm.dev portfolio">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -451,5 +451,7 @@
     </div>
   </footer>
 
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

@@ -548,7 +548,7 @@ VERDICT_FIELDS <span class="tok-pun">=</span> <span class="tok-pun">[</span><spa
       <div class="footer__inner">
         <div class="footer__brand">
           <span class="footer__name">Email<span>-Validation</span></span>
-          <span class="footer__copy">MIT License &copy; 2026 Piyush Mishra</span>
+          <span class="footer__copy">MIT License &copy; <span class="copy-yr"></span> Piyush Mishra</span>
         </div>
         <nav class="footer__links" aria-label="Footer links">
           <a class="footer__link" href="https://github.com/PiyushMishra318/Email-Validation" target="_blank" rel="noopener noreferrer">
@@ -569,5 +569,7 @@ VERDICT_FIELDS <span class="tok-pun">=</span> <span class="tok-pun">[</span><spa
 
   </div><!-- /.page -->
 
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

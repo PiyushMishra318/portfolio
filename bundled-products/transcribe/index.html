@@ -623,7 +623,7 @@ transcribe help profiles</code></pre>
         </div>
 
         <p class="footer__copy">
-          &copy; 2024 Piyush Mishra &mdash; Episode Transcribe &mdash; MIT License
+          &copy; <span class="copy-yr"></span> Piyush Mishra &mdash; Episode Transcribe &mdash; MIT License
         </p>
 
       </div>
@@ -676,5 +676,7 @@ transcribe help profiles</code></pre>
   }
 </script>
 
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

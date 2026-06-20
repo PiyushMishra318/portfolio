@@ -700,7 +700,7 @@
         <hr class="divider" style="border-color:rgba(255,255,255,0.06)" />
 
         <p class="footer__copy">
-          &copy; 2024 Piyush Mishra &mdash; MIT License &mdash; Built with NestJS + Google PageSpeed Insights API
+          &copy; <span class="copy-yr"></span> Piyush Mishra &mdash; MIT License &mdash; Built with NestJS + Google PageSpeed Insights API
         </p>
 
       </div>
@@ -846,5 +846,7 @@
     })();
   </script>
 
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

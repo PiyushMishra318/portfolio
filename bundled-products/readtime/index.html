@@ -409,7 +409,7 @@
   <footer class="footer">
     <div class="footer__inner">
       <span class="footer__brand">Readtime</span>
-      <p class="footer__copy">MIT &copy; 2026 Piyush Mishra</p>
+      <p class="footer__copy">MIT &copy; <span class="copy-yr"></span> Piyush Mishra</p>
       <nav class="footer__links" aria-label="Footer navigation">
         <a class="footer__link" href="/">piyushm.dev</a>
         <a class="footer__link" href="https://github.com/PiyushMishra318/htmx-reading-time" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -449,5 +449,7 @@
       revealEls.forEach(el => el.classList.add('in-view'));
     }
   </script>
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

@@ -445,7 +445,9 @@
               (Array.isArray(layers) ? layers.map(function (l) {
                 return '  <!-- layer -->\n  ' + (l.html || '<div></div>');
               }).join('\n') : '  <!-- layer -->\n  <div></div>') +
-              '\n</body></html>'
+              '\n
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
+</body></html>'
           };
         } catch (e) {
           return { status: 'error', message: 'Invalid JSON: ' + e.message };
@@ -577,10 +579,12 @@
         </a>
       </nav>
       <p class="footer__copy">
-        &copy; 2024 Piyush Mishra &mdash; canvas-component-parser &mdash; MIT License
+        &copy; <span class="copy-yr"></span> Piyush Mishra &mdash; canvas-component-parser &mdash; MIT License
       </p>
     </div>
   </footer>
 
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

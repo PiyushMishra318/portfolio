@@ -576,7 +576,7 @@ cv::waitKey(30);</code></pre>
 
   <footer class="footer" role="contentinfo">
     <div class="footer__inner">
-      <p class="footer__copy">MIT &copy; 2020 Piyush Mishra</p>
+      <p class="footer__copy">MIT &copy; <span class="copy-yr"></span> Piyush Mishra</p>
       <div class="footer__links">
         <a class="footer__link" href="/">piyushm.dev</a>
         <span class="footer__sep" aria-hidden="true">/</span>
@@ -709,5 +709,7 @@ cv::waitKey(30);</code></pre>
     })();
   </script>
 
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

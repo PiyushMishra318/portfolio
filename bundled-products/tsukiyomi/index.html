@@ -878,7 +878,7 @@
         </div>
 
         <p class="footer__copy">
-          MIT &copy; 2026 Piyush Mishra &middot; 月夜見
+          MIT &copy; <span class="copy-yr"></span> Piyush Mishra &middot; 月夜見
         </p>
 
       </div>
@@ -886,5 +886,7 @@
   </footer>
 
 </div>
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

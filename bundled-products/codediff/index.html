@@ -534,7 +534,7 @@ int main() {
     <div class="container">
       <div class="footer__inner">
         <span class="footer__brand">Code<span>Diff</span></span>
-        <span class="footer__copy">MIT &copy; 2026 Piyush Mishra</span>
+        <span class="footer__copy">MIT &copy; <span class="copy-yr"></span> Piyush Mishra</span>
         <nav class="footer__links" aria-label="Footer links">
           <a class="footer__link" href="https://github.com/PiyushMishra318/CodeDiff" target="_blank" rel="noopener noreferrer">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -654,5 +654,7 @@ int main() {
       });
     })();
   </script>
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

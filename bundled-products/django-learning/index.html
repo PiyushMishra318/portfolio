@@ -492,7 +492,7 @@
         </div>
         <div class="footer-brand-text">
           <span class="footer-brand-name">Django Learning Projects</span>
-          <span class="footer-brand-sub">MIT &copy; 2026 Piyush Mishra</span>
+          <span class="footer-brand-sub">MIT &copy; <span class="copy-yr"></span> Piyush Mishra</span>
         </div>
       </div>
       <div class="footer-links">
@@ -522,5 +522,7 @@
     <p class="footer-copy">Built with Django &amp; Python &mdash; a hands-on learning portfolio by <a href="/" style="color:var(--color-primary);font-weight:700;text-decoration:none">Piyush Mishra</a></p>
   </footer>
 
+
+  <script>document.querySelectorAll(".copy-yr").forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>
