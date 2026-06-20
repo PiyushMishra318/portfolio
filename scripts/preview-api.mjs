@@ -398,7 +398,7 @@ function resolveSlugPath(pathname) {
 }
 
 function findHandler(slug, apiPath, method) {
-  if (slug === "coot-parser" && (apiPath === "/" || isCootParserPath(apiPath))) {
+  if (slug === "coot-parser" && apiPath !== "/" && isCootParserPath(apiPath)) {
     return { slug, handler: "cootParser", apiPath };
   }
   const cfg = PRODUCT_APIS[slug];
