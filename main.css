@@ -166,3 +166,44 @@ html.phone .project_last {
   width: 33.5rem;
   padding-right: 2rem;
 }
+
+/* Featured carousel — Steam-style rotation progress */
+.home_featured_progress {
+  width: 100%;
+  padding: 0 5rem;
+  margin-top: 2rem;
+  box-sizing: border-box;
+}
+
+.home_featured_progress_track {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.home_featured_progress_fill {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.home_featured--paused .home_featured_progress_fill {
+  opacity: 0.45;
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1280px) {
+  html.desktop .home_featured_progress {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+html.phone .home_featured_progress {
+  padding: 0 2rem;
+  margin-top: 1.5rem;
+}

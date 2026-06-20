@@ -8,9 +8,15 @@
 
   var COUNT = 3;
   var INTERVAL_MS = 6500;
-  var timer = null;
   var lastSetKey = "";
   var origFetch = global.fetch;
+  var activeRoot = null;
+  var progressRaf = null;
+  var progressStart = 0;
+  var progressElapsed = 0;
+  var progressPaused = false;
+  var progressFill = null;
+  var hoverPauseCount = 0;
 
   var PROJECTS = [
     { slug: "lumina", title: "Lumina", desc: "Walkthroughs become tests", tags: "Whisper · Playwright · LangChain · Python", label: "PYTHON · TESTING" },
@@ -221,22 +227,122 @@
     applyFeaturedSet(pickRandom(COUNT, lastSetKey), root);
   }
 
-  function stopTimer() {
-    if (timer) {
-      clearInterval(timer);
-      timer = null;
+  function ensureProgressBar(root) {
+    var bar = root.querySelector(".home_featured_progress");
+    if (bar) return bar;
+    bar = global.document.createElement("div");
+    bar.className = "home_featured_progress";
+    bar.setAttribute("aria-hidden", "true");
+    bar.innerHTML =
+      '<div class="home_featured_progress_track">' +
+      '<div class="home_featured_progress_fill"></div></div>';
+    root.appendChild(bar);
+    return bar;
+  }
+
+  function setProgress(pct) {
+    if (progressFill) progressFill.style.transform = "scaleX(" + pct + ")";
+  }
+
+  function stopProgressLoop() {
+    if (progressRaf) {
+      global.cancelAnimationFrame(progressRaf);
+      progressRaf = null;
     }
+  }
+
+  function resetProgressCycle() {
+    progressElapsed = 0;
+    progressStart = 0;
+    setProgress(0);
+  }
+
+  function pauseProgress() {
+    if (progressPaused) return;
+    progressPaused = true;
+    if (progressStart) {
+      progressElapsed += global.performance.now() - progressStart;
+      progressStart = 0;
+    }
+    if (activeRoot) activeRoot.classList.add("home_featured--paused");
+  }
+
+  function resumeProgress() {
+    if (!progressPaused) return;
+    progressPaused = false;
+    progressStart = 0;
+    if (activeRoot) activeRoot.classList.remove("home_featured--paused");
+  }
+
+  function onFeaturedCardPause() {
+    hoverPauseCount += 1;
+    if (hoverPauseCount === 1) pauseProgress();
+  }
+
+  function onFeaturedCardResume() {
+    hoverPauseCount = Math.max(0, hoverPauseCount - 1);
+    if (hoverPauseCount === 0) resumeProgress();
+  }
+
+  function bindPauseHandlers(root) {
+    if (root.getAttribute("data-featured-pause") === "1") return;
+    root.setAttribute("data-featured-pause", "1");
+    root.querySelectorAll(".home_featured_project").forEach(function (card) {
+      card.addEventListener("mouseenter", onFeaturedCardPause);
+      card.addEventListener("mouseleave", onFeaturedCardResume);
+      card.addEventListener("touchstart", onFeaturedCardPause, { passive: true });
+      card.addEventListener("touchend", onFeaturedCardResume, { passive: true });
+      card.addEventListener("touchcancel", onFeaturedCardResume, { passive: true });
+    });
+  }
+
+  function progressLoop(timestamp) {
+    if (!activeRoot || !activeRoot.isConnected) {
+      stopProgressLoop();
+      activeRoot = null;
+      return;
+    }
+    if (progressPaused) {
+      progressRaf = global.requestAnimationFrame(progressLoop);
+      return;
+    }
+    if (!progressStart) progressStart = timestamp;
+    var elapsed = progressElapsed + (timestamp - progressStart);
+    setProgress(Math.min(elapsed / INTERVAL_MS, 1));
+    if (elapsed >= INTERVAL_MS) {
+      rotateFeatured(activeRoot);
+      progressElapsed = 0;
+      progressStart = timestamp;
+      setProgress(0);
+    }
+    progressRaf = global.requestAnimationFrame(progressLoop);
+  }
+
+  function startProgress(root) {
+    activeRoot = root;
+    progressFill = ensureProgressBar(root).querySelector(".home_featured_progress_fill");
+    resetProgressCycle();
+    progressPaused = false;
+    hoverPauseCount = 0;
+    root.classList.remove("home_featured--paused");
+    stopProgressLoop();
+    progressRaf = global.requestAnimationFrame(progressLoop);
+  }
+
+  function stopTimer() {
+    stopProgressLoop();
+    activeRoot = null;
+    progressFill = null;
+    progressPaused = false;
+    hoverPauseCount = 0;
+    progressElapsed = 0;
+    progressStart = 0;
   }
 
   function startTimer(root) {
     stopTimer();
-    timer = setInterval(function () {
-      if (!root.isConnected) {
-        stopTimer();
-        return;
-      }
-      rotateFeatured(root);
-    }, INTERVAL_MS);
+    bindPauseHandlers(root);
+    startProgress(root);
   }
 
   function initFeatured(root) {
