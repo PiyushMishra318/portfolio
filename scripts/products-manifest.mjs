@@ -54,13 +54,6 @@ export const PRODUCTS = {
     bundlePath: "bundled-products/lumina",
     skipClone: true,
   },
-  playground: {
-    folder: "piyush-playground",
-    root: false,
-    staticOut: "out",
-    bundlePath: "bundled-products/playground",
-    skipClone: true,
-  },
   "postman-to-swagger": {
     folder: "postman-to-swagger",
     root: false,
