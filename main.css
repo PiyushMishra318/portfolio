@@ -143,7 +143,11 @@ html.phone .home_featured_project .home_featured_img {
   aspect-ratio: 16 / 9;
   border-radius: 1.2rem;
   background: #0f0f0f;
-  opacity: 1 !important;
+  opacity: 1;
+}
+html.phone .home_featured_title_all_c {
+  opacity: 1;
+  pointer-events: none;
 }
 html.phone .home_featured_project .home_featured_img img {
   width: 100%;
@@ -234,17 +238,17 @@ html.phone .home_featured_progress_track {
 
 /* Featured project swap — staggered fade/slide on rotation */
 .home_featured--swap .home_featured_project,
-.home_featured--swap .home_featured_text,
 .home_featured--swap .home_featured_title_all_c,
-.home_featured--swap .home_featured_img {
+.home_featured--swap .home_featured_img,
+.home_featured--swap .home_featured_img_media {
   will-change: opacity, transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .home_featured--swap .home_featured_project,
-  .home_featured--swap .home_featured_text,
   .home_featured--swap .home_featured_title_all_c,
-  .home_featured--swap .home_featured_img {
+  .home_featured--swap .home_featured_img,
+  .home_featured--swap .home_featured_img_media {
     will-change: auto;
   }
 }

@@ -182,7 +182,7 @@
     if (isTouchLayout()) img.src = src;
   }
 
-  function applyFeaturedSet(projects, root) {
+  function applyFeaturedSet(projects, root, deferTouchRefresh) {
     var titles = root.querySelectorAll(".home_featured_title_all_c");
     var cards = root.querySelectorAll(".home_featured_project");
 
@@ -217,7 +217,7 @@
 
     lastSetKey = projects.map(function (p) { return p.slug; }).sort().join(",");
 
-    scheduleTouchRefresh(root);
+    if (!deferTouchRefresh) scheduleTouchRefresh(root);
     if (isDesktopLayout()) return updateWebGLFeatured(projects);
     return Promise.resolve();
   }
@@ -266,6 +266,37 @@
     });
   }
 
+  function getSlidePx() {
+    var h = global.innerHeight || 800;
+    return Math.round(Math.max(28, Math.min(h * 0.06, 56)));
+  }
+
+  function buildSwapKeyframes(slidePx) {
+    return {
+      out: [
+        { opacity: 1, transform: "translate3d(0, 0, 0)" },
+        { opacity: 0, transform: "translate3d(0, -" + slidePx + "px, 0)" },
+      ],
+      in: [
+        { opacity: 0, transform: "translate3d(0, " + slidePx + "px, 0)" },
+        { opacity: 1, transform: "translate3d(0, 0, 0)" },
+      ],
+    };
+  }
+
+  /** Keep swap content hidden between out/in phases — never flash new content at full opacity. */
+  function holdSwapHidden(elements, slidePx, exiting) {
+    var y = exiting ? -slidePx : slidePx;
+    elements.forEach(function (el) {
+      if (!el) return;
+      if (el.getAnimations) {
+        el.getAnimations().forEach(function (anim) { anim.cancel(); });
+      }
+      el.style.opacity = "0";
+      el.style.transform = "translate3d(0, " + y + "px, 0)";
+    });
+  }
+
   function animateSwapElements(elements, keyframes, duration, stagger) {
     if (!elements.length || !global.Element || !global.Element.prototype.animate) {
       return Promise.resolve();
@@ -287,9 +318,12 @@
     return {
       cards: Array.prototype.slice.call(root.querySelectorAll(".home_featured_project")),
       titles: Array.prototype.slice.call(root.querySelectorAll(".home_featured_title_all_c")),
-      texts: Array.prototype.slice.call(root.querySelectorAll(".home_featured_text")),
-      imgs: Array.prototype.slice.call(root.querySelectorAll(".home_featured_img")),
+      media: Array.prototype.slice.call(root.querySelectorAll(".home_featured_img_media")),
     };
+  }
+
+  function allSwapElements(targets) {
+    return targets.cards.concat(targets.titles, targets.media);
   }
 
   function runFeaturedSwap(root, projects) {
@@ -299,39 +333,33 @@
 
     var targets = getSwapTargets(root);
     var store = isDesktopLayout() ? getFeaturedStore() : null;
-    var outKeyframes = [
-      { opacity: 1, transform: "translate3d(0, 0, 0)" },
-      { opacity: 0, transform: "translate3d(0, -1.2rem, 0)" },
-    ];
-    var inKeyframes = [
-      { opacity: 0, transform: "translate3d(0, 1.2rem, 0)" },
-      { opacity: 1, transform: "translate3d(0, 0, 0)" },
-    ];
-    var domOut = targets.cards.concat(targets.texts);
-    if (isTouchLayout()) domOut = domOut.concat(targets.imgs);
+    var slidePx = getSlidePx();
+    var keyframes = buildSwapKeyframes(slidePx);
+    var domAnimated = targets.cards.concat(targets.media);
 
     root.classList.add("home_featured--swap");
 
     return Promise.all([
-      animateSwapElements(domOut, outKeyframes, SWAP_OUT_MS, SWAP_STAGGER_MS),
-      animateSwapElements(targets.titles, outKeyframes, SWAP_OUT_MS * 0.85, SWAP_STAGGER_MS * 0.6),
+      animateSwapElements(domAnimated, keyframes.out, SWAP_OUT_MS, SWAP_STAGGER_MS),
+      animateSwapElements(targets.titles, keyframes.out, SWAP_OUT_MS * 0.85, SWAP_STAGGER_MS * 0.6),
       isDesktopLayout() ? animateWebGLAlpha(store, 0, SWAP_OUT_MS) : Promise.resolve(),
     ]).then(function () {
-      clearSwapStyles(targets.cards.concat(targets.titles, targets.texts, targets.imgs));
-      return applyFeaturedSet(projects, root);
+      holdSwapHidden(allSwapElements(targets), slidePx, true);
+      return applyFeaturedSet(projects, root, true);
     }).then(function () {
       targets = getSwapTargets(root);
       store = isDesktopLayout() ? getFeaturedStore() : null;
-      var domIn = targets.cards.concat(targets.texts);
-      if (isTouchLayout()) domIn = domIn.concat(targets.imgs);
+      domAnimated = targets.cards.concat(targets.media);
+      holdSwapHidden(allSwapElements(targets), slidePx, false);
       return Promise.all([
-        animateSwapElements(domIn, inKeyframes, SWAP_IN_MS, SWAP_STAGGER_MS),
-        animateSwapElements(targets.titles, inKeyframes, SWAP_IN_MS * 0.85, SWAP_STAGGER_MS * 0.6),
+        animateSwapElements(domAnimated, keyframes.in, SWAP_IN_MS, SWAP_STAGGER_MS),
+        animateSwapElements(targets.titles, keyframes.in, SWAP_IN_MS * 0.85, SWAP_STAGGER_MS * 0.6),
         isDesktopLayout() ? animateWebGLAlpha(store, 1, SWAP_IN_MS) : Promise.resolve(),
       ]);
     }).then(function () {
       targets = getSwapTargets(root);
-      clearSwapStyles(targets.cards.concat(targets.titles, targets.texts, targets.imgs));
+      clearSwapStyles(allSwapElements(targets));
+      scheduleTouchRefresh(root);
       root.classList.remove("home_featured--swap");
     });
   }
